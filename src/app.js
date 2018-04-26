@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import '../node_modules/mustard-ui/dist/css/mustard-ui.min.css';
+import AppBar531 from './AppBar531';
+import Button from 'material-ui/Button';
 
 class App extends Component {
   constructor(props) {
@@ -38,30 +39,31 @@ class App extends Component {
   render() {
     return (
       <div className="app">
+        <AppBar531 />
+        
         <form onSubmit={this.calculate}>
-          <div className="form-control-group">
-            <div className="form-control">
-              <label>Squat TM</label>
-              <input type="text"
-                     onChange={this.updateSquatTm} />
-            </div>
-            <div className="form-control">
-              <label>Deadlift TM</label>
-              <input type="text"
-                     onChange={this.updateDeadliftTm} />
-            </div>
-            <div className="form-control">
-              <label>Overhead Press TM</label>
-              <input type="text"
-                     onChange={this.updateOverheadPressTm} />
-            </div>
-            <div className="form-control">
-              <label>Bench Press TM</label>
-              <input type="text"
-                     onChange={this.updateBenchPressTm} />
-            </div>
-          </div>
-          <input type="submit" value="Calculate" className="float-right" />
+          {/* <TextField
+            floatingLabelText="Squat TM"
+            onChange={this.updateSquatTm} />
+
+          <TextField
+            floatingLabelText="Deadlift TM"
+            onChange={this.updateDeadliftTm} />
+          
+          <TextField
+            floatingLabelText="Overhead Press TM"
+            onChange={this.updateOverheadPressTm} />
+
+          <TextField
+            floatingLabelText="Bench Press TM"
+            onChange={this.updateBenchPressTm} /> */}
+
+          <Button
+            color="primary"
+            variant="raised"
+            onClick={this.calculate}>
+            Calculate
+          </Button>
         </form>
       </div>
     );

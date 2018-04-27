@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import AppBar531 from './AppBar531';
 import TrainingMaxForm from './TrainingMaxForm';
+import CycleTable from './CycleTable';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {};
+
         this.generatePlan = this.generatePlan.bind(this);
     }
 
     generatePlan(trainingMaxes) {
-        console.log(trainingMaxes);
+        this.setState({trainingMaxes});
     }
 
     render() {
@@ -19,6 +22,10 @@ class App extends Component {
                 <AppBar531 />
         
                 <TrainingMaxForm onSubmit={this.generatePlan} />
+
+                {this.state.trainingMaxes &&
+                <CycleTable trainingMaxes={this.state.trainingMaxes} />
+                }
             </div>
         );
     }

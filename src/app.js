@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppBar531 from './AppBar531';
 import TrainingMaxForm from './TrainingMaxForm';
 import WorkoutTable from './WorkoutTable';
+import WorkoutGenerator from './WorkoutGenerator';
 
 class App extends Component {
     constructor(props) {
@@ -17,15 +18,21 @@ class App extends Component {
     }
 
     render() {
+        const WEEK = 1;
+        const DAY = 1;
+
+        const rows = this.state.trainingMaxes
+            && WorkoutGenerator.generateForeverBBBWorkout(WEEK, DAY, this.state.trainingMaxes);
+        
+        const table = rows && <WorkoutTable rows={rows} week={WEEK} day={DAY} />
+
         return (
             <div className="app">
                 <AppBar531 />
         
                 <TrainingMaxForm onSubmit={this.generatePlan} />
 
-                {this.state.trainingMaxes &&
-                <WorkoutTable />
-                }
+                {table}
             </div>
         );
     }

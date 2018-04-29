@@ -14,16 +14,7 @@ import {
   TableColumnVisibility
 } from '@devexpress/dx-react-grid-material-ui';
 
-const styles = theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        overflowX: 'auto',
-    },
-    table: {
-        minWidth: 700,
-    },
-});
+const styles = theme => ({});
 
 const assignGroup = (group, rows) => rows
     .map(row => ({...row, group}));
@@ -89,29 +80,27 @@ class WorkoutTable extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
-                <Paper>
-                    <Grid
-                        rows={rows}
-                        columns={[
-                            { name: 'id', title: 'ID' },
-                            { name: 'group', title: 'Group' },
-                            { name: 'activity', title: 'Activity' },
-                            { name: 'weight', title: 'Weight' },
-                            { name: 'reps', title: '# Reps' },
-                            { name: 'sets', title: '# Sets' },
-                        ]}>
-                        <GroupingState
-                            grouping={[{ columnName: 'group' }]}
-                        />
-                        <IntegratedGrouping />
-                        <Table />
-                        <TableColumnVisibility defaultHiddenColumnNames={['id', 'group']} />
-                        <TableHeaderRow />
-                        <TableGroupRow />
-                    </Grid>
-                </Paper>
-            </div>
+            <Paper>
+                <Grid
+                    rows={rows}
+                    columns={[
+                        { name: 'id', title: 'ID' },
+                        { name: 'group', title: 'Group' },
+                        { name: 'activity', title: 'Activity' },
+                        { name: 'weight', title: 'Weight' },
+                        { name: 'reps', title: '# Reps' },
+                        { name: 'sets', title: '# Sets' },
+                    ]}>
+                    <GroupingState
+                        grouping={[{ columnName: 'group' }]}
+                    />
+                    <IntegratedGrouping />
+                    <Table />
+                    <TableColumnVisibility defaultHiddenColumnNames={['id', 'group']} />
+                    <TableHeaderRow />
+                    <TableGroupRow />
+                </Grid>
+            </Paper>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppBar531 from './AppBar531';
 import TrainingMaxForm from './TrainingMaxForm';
-import CycleTable from './CycleTable';
+import WorkoutTable from './WorkoutTable';
 
 class App extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class App extends Component {
                 <TrainingMaxForm onSubmit={this.generatePlan} />
 
                 {this.state.trainingMaxes &&
-                <CycleTable trainingMaxes={this.state.trainingMaxes} />
+                <WorkoutTable />
                 }
             </div>
         );

@@ -24,7 +24,7 @@ class TrainingMaxForm extends Component {
     updateTm(name) {
         return event => {
             this.setState({
-                [name]: +event.target.value
+                [name]: event.target.value
             });
         };
     }

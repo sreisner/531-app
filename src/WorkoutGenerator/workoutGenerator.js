@@ -93,7 +93,6 @@ const generateForeverBBBWorkout = (week, day, trainingMaxes) => {
                     : lift === 'Overhead Press'
                         ? trainingMaxes.overheadPressTm
                         : 0;
-    console.log(tm);
 
     const mainLiftWarmupRows = generateMainLiftWarmupRows(lift, tm);
     const mainLiftWorkingSetRows = generateMainLiftWorkingRows(lift, week, tm);

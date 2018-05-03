@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import withRoot from './withRoot';
+import { withStyles } from 'material-ui/styles';
 import AppBar531 from './AppBar531';
 import TrainingMaxForm from './TrainingMaxForm';
 import WorkoutTable from './WorkoutTable';
 import WorkoutGenerator from './WorkoutGenerator';
+
+const styles = theme => ({});
 
 class App extends Component {
     constructor(props) {
@@ -38,4 +42,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRoot(withStyles(styles)(App));

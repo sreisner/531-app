@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import withRoot from './withRoot';
 import { withStyles } from 'material-ui/styles';
-import AppBar531 from './AppBar531';
-import TrainingMaxForm from './TrainingMaxForm';
-import WorkoutTable from './WorkoutTable';
-import WorkoutGenerator from './WorkoutGenerator';
+import AppBar531 from './appBar531/appBar531.component';
+import TrainingMaxForm from './trainingMaxForm/trainingMaxForm.component';
+import WorkoutTable from './workoutTable/workoutTable.component';
+import WorkoutGenerator from './workoutGenerator/workoutGenerator.component';
+import loginService from './api/login/login.service';
+import trainingMaxService from './api/users/trainingMaxes/trainingMaxes.service';
 
 const styles = theme => ({});
 
@@ -15,6 +17,11 @@ class App extends Component {
         this.state = {};
 
         this.generatePlan = this.generatePlan.bind(this);
+    }
+
+    componentDidMount() {
+        loginService.login('shawn.reisner@gmail.com', 'password')
+            .then(user => trainingMaxService.getTrainingMaxes(user.id));
     }
 
     generatePlan(trainingMaxes) {

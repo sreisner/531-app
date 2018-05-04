@@ -1,7 +1,5 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import purple from 'material-ui/colors/purple';
-import green from 'material-ui/colors/green';
 import CssBaseline from 'material-ui/CssBaseline';
 
 const theme = createMuiTheme({

@@ -1,13 +1,10 @@
 const buildApiUri = path => `http://localhost:3001${path}`;
 
 const commonRequestConfig = {
-    cache: 'no-cache',
     credentials: 'include',
     headers: {
         'Content-Type': 'application/json'
     },
-    mode: 'cors',
-    redirect: 'manual'
 };
 
 const buildRequestConfig = (config = {}) => ({
@@ -36,7 +33,7 @@ const get = path =>
                 method: 'GET'
             })));
 
-const post = (path, data) => 
+const post = (path, data) =>
     handleRequest(
         fetch(
             buildApiUri(path),

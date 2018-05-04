@@ -3,6 +3,7 @@ import withRoot from './withRoot';
 import { withStyles } from 'material-ui/styles';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './login/login.component';
+import Home from './home/home.component';
 
 const styles = theme => ({
     root: {
@@ -24,7 +25,8 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div className={classes.root}>
-                    <Route path="/login" component={Login} />
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/login" component={Login} />
                 </div>
             </BrowserRouter>
         );

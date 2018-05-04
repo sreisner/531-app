@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import loginService from '../api/login/login.service';
 import { Redirect } from 'react-router-dom';
 import SnackBar531 from '../core/snackBar531/snackBar531.component';
+import { Typography } from 'material-ui';
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -78,7 +79,9 @@ class Login extends React.Component {
 
         return (
             <div className={classes.root}>
-                <h1>5/3/1</h1>
+                <Typography variant="display4" color="inherit">
+                     5/3/1
+                </Typography>
                 <form className={classes.form} onSubmit={this.handleSubmit}>
                     <TextField
                         className={classes.input}

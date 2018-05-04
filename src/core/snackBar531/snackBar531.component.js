@@ -57,7 +57,7 @@ class SnackBar531 extends React.Component {
 
 SnackBar531.propTypes = {
     classes: PropTypes.object.isRequired,
-    message: PropTypes.object.isRequired
+    message: PropTypes.string.isRequired
 };
   
 export default withStyles(styles)(SnackBar531);

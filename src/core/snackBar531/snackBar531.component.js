@@ -59,5 +59,6 @@ SnackBar531.propTypes = {
     classes: PropTypes.object.isRequired,
     message: PropTypes.string.isRequired
 };
-  
-export default withStyles(styles)(SnackBar531);
+
+SnackBar531 = withStyles(styles)(SnackBar531);
+export { SnackBar531 };

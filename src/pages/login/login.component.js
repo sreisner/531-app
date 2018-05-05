@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
-import loginService from '../api/login/login.service';
 import { Redirect } from 'react-router-dom';
-import SnackBar531 from '../core/snackBar531/snackBar531.component';
 import { Typography } from 'material-ui';
+import { LoginService } from '../../services/api/login/login.service';
+import { SnackBar531 } from '../../core/snackBar531/snackBar531.component';
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -55,7 +55,7 @@ class Login extends React.Component {
         
         this.setState({ loading: true });
 
-        loginService
+        LoginService
             .login(this.state.email, this.state.password)
             .then(() => this.setState({ loginSuccessful: true }))
             .catch(status => this.setState({ error: 'Login failed' }))
@@ -115,5 +115,6 @@ class Login extends React.Component {
 Login.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-  
-export default withStyles(styles)(Login);
+
+Login = withStyles(styles)(Login);
+export { Login };

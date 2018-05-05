@@ -88,4 +88,5 @@ AppBar531.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AppBar531);
+AppBar531 = withStyles(styles)(AppBar531);
+export { AppBar531 };

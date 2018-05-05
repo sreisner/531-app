@@ -1,5 +1,5 @@
 import api from '../../api.service';
 
-export default {
+export const TrainingMaxesService = {
     getTrainingMaxes: userId => api.get(`/users/${userId}/training-maxes`)
 };

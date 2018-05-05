@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import withRoot from './withRoot';
 import { withStyles } from 'material-ui/styles';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Login from './login/login.component';
-import Home from './home/home.component';
+import { Home } from './pages/home/home.component';
+import { Login } from './pages/login/login.component';
 
 const styles = theme => ({
     root: {

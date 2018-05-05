@@ -1,5 +1,5 @@
 import api from '../api.service';
 
-export default {
+export const RegisterService = {
     register: (email, password) => api.post('/register', { email, password })
 };

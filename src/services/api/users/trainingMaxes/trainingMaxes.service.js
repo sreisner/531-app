@@ -1,5 +1,5 @@
-import api from '../../api.service';
+import { ApiService } from '../../api.service';
 
 export const TrainingMaxesService = {
-    getTrainingMaxes: userId => api.get(`/users/${userId}/training-maxes`)
+    getTrainingMaxes: userId => ApiService.get(`/users/${userId}/training-maxes`)
 };

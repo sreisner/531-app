@@ -1,5 +1,10 @@
-import api from '../api.service';
+import { ApiService } from '../api.service';
 
-export const LoginService = {
-    login: (email, password) => api.post('/login', { email, password })
+const LoginService = {
+    user: null,
+    login: (email, password) =>
+        ApiService.post('/login', { email, password })
+            .then(user => this.user = user)
 };
+
+export { LoginService };

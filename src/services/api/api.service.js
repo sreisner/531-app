@@ -42,7 +42,7 @@ const post = (path, data) =>
                 body: JSON.stringify(data)
             })));
 
-export default {
+export const ApiService = {
     get,
     post
 };

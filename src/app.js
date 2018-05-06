@@ -48,7 +48,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div className={classes.root}>
-                    <LoginRoute exact path="/login" component={Login} onSuccess={this.handleSuccessfulLogin} />
+                    <LoginRoute exact path="/login" component={Login} onSuccess={this.handleSuccessfulLogin} user={user} />
                     <PrivateRoute exact path="/" component={Home} user={user} />
                     <PrivateRoute exact path="/calculate-lifts" component={CalculateLifts} user={user} />
                 </div>

@@ -6,7 +6,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={props => {
-            console.log(LoginService.user);
             return !!LoginService.user ? (
                 <Component {...props} />
             ) : (

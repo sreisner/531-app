@@ -1,12 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from "react-router-dom";
-import { LoginService } from "../../services/api/login/login.service";
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
+export const PrivateRoute = ({ component: Component, user, ...rest }) => (
     <Route
         {...rest}
         render={props => {
-            return !!LoginService.user ? (
+            return !!user ? (
                 <Component {...props} />
             ) : (
                 <Redirect

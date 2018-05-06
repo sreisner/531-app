@@ -39,8 +39,8 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
+            email: 'shawn.reisner@gmail.com',
+            password: 'password',
             loading: false,
             error: '',
             redirectToReferrer: false
@@ -51,15 +51,20 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
+        const { onSuccess } = this.props;
+
         event.preventDefault();
         
         this.setState({ loading: true });
 
         LoginService
             .login(this.state.email, this.state.password)
+            .then(user => onSuccess(user))
             .then(() => this.setState({ redirectToReferrer: true }))
-            .catch(status => this.setState({ error: 'Login failed' }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(status => this.setState({
+                error: 'Login failed',
+                loading: false
+            }));
     }
 
     handleChange(event) {
@@ -115,6 +120,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
     classes: PropTypes.object.isRequired,
+    onSuccess: PropTypes.func.isRequired
 };
 
 Login = withStyles(styles)(Login);

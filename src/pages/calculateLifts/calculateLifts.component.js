@@ -14,10 +14,8 @@ class CalculateLifts extends React.Component {
     }
 
     componentDidMount() {
-        const { userId } = this.props;
-
         TrainingMaxesService
-            .getTrainingMaxes(userId)
+            .getTrainingMaxes('current')
             .then(trainingMaxes => console.log(trainingMaxes));
     }
 

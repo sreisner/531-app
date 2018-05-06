@@ -21,8 +21,8 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div className={classes.root}>
-                    <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
+                    <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute exact path="/calculate-lifts" component={CalculateLifts} />
                 </div>
             </BrowserRouter>

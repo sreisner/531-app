@@ -5,8 +5,9 @@ import { LoginService } from "../../services/api/login/login.service";
 export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
-        render={props =>
-            !!LoginService.user ? (
+        render={props => {
+            console.log(LoginService.user);
+            return !!LoginService.user ? (
                 <Component {...props} />
             ) : (
                 <Redirect
@@ -15,7 +16,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
                         state: { from: props.location }
                     }}
                 />
-            )
-        }
+            );
+        }}
     />
 );

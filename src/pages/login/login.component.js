@@ -52,15 +52,18 @@ class Login extends React.Component {
 
     handleSubmit(event) {
         const { onSuccess } = this.props;
+        const { email, password } = this.state;
 
         event.preventDefault();
         
         this.setState({ loading: true });
 
         LoginService
-            .login(this.state.email, this.state.password)
-            .then(user => onSuccess(user))
-            .then(() => this.setState({ redirectToReferrer: true }))
+            .login(email, password)
+            .then(user => {
+                this.setState({ redirectToReferrer: true });
+                onSuccess(user);
+            })
             .catch(status => this.setState({
                 error: 'Login failed',
                 loading: false
@@ -79,12 +82,7 @@ class Login extends React.Component {
         const { redirectToReferrer, loading, error } = this.state;
         const { from } = this.props.location.state || { from: { pathname: '/' } };
 
-        if (user) {
-            this.setState({redirectToReferrer: true});
-        }
-
-        if (redirectToReferrer) {
-            console.log(from);
+        if (redirectToReferrer || user) {
             return <Redirect to={from} />
         }
 

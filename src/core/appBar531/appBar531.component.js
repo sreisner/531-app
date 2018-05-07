@@ -40,7 +40,7 @@ class AppBar531 extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, title } = this.props;
         const { drawerIsOpen } = this.state;
         
         return (
@@ -51,7 +51,7 @@ class AppBar531 extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="title" color="inherit" className={classes.flex}>
-                            5/3/1
+                            {title}
                         </Typography>
                         <Drawer
                             open={drawerIsOpen}

@@ -13,6 +13,12 @@ const buildRequestConfig = (config = {}) => ({
 });
 
 const handleError = response => {
+    if (response.status === 401) {
+        if (window.location.pathname !== '/login') {
+            window.location = '/login';
+        }
+    }
+    
     if (response.status !== 200) {
         throw Error(response.status);
     }

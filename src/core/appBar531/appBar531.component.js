@@ -67,12 +67,12 @@ class AppBar531 extends React.Component {
                                         <ListItemText primary="Home" />
                                     </ListItem>
                                 </Link>
-                                <Link to="/calculate-lifts">
+                                <Link to="/begin-cycle">
                                     <ListItem button>
                                         <ListItemIcon>
                                             <AdjustIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="Calculate Lifts" />
+                                        <ListItemText primary="Begin Cycle" />
                                     </ListItem>
                                 </Link>
                             </List>

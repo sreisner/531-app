@@ -6,7 +6,7 @@ import { TrainingMaxesService } from '../../services/api/users/trainingMaxes/tra
 
 const styles = theme => ({});
 
-class CalculateLifts extends React.Component {
+class BeginCycle extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,15 +23,15 @@ class CalculateLifts extends React.Component {
         return (
             <div>
                 <AppBar531 />
-                <h1>Calculate Lifts</h1>
+                <h1>Begin Cycle</h1>
             </div>
         );
     }
 }
 
-CalculateLifts.propTypes = {
+BeginCycle.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-CalculateLifts = withStyles(styles)(CalculateLifts);
-export { CalculateLifts };
+BeginCycle = withStyles(styles)(BeginCycle);
+export { BeginCycle };

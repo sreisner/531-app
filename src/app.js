@@ -4,10 +4,10 @@ import { withStyles } from 'material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { Home } from './pages/home/home.component';
 import { Login } from './pages/login/login.component';
-import { CalculateLifts } from './pages/calculateLifts/calculateLifts.component';
 import { PrivateRoute } from './core/privateRoute/privateRoute.component';
 import { UsersService } from './services/api/users/users.service';
 import { LoginRoute } from './core/loginRoute/loginRoute.component';
+import { BeginCycle } from './pages/beginCycle/beginCycle.component';
 
 const styles = theme => ({
     root: {
@@ -50,7 +50,7 @@ class App extends React.Component {
                 <div className={classes.root}>
                     <LoginRoute exact path="/login" component={Login} onSuccess={this.handleSuccessfulLogin} user={user} />
                     <PrivateRoute exact path="/" component={Home} user={user} />
-                    <PrivateRoute exact path="/calculate-lifts" component={CalculateLifts} user={user} />
+                    <PrivateRoute exact path="/begin-cycle" component={BeginCycle} user={user} />
                 </div>
             </BrowserRouter>
         );

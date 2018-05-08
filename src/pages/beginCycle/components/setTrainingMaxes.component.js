@@ -3,7 +3,13 @@ import { PropTypes } from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 
-const styles = theme => ({});
+const styles = theme => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: 'min-content'
+    }
+});
 
 class SetTrainingMaxes extends React.Component {
     constructor(props) {
@@ -18,11 +24,10 @@ class SetTrainingMaxes extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { squat, deadlift, bench, press } = this.props.trainingMaxes;
+        const { classes, squat, deadlift, bench, press } = this.props;
 
         return (
-            <div>
+            <div className={classes.root}>
                 <TextField
                     className={classes.input}
                     label="Squat TM"

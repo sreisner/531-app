@@ -29,28 +29,24 @@ class SetTrainingMaxes extends React.Component {
         return (
             <div className={classes.root}>
                 <TextField
-                    className={classes.input}
                     label="Squat TM"
                     value={squat}
                     name="squat"
                     type="number"
                     onChange={this.handleChange} />
                 <TextField
-                    className={classes.input}
                     label="Deadlift TM"
                     value={deadlift}
                     name="deadlift"
                     type="number"
                     onChange={this.handleChange} />
                 <TextField
-                    className={classes.input}
                     label="Bench Press TM"
                     value={bench}
                     name="bench"
                     type="number"
                     onChange={this.handleChange} />
                 <TextField
-                    className={classes.input}
                     label="Overhead Press TM"
                     value={press}
                     name="press"

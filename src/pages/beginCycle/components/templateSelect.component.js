@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { Select, MenuItem } from 'material-ui';
 
-const styles = theme => ({});
+const styles = theme => ({
+    root: {
+        width: '100%'
+    }
+});
 
 class TemplateSelect extends React.Component {
     constructor(props) {
@@ -35,9 +39,12 @@ class TemplateSelect extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
         const { loading } = this.state;
+
         return (
             <Select
+                className={classes.root}
                 value={this.props.value}
                 onChange={this.handleChange}
                 disabled={loading}

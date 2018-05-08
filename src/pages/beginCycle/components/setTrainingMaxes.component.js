@@ -7,7 +7,7 @@ const styles = theme => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        width: 'min-content'
+        width: '100%'
     }
 });
 

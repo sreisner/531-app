@@ -17,6 +17,12 @@ const styles = theme => ({
         padding: theme.spacing.unit * 4,
         height: '100%'
     },
+    inputContainer: {
+        [theme.breakpoints.down('md')]: {
+            width: '100%'
+        },
+        width: '50%'
+    }
 });
 
 class BeginCycle extends React.Component {
@@ -76,9 +82,11 @@ class BeginCycle extends React.Component {
                             <Typography variant="title" gutterBottom={true}>
                                 Training Maxes
                             </Typography>
-                            <SetTrainingMaxes
-                                onChange={this.handleTrainingMaxChange}
-                                {...trainingMaxes} />
+                            <div className={classes.inputContainer}>
+                                <SetTrainingMaxes
+                                    onChange={this.handleTrainingMaxChange}
+                                    {...trainingMaxes} />
+                            </div>
                         </Paper>
                     </Grid>
 
@@ -87,9 +95,11 @@ class BeginCycle extends React.Component {
                             <Typography variant="title" gutterBottom={true}>
                                 Template
                             </Typography>
-                            <TemplateSelect
-                                onChange={this.handleTemplateChange}
-                                value={selectedTemplateId} />
+                            <div className={classes.inputContainer}>
+                                <TemplateSelect
+                                    onChange={this.handleTemplateChange}
+                                    value={selectedTemplateId} />
+                            </div>
                         </Paper>
                     </Grid>
 

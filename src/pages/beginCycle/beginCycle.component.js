@@ -2,26 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
-import { Paper } from 'material-ui';
-import { SetTrainingMaxes } from './components/setTrainingMaxes.component';
-import { TemplateSelect } from './components/templateSelect.component';
-import { Typography } from 'material-ui';
+import { TextField, Select, MenuItem } from 'material-ui';
 import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
+import { TitleCard } from './components/titleCard.component';
 
 const styles = theme => ({
     grid: {
         padding: theme.spacing.unit * 3
-    },
-    paper: {
-        padding: theme.spacing.unit * 4,
-        height: '100%'
-    },
-    inputContainer: {
-        [theme.breakpoints.down('md')]: {
-            width: '100%'
-        },
-        width: '50%'
     }
 });
 
@@ -30,14 +18,17 @@ class BeginCycle extends React.Component {
         super(props);
 
         this.state = {
-            loading: true,
+            loadingTrainingMaxes: true,
+            loadingTemplates: true,
+            loadingOptions: true,
             trainingMaxes: {
                 squat: '',
                 deadlift: '',
                 bench: '',
                 press: ''
             },
-            selectedTemplateId: 0
+            selectedTemplateId: 0,
+            templates: []
         };
 
         this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
@@ -48,15 +39,29 @@ class BeginCycle extends React.Component {
         UsersService
             .getTrainingMaxes('current')
             .then(trainingMaxes => this.setState(prevState => ({ 
-                loading: false,
+                loadingTrainingMaxes: false,
                 trainingMaxes: {
                     ...prevState.trainingMaxes,
                     ...trainingMaxes
                 }
             })));
+
+        setTimeout(() => this.setState({
+            loadingTemplates: false,
+            templates: [{
+                id: 1,
+                name: 'Forever BBB'
+            }, {
+                id: 2,
+                name: 'Original BBB'
+            }],
+            selectedTemplateId: 1
+        }), 3000);
     }
 
-    handleTrainingMaxChange(lift, weight) {
+    handleTrainingMaxChange(event) {
+        const { name: lift, value: weight } = event.target;
+        
         this.setState(prevState => ({
             trainingMaxes: {
                 ...prevState.trainingMaxes,
@@ -65,50 +70,83 @@ class BeginCycle extends React.Component {
         }));
     }
 
-    handleTemplateChange(selectedTemplateId) {
-        this.setState({ selectedTemplateId });
+    handleTemplateChange(event) {
+        this.setState({ selectedTemplateId: event.target.value });
     }
 
     render() {
         const { classes } = this.props;
-        const { trainingMaxes, selectedTemplateId } = this.state;
+        const {
+            trainingMaxes,
+            selectedTemplateId,
+            loadingTrainingMaxes,
+            loadingTemplates,
+            loadingOptions
+        } = this.state;
+
+        const {
+            squat,
+            deadlift,
+            bench,
+            press
+        } = trainingMaxes;
 
         return (
             <div>
                 <AppBar531 title="Begin Cycle" />
                 <Grid container className={classes.grid}>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Paper className={classes.paper}>
-                            <Typography variant="title" gutterBottom={true}>
-                                Training Maxes
-                            </Typography>
-                            <div className={classes.inputContainer}>
-                                <SetTrainingMaxes
-                                    onChange={this.handleTrainingMaxChange}
-                                    {...trainingMaxes} />
-                            </div>
-                        </Paper>
+                        <TitleCard title="Training Maxes">
+                            <TextField
+                                label="Squat TM"
+                                value={squat}
+                                name="squat"
+                                type="number"
+                                onChange={this.handleTrainingMaxChange} />
+                            <TextField
+                                label="Deadlift TM"
+                                value={deadlift}
+                                name="deadlift"
+                                type="number"
+                                onChange={this.handleTrainingMaxChange} />
+                            <TextField
+                                label="Bench Press TM"
+                                value={bench}
+                                name="bench"
+                                type="number"
+                                onChange={this.handleTrainingMaxChange} />
+                            <TextField
+                                label="Overhead Press TM"
+                                value={press}
+                                name="press"
+                                type="number"
+                                onChange={this.handleTrainingMaxChange} />
+                        </TitleCard>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={4}>
-                        <Paper className={classes.paper}>
-                            <Typography variant="title" gutterBottom={true}>
-                                Template
-                            </Typography>
-                            <div className={classes.inputContainer}>
-                                <TemplateSelect
-                                    onChange={this.handleTemplateChange}
-                                    value={selectedTemplateId} />
-                            </div>
-                        </Paper>
+                        <TitleCard title="Template">
+                            <Select
+                                value={selectedTemplateId}
+                                onChange={this.handleTemplateChange}
+                                disabled={loadingTemplates}
+                            >
+                                {this.state.templates.map(t =>
+                                    <MenuItem
+                                        key={t.id}
+                                        value={t.id}
+                                    >
+                                        {t.name}
+                                    </MenuItem>
+                                )}
+                            </Select>
+                        </TitleCard>
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <Paper className={classes.paper}>
-                            <Typography variant="title" gutterBottom={true} >
-                                Options
-                            </Typography>
-                        </Paper>
+                        <TitleCard title="Options">
+                            
+                        </TitleCard>
                     </Grid>
                 </Grid>
             </div>

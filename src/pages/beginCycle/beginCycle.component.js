@@ -4,8 +4,8 @@ import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
 import { TrainingMaxesService } from '../../services/api/users/trainingMaxes/trainingMaxes.service';
 import { Paper } from 'material-ui';
-import { BeginCycleStepper } from './components/beginCycleStepper.component';
 import { SetTrainingMaxes } from './components/setTrainingMaxes.component';
+import { Typography } from 'material-ui';
 
 const styles = theme => ({
     gutters: theme.mixins.gutters({}),
@@ -21,11 +21,9 @@ class BeginCycle extends React.Component {
 
         this.state = {
             loading: true,
-            activeStep: 0,
             trainingMaxes: {}
         };
 
-        this.getActiveStepForm = this.getActiveStepForm.bind(this);
         this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
     }
 
@@ -47,26 +45,9 @@ class BeginCycle extends React.Component {
         }));
     }
 
-    getActiveStepForm() {
-        switch (this.state.activeStep) {
-            case 0:
-                return (
-                    <SetTrainingMaxes
-                        onChange={this.handleTrainingMaxChange}
-                        trainingMaxes={this.state.trainingMaxes} />
-                );
-            case 1:
-                return <h1>Choose template</h1>;
-            case 2:
-                return <h1>Select options</h1>;
-            default:
-                return <h1>Unknown step</h1>;
-        }
-    }
-
     render() {
         const { classes } = this.props;
-        const { loading, activeStep } = this.state;
+        const { loading } = this.state;
 
         if (loading) {
             return <h1>Loading...</h1>;
@@ -77,10 +58,15 @@ class BeginCycle extends React.Component {
                 <AppBar531 title="Begin Cycle" />
                 <div className={classes.gutters}>
                     <Paper className={classes.paper}>
-                        <BeginCycleStepper activeStep={activeStep} />
-                    </Paper>
-                    <Paper className={classes.paper}>
-                        {this.getActiveStepForm()}
+                        <Typography
+                            variant="title"
+                            color="inherit"
+                            >
+                            1. Set training maxes
+                        </Typography>
+                        <SetTrainingMaxes
+                            onChange={this.handleTrainingMaxChange}
+                            trainingMaxes={this.state.trainingMaxes} />
                     </Paper>
                 </div>
             </div>

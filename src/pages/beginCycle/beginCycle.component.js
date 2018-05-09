@@ -52,31 +52,35 @@ class BeginCycle extends React.Component {
             templates: [{
                 id: 1,
                 name: 'Forever BBB',
-                options: [
-                    {
-                        name: 'Supplemental TM Percentage',
-                        type: 'select',
-                        value: 30,
-                        values: [
-                            {
-                                display: '30%',
-                                value: 30
-                            },
-                            {
-                                display: '40%',
-                                value: 40
-                            },
-                            {
-                                display: '50%',
-                                value: 50
-                            },
-                            {
-                                display: '60%',
-                                value: 60
-                            }
-                        ]
-                    }
-                ]
+                options: [{
+                    name: 'Supplemental TM Percentage',
+                    type: 'select',
+                    value: 30,
+                    values: [{
+                        display: '30%',
+                        value: 30
+                    }, {
+                        display: '40%',
+                        value: 40
+                    }, {
+                        display: '50%',
+                        value: 50
+                    }, {
+                        display: '60%',
+                        value: 60
+                    }]
+                }, {
+                    name: 'Days Per Week',
+                    type: 'select',
+                    value: 3,
+                    values: [{
+                        display: '3',
+                        value: 3
+                    }, {
+                        display: '4',
+                        value: 4
+                    }]
+                }]
             }, {
                 id: 2,
                 name: 'Original BBB',
@@ -127,7 +131,7 @@ class BeginCycle extends React.Component {
             <div>
                 <AppBar531 title="Begin Cycle" />
                 <Grid container className={classes.grid}>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} md={4}>
                         <TitleCard title="Training Maxes">
                             <TextField
                                 label="Squat TM"
@@ -156,22 +160,25 @@ class BeginCycle extends React.Component {
                         </TitleCard>
                     </Grid>
 
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} md={4}>
                         <TitleCard title="Template">
-                            <Select
-                                value={selectedTemplateId}
-                                onChange={this.handleTemplateChange}
-                                disabled={loadingTemplates}
-                            >
-                                {templates.map(t =>
-                                    <MenuItem
-                                        key={t.id}
-                                        value={t.id}
-                                    >
-                                        {t.name}
-                                    </MenuItem>
-                                )}
-                            </Select>
+                            <FormControl>
+                            <InputLabel></InputLabel>
+                                <Select
+                                    value={selectedTemplateId}
+                                    onChange={this.handleTemplateChange}
+                                    disabled={loadingTemplates}
+                                >
+                                    {templates.map(t =>
+                                        <MenuItem
+                                            key={t.id}
+                                            value={t.id}
+                                        >
+                                            {t.name}
+                                        </MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
                         </TitleCard>
                     </Grid>
 

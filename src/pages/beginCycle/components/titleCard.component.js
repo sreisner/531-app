@@ -9,10 +9,16 @@ const styles = theme => ({
         height: '100%'
     },
     inputContainer: {
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.only('xs')]: {
             width: '100%'
         },
-        width: '50%'
+        [theme.breakpoints.only('sm')]: {
+            width: '61%'
+        },
+        [theme.breakpoints.only('md')]: {
+            width: '100%'
+        },
+        width: '61%'
     }
 });
 
@@ -23,7 +29,7 @@ class TitleCard extends React.Component {
         const { classes, children, title } = this.props;
 
         return (
-            <Paper className={classes.paper} square={true} elevation={0}>
+            <Paper className={classes.paper} square={true} elevation={1}>
                 <Typography variant="title" gutterBottom={true}>
                     {title}
                 </Typography>

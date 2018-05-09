@@ -8,6 +8,7 @@ import { PrivateRoute } from './core/privateRoute/privateRoute.component';
 import { UsersService } from './services/api/users/users.service';
 import { LoginRoute } from './core/loginRoute/loginRoute.component';
 import { BeginCycle } from './pages/beginCycle/beginCycle.component';
+import { FullPageLoading } from './core/fullPageLoading/fullPageLoading.component';
 
 const styles = theme => ({
     root: {
@@ -41,13 +42,10 @@ class App extends React.Component {
         const { classes } = this.props;
         const { loading, user } = this.state;
 
-        if (loading) {
-            return <h1>Loading...</h1>
-        }
-
         return (
             <BrowserRouter>
                 <div className={classes.root}>
+                    {loading && <FullPageLoading />}
                     <LoginRoute exact path="/login" component={Login} onSuccess={this.handleSuccessfulLogin} user={user} />
                     <PrivateRoute exact path="/" component={Home} user={user} />
                     <PrivateRoute exact path="/begin-cycle" component={BeginCycle} user={user} />

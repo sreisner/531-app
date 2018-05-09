@@ -164,7 +164,7 @@ class BeginCycle extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedTemplateId, loadingTemplates, templates } = this.state;
+        const { selectedTemplateId, loadingTemplates, loadingTrainingMaxes, templates } = this.state;
         const { squat, deadlift, bench, press } = this.state.trainingMaxes;
 
         const selectedTemplate = this.getSelectedTemplate();
@@ -179,7 +179,7 @@ class BeginCycle extends React.Component {
                 >
                     <Grid container>
                         <Grid item xs={12} md={4}>
-                            <TitleCard title="Training Maxes">
+                            <TitleCard title="Training Maxes" loading={loadingTrainingMaxes}>
                                 <TextField
                                     label="Squat TM"
                                     value={squat}
@@ -216,7 +216,7 @@ class BeginCycle extends React.Component {
                         </Grid>
 
                         <Grid item xs={12} md={4}>
-                            <TitleCard title="Template">
+                            <TitleCard title="Template" loading={loadingTemplates}>
                                 <FormControl>
                                 <InputLabel></InputLabel>
                                     <Select

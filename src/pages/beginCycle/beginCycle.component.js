@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
-import { TextField, Select, MenuItem, Typography, FormControl, FormControlLabel, FormLabel, InputLabel } from 'material-ui';
+import { TextField, Select, MenuItem, Typography, FormControl, InputLabel } from 'material-ui';
 import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
 import { TitleCard } from './components/titleCard.component';
@@ -110,7 +110,6 @@ class BeginCycle extends React.Component {
         const {
             trainingMaxes,
             selectedTemplateId,
-            loadingTrainingMaxes,
             loadingTemplates,
             templates
         } = this.state;
@@ -190,10 +189,9 @@ class BeginCycle extends React.Component {
                                 selectedTemplate.options.map(o => {
                                     if (o.type === 'select') {
                                         return (
-                                            <FormControl>
+                                            <FormControl key={o.name}>
                                                 <InputLabel htmlFor={o.name}>{o.name}</InputLabel>
                                                 <Select
-                                                    key={o.name}
                                                     value={o.value}
                                                     onChange={this.handleOptionChange}
                                                     inputProps={{name: o.name}}
@@ -209,6 +207,8 @@ class BeginCycle extends React.Component {
                                                 </Select>
                                             </FormControl>
                                         );
+                                    } else {
+                                        return null;
                                     }
                                 })
                             )}

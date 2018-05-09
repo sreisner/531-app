@@ -34,6 +34,7 @@ class BeginCycle extends React.Component {
         this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
         this.handleTemplateChange = this.handleTemplateChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.getSelectedTemplate = this.getSelectedTemplate.bind(this);
     }
 
     componentDidMount() {
@@ -106,7 +107,27 @@ class BeginCycle extends React.Component {
     }
 
     handleOptionChange(event) {
-        console.log(event);
+        const { selectedTemplateId } = this.state;
+        const { name, value } = event.target;
+
+        this.setState(prevState => ({
+            templates: prevState.templates
+                .map(template => template.id === selectedTemplateId
+                    ? {
+                        ...template,
+                        options: template.options
+                            .map(option => option.name === name
+                                ? { ...option, value} : option)
+                    }
+                    : template)
+        }));
+
+        console.log(this.state.templates);
+    }
+
+    getSelectedTemplate() {
+        const { templates, selectedTemplateId } = this.state;
+        return templates.find(t => t.id === selectedTemplateId);
     }
 
     render() {
@@ -125,7 +146,7 @@ class BeginCycle extends React.Component {
             press
         } = trainingMaxes;
 
-        const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
+        const selectedTemplate = this.getSelectedTemplate();
 
         return (
             <div>

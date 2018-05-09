@@ -49,6 +49,7 @@ class App extends React.Component {
                     <LoginRoute exact path="/login" component={Login} onSuccess={this.handleSuccessfulLogin} user={user} />
                     <PrivateRoute exact path="/" component={Home} user={user} />
                     <PrivateRoute exact path="/begin-cycle" component={BeginCycle} user={user} />
+                    <PrivateRoute exact path="/cycle?squat=315" component={Home} user={user} />
                 </div>
             </BrowserRouter>
         );

@@ -14,6 +14,7 @@ import Link from 'react-router-dom/Link';
 const styles = {
     root: {
         flexGrow: 1,
+        marginBottom: 64
     },
     flex: {
         flex: 1,
@@ -45,7 +46,7 @@ class AppBar531 extends React.Component {
         
         return (
             <div className={classes.root}>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Toolbar>
                         <IconButton className={classes.menuButton} color="inherit" onClick={this.toggleDrawer}>
                             <MenuIcon />

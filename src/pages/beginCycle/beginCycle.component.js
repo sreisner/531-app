@@ -10,7 +10,7 @@ import { Button } from 'material-ui';
 
 const styles = theme => ({
     form: theme.mixins.gutters({
-        paddingTop: theme.spacing.unit * 3
+        paddingTop: theme.spacing.unit * 2
     }),
     submitContainer: {
         paddingTop: theme.spacing.unit * 2,

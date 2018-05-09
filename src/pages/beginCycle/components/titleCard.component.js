@@ -23,7 +23,7 @@ class TitleCard extends React.Component {
         const { classes, children, title } = this.props;
 
         return (
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} square={true} elevation={0}>
                 <Typography variant="title" gutterBottom={true}>
                     {title}
                 </Typography>

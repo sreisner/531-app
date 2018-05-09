@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
-import { TextField, Select, MenuItem } from 'material-ui';
+import { TextField, Select, MenuItem, Typography } from 'material-ui';
 import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
 import { TitleCard } from './components/titleCard.component';
@@ -19,16 +19,16 @@ class BeginCycle extends React.Component {
 
         this.state = {
             loadingTrainingMaxes: true,
-            loadingTemplates: true,
-            loadingOptions: true,
             trainingMaxes: {
                 squat: '',
                 deadlift: '',
                 bench: '',
                 press: ''
             },
-            selectedTemplateId: 0,
-            templates: []
+
+            loadingTemplates: true,
+            templates: [],
+            selectedTemplateId: 0
         };
 
         this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
@@ -145,7 +145,15 @@ class BeginCycle extends React.Component {
 
                     <Grid item xs={12} md={4}>
                         <TitleCard title="Options">
-                            
+                            {selectedTemplateId === 0 ? (
+                                <Typography variant="caption">
+                                    Select a template
+                                </Typography>
+                            ) : (
+                                <Typography variant="caption">
+                                    Select a template
+                                </Typography>
+                            )}
                         </TitleCard>
                     </Grid>
                 </Grid>

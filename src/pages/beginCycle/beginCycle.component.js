@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
-import { TextField, Select, MenuItem, Typography } from 'material-ui';
+import { TextField, Select, MenuItem, Typography, FormControl, FormControlLabel, FormLabel, InputLabel } from 'material-ui';
 import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
 import { TitleCard } from './components/titleCard.component';
@@ -33,6 +33,7 @@ class BeginCycle extends React.Component {
 
         this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
         this.handleTemplateChange = this.handleTemplateChange.bind(this);
+        this.handleOptionChange = this.handleOptionChange.bind(this);
     }
 
     componentDidMount() {
@@ -50,13 +51,39 @@ class BeginCycle extends React.Component {
             loadingTemplates: false,
             templates: [{
                 id: 1,
-                name: 'Forever BBB'
+                name: 'Forever BBB',
+                options: [
+                    {
+                        name: 'Supplemental TM Percentage',
+                        type: 'select',
+                        value: 30,
+                        values: [
+                            {
+                                display: '30%',
+                                value: 30
+                            },
+                            {
+                                display: '40%',
+                                value: 40
+                            },
+                            {
+                                display: '50%',
+                                value: 50
+                            },
+                            {
+                                display: '60%',
+                                value: 60
+                            }
+                        ]
+                    }
+                ]
             }, {
                 id: 2,
-                name: 'Original BBB'
+                name: 'Original BBB',
+                options: []
             }],
             selectedTemplateId: 1
-        }), 3000);
+        }), 1000);
     }
 
     handleTrainingMaxChange(event) {
@@ -74,6 +101,10 @@ class BeginCycle extends React.Component {
         this.setState({ selectedTemplateId: event.target.value });
     }
 
+    handleOptionChange(event) {
+        console.log(event);
+    }
+
     render() {
         const { classes } = this.props;
         const {
@@ -81,7 +112,7 @@ class BeginCycle extends React.Component {
             selectedTemplateId,
             loadingTrainingMaxes,
             loadingTemplates,
-            loadingOptions
+            templates
         } = this.state;
 
         const {
@@ -90,6 +121,8 @@ class BeginCycle extends React.Component {
             bench,
             press
         } = trainingMaxes;
+
+        const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
 
         return (
             <div>
@@ -131,7 +164,7 @@ class BeginCycle extends React.Component {
                                 onChange={this.handleTemplateChange}
                                 disabled={loadingTemplates}
                             >
-                                {this.state.templates.map(t =>
+                                {templates.map(t =>
                                     <MenuItem
                                         key={t.id}
                                         value={t.id}
@@ -145,14 +178,39 @@ class BeginCycle extends React.Component {
 
                     <Grid item xs={12} md={4}>
                         <TitleCard title="Options">
-                            {selectedTemplateId === 0 ? (
+                            {!selectedTemplate ? (
                                 <Typography variant="caption">
-                                    Select a template
+                                    You must select a template to customize options.
+                                </Typography>
+                            ) : selectedTemplate.options.length === 0 ? (
+                                <Typography variant="caption">
+                                    There are no options available for this template.
                                 </Typography>
                             ) : (
-                                <Typography variant="caption">
-                                    Select a template
-                                </Typography>
+                                selectedTemplate.options.map(o => {
+                                    if (o.type === 'select') {
+                                        return (
+                                            <FormControl>
+                                                <InputLabel htmlFor={o.name}>{o.name}</InputLabel>
+                                                <Select
+                                                    key={o.name}
+                                                    value={o.value}
+                                                    onChange={this.handleOptionChange}
+                                                    inputProps={{name: o.name}}
+                                                >
+                                                    {o.values.map(v => (
+                                                        <MenuItem
+                                                            key={v.value}
+                                                            value={v.value}
+                                                        >
+                                                            {v.display}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        );
+                                    }
+                                })
                             )}
                         </TitleCard>
                     </Grid>

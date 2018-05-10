@@ -8,85 +8,99 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AdjustIcon from '@material-ui/icons/Adjust';
-import { Drawer, List, ListItem, ListItemText, ListItemIcon } from 'material-ui';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+} from 'material-ui';
 import Link from 'react-router-dom/Link';
 
 const styles = {
-    root: {
-        flexGrow: 1,
-        marginBottom: 64
-    },
-    flex: {
-        flex: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
+  root: {
+    flexGrow: 1,
+    marginBottom: 64,
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
 };
 
 class AppBar531 extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            drawerIsOpen: false
-        };
+    this.state = {
+      drawerIsOpen: false,
+    };
 
-        this.toggleDrawer = this.toggleDrawer.bind(this);
-    }
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+  }
 
-    toggleDrawer() {
-        this.setState(prevState => ({drawerIsOpen: !prevState.drawerIsOpen}));
-    }
+  toggleDrawer() {
+    this.setState(prevState => ({ drawerIsOpen: !prevState.drawerIsOpen }));
+  }
 
-    render() {
-        const { classes, title } = this.props;
-        const { drawerIsOpen } = this.state;
-        
-        return (
-            <div className={classes.root}>
-                <AppBar position="fixed">
-                    <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" onClick={this.toggleDrawer}>
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="title" color="inherit" className={classes.flex}>
-                            {title}
-                        </Typography>
-                        <Drawer
-                            open={drawerIsOpen}
-                            onClose={this.toggleDrawer}
-                            anchor="left"
-                            >
-                            <List>
-                                <Link to="/">
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <HomeIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Home" />
-                                    </ListItem>
-                                </Link>
-                                <Link to="/begin-cycle">
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <AdjustIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Begin Cycle" />
-                                    </ListItem>
-                                </Link>
-                            </List>
-                        </Drawer>
-                    </Toolbar>
-                </AppBar>
-            </div>
-        );
-    }
+  render() {
+    const { classes, title } = this.props;
+    const { drawerIsOpen } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              onClick={this.toggleDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              {title}
+            </Typography>
+            <Drawer
+              open={drawerIsOpen}
+              onClose={this.toggleDrawer}
+              anchor="left"
+            >
+              <List>
+                <Link to="/">
+                  <ListItem button>
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                </Link>
+                <Link to="/begin-cycle">
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AdjustIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Begin Cycle" />
+                  </ListItem>
+                </Link>
+              </List>
+            </Drawer>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 AppBar531.propTypes = {
-    classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 AppBar531 = withStyles(styles)(AppBar531);

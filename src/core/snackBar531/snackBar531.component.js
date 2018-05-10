@@ -6,58 +6,58 @@ import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
-    close: {
-        width: theme.spacing.unit * 4,
-        height: theme.spacing.unit * 4,
-    },
+  close: {
+    width: theme.spacing.unit * 4,
+    height: theme.spacing.unit * 4,
+  },
 });
 
 class SnackBar531 extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            open: true
-        };
+    this.state = {
+      open: true,
+    };
 
-        this.handleClose = this.handleClose.bind(this);
-    }
+    this.handleClose = this.handleClose.bind(this);
+  }
 
-    handleClose(event) {
-        this.setState({ open: false });
-    }
+  handleClose(event) {
+    this.setState({ open: false });
+  }
 
-    render() {
-        const { classes, message } = this.props;
-        return (
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                open={this.state.open}
-                autoHideDuration={6000}
-                onClose={this.handleClose}
-                message={message}
-                action={[
-                    <IconButton
-                        key="close"
-                        aria-label="Close"
-                        color="inherit"
-                        className={classes.close}
-                        onClick={this.handleClose}
-                    >
-                        <CloseIcon />
-                    </IconButton>,
-                ]}
-            />
-        );
-    }
+  render() {
+    const { classes, message } = this.props;
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={this.state.open}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+        message={message}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={this.handleClose}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
+    );
+  }
 }
 
 SnackBar531.propTypes = {
-    classes: PropTypes.object.isRequired,
-    message: PropTypes.string.isRequired
+  classes: PropTypes.object.isRequired,
+  message: PropTypes.string.isRequired,
 };
 
 SnackBar531 = withStyles(styles)(SnackBar531);

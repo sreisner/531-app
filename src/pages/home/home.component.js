@@ -6,17 +6,17 @@ import { withStyles } from 'material-ui';
 const styles = theme => ({});
 
 class Home extends React.Component {
-    render() {
-        return (
-            <div>
-                <AppBar531 title="Home" />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <AppBar531 title="Home" />
+      </div>
+    );
+  }
 }
 
 Home.propTypes = {
-    classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 Home = withStyles(styles)(Home);

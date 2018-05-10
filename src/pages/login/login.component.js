@@ -9,121 +9,125 @@ import { LoginService } from '../../services/api/login/login.service';
 import { SnackBar531 } from '../../core/snackBar531/snackBar531.component';
 
 const styles = theme => ({
-    root: theme.mixins.gutters({
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        width: '100%',
-        background: theme.palette.secondary
-    }),
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        width: '100%',
-        maxWidth: '300px'
-    },
-    input: {
-        marginBottom: theme.spacing.unit * 2
-    },
-    submit: {
-        flexGrow: 1
-    }
+  root: theme.mixins.gutters({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    background: theme.palette.secondary,
+  }),
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    width: '100%',
+    maxWidth: '300px',
+  },
+  input: {
+    marginBottom: theme.spacing.unit * 2,
+  },
+  submit: {
+    flexGrow: 1,
+  },
 });
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            email: 'shawn.reisner@gmail.com',
-            password: 'password',
-            loading: false,
-            error: '',
-            redirectToReferrer: false
-        };
+    this.state = {
+      email: 'shawn.reisner@gmail.com',
+      password: 'password',
+      loading: false,
+      error: '',
+      redirectToReferrer: false,
+    };
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-    handleSubmit(event) {
-        const { onSuccess } = this.props;
-        const { email, password } = this.state;
+  handleSubmit(event) {
+    const { onSuccess } = this.props;
+    const { email, password } = this.state;
 
-        event.preventDefault();
-        
-        this.setState({ loading: true });
+    event.preventDefault();
 
-        LoginService
-            .login(email, password)
-            .then(user => {
-                this.setState({ redirectToReferrer: true });
-                onSuccess(user);
-            })
-            .catch(status => this.setState({
-                error: 'Login failed',
-                loading: false
-            }));
-    }
+    this.setState({ loading: true });
 
-    handleChange(event) {
-        const { name, value } = event.target;
+    LoginService.login(email, password)
+      .then(user => {
+        this.setState({ redirectToReferrer: true });
+        onSuccess(user);
+      })
+      .catch(status =>
         this.setState({
-            [name]: value
-        });
+          error: 'Login failed',
+          loading: false,
+        })
+      );
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  render() {
+    const { classes } = this.props;
+    const { redirectToReferrer, loading, error } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    if (redirectToReferrer || sessionStorage.isLoggedIn === 'true') {
+      return <Redirect to={from} />;
     }
 
-    render() {
-        const { classes, user } = this.props;
-        const { redirectToReferrer, loading, error } = this.state;
-        const { from } = this.props.location.state || { from: { pathname: '/' } };
+    return (
+      <div className={classes.root}>
+        <Typography variant="display4" color="inherit">
+          5/3/1
+        </Typography>
+        <form className={classes.form} onSubmit={this.handleSubmit}>
+          <TextField
+            className={classes.input}
+            label="Email"
+            value={this.state.email}
+            name="email"
+            type="text"
+            onChange={this.handleChange}
+          />
+          <TextField
+            className={classes.input}
+            label="Password"
+            value={this.state.password}
+            name="password"
+            type="password"
+            onChange={this.handleChange}
+          />
+          <Button
+            variant="raised"
+            color="primary"
+            disabled={loading}
+            type="submit"
+          >
+            Log In
+          </Button>
 
-        if (redirectToReferrer || user) {
-            return <Redirect to={from} />
-        }
-
-        return (
-            <div className={classes.root}>
-                <Typography variant="display4" color="inherit">
-                     5/3/1
-                </Typography>
-                <form className={classes.form} onSubmit={this.handleSubmit}>
-                    <TextField
-                        className={classes.input}
-                        label="Email"
-                        value={this.state.email}
-                        name="email"
-                        type="text"
-                        onChange={this.handleChange} />
-                    <TextField
-                        className={classes.input}
-                        label="Password"
-                        value={this.state.password}
-                        name="password"
-                        type="password"
-                        onChange={this.handleChange} />
-                    <Button
-                        variant="raised"
-                        color="primary"
-                        disabled={loading}
-                        type="submit">Log In</Button>
-
-                    {error &&
-                    <SnackBar531 message={error} />
-                    }
-                </form>
-            </div>
-        );
-    }
+          {error && <SnackBar531 message={error} />}
+        </form>
+      </div>
+    );
+  }
 }
 
 Login.propTypes = {
-    classes: PropTypes.object.isRequired,
-    onSuccess: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired,
+  onSuccess: PropTypes.func.isRequired,
 };
 
 Login = withStyles(styles)(Login);

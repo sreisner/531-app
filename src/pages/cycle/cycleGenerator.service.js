@@ -66,12 +66,6 @@ const standard531WeeklyRepSchemes = [
   ],
   [
     {
-      percentage: 0.6,
-      reps: 3,
-      sets: 1,
-      liftIndex: 0,
-    },
-    {
       percentage: 0.7,
       reps: 3,
       sets: 1,
@@ -79,6 +73,12 @@ const standard531WeeklyRepSchemes = [
     },
     {
       percentage: 0.8,
+      reps: 3,
+      sets: 1,
+      liftIndex: 0,
+    },
+    {
+      percentage: 0.9,
       reps: 3,
       sets: 1,
       liftIndex: 0,

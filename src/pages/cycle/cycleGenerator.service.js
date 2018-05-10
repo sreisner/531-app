@@ -106,34 +106,104 @@ const standard531WeeklyRepSchemes = [
   ],
 ];
 
-const foreverBBBConfig = options => ({
-  dailyLifts: options.dailyLifts,
-  daysPerWeek: options.daysPerWeek,
-  jumpsThrows: 10,
-  weeklyRepSchemes: standard531WeeklyRepSchemes.map(week => [
-    ...week,
+const standard351WeeklyRepSchemes = [
+  [
     {
-      percentage: options.supplementalTmPercentage,
-      reps: 10,
-      sets: 5,
-      liftIndex: options.slightlyLessBoring ? 1 : 0,
+      percentage: 0.7,
+      reps: 3,
+      sets: 1,
+      liftIndex: 0,
     },
-  ]),
-  assistance: {
-    push: {
-      minReps: 25,
-      maxReps: 50,
+    {
+      percentage: 0.8,
+      reps: 3,
+      sets: 1,
+      liftIndex: 0,
     },
-    pull: {
-      minReps: 25,
-      maxReps: 50,
+    {
+      percentage: 0.9,
+      reps: 3,
+      sets: 1,
+      liftIndex: 0,
     },
-    abs: {
-      minReps: 0,
-      maxReps: 50,
+  ],
+  [
+    {
+      percentage: 0.65,
+      reps: 5,
+      sets: 1,
+      liftIndex: 0,
     },
-  },
-});
+    {
+      percentage: 0.75,
+      reps: 5,
+      sets: 1,
+      liftIndex: 0,
+    },
+    {
+      percentage: 0.85,
+      reps: 5,
+      sets: 1,
+      liftIndex: 0,
+    },
+  ],
+  [
+    {
+      percentage: 0.75,
+      reps: 5,
+      sets: 1,
+      liftIndex: 0,
+    },
+    {
+      percentage: 0.85,
+      reps: 3,
+      sets: 1,
+      liftIndex: 0,
+    },
+    {
+      percentage: 0.95,
+      reps: 1,
+      sets: 1,
+      liftIndex: 0,
+    },
+  ],
+];
+
+const foreverBBBConfig = options => {
+  const repScheme =
+    options.repScheme === '531'
+      ? standard531WeeklyRepSchemes
+      : standard351WeeklyRepSchemes;
+
+  return {
+    dailyLifts: options.dailyLifts,
+    daysPerWeek: options.daysPerWeek,
+    jumpsThrows: 10,
+    weeklyRepSchemes: repScheme.map(week => [
+      ...week,
+      {
+        percentage: options.supplementalTmPercentage,
+        reps: 10,
+        sets: 5,
+        liftIndex: options.slightlyLessBoring ? 1 : 0,
+      },
+    ]),
+    assistance: {
+      push: {
+        minReps: 25,
+        maxReps: 50,
+      },
+      pull: {
+        minReps: 25,
+        maxReps: 50,
+      },
+      abs: {
+        minReps: 0,
+        maxReps: 50,
+      },
+    },
+  };
+};
 
 const templateConfigMap = {
   1: foreverBBBConfig,

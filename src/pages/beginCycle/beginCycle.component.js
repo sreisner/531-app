@@ -84,6 +84,13 @@ class BeginCycle extends React.Component {
             {
               id: 1,
               name: 'Forever BBB',
+              description: [
+                'Always a Leader template.',
+                'Great for people loking to gain some muscle.',
+                'Strength can be gained in younger lifters.',
+                'Not a good option for athletes, true beginners and very advanced lifters.',
+                '85% TM for most lifters, 90% for beginners',
+              ],
               options: [
                 {
                   name: 'Supplemental TM Percentage',
@@ -128,6 +135,7 @@ class BeginCycle extends React.Component {
             {
               id: 2,
               name: 'Original BBB',
+              description: [],
               options: [],
             },
           ],
@@ -268,6 +276,12 @@ class BeginCycle extends React.Component {
                     ))}
                   </Select>
                 </FormControl>
+                <ul>
+                  {selectedTemplate &&
+                    selectedTemplate.description.map((d, i) => (
+                      <li key={i}>{d}</li>
+                    ))}
+                </ul>
               </TitleCard>
             </Grid>
 

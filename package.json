@@ -16,12 +16,18 @@
   },
   "devDependencies": {
     "eslint-plugin-prettier": "^2.6.0",
-    "prettier": "^1.12.1"
+    "prettier": "^1.12.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js}": ["prettier --write", "git add"]
   }
 }

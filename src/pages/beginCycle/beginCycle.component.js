@@ -8,11 +8,7 @@ import {
   MenuItem,
   Typography,
   FormControl,
-<<<<<<< 42d402457c72a6c66589a324f7eee83c665819ba
   InputLabel,
-=======
-  InputLabel
->>>>>>> Add ESLint/Prettier
 } from 'material-ui';
 import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
@@ -21,7 +17,6 @@ import { Button } from 'material-ui';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
-<<<<<<< 42d402457c72a6c66589a324f7eee83c665819ba
     paddingTop: theme.spacing.unit * 2,
   }),
   submitContainer: {
@@ -34,20 +29,6 @@ const styles = theme => ({
     },
     float: 'right',
   },
-=======
-    paddingTop: theme.spacing.unit * 2
-  }),
-  submitContainer: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  },
-  submitButton: {
-    [theme.breakpoints.only('xs')]: {
-      width: '100%'
-    },
-    float: 'right'
-  }
->>>>>>> Add ESLint/Prettier
 });
 
 class BeginCycle extends React.Component {
@@ -60,7 +41,6 @@ class BeginCycle extends React.Component {
         squat: '',
         deadlift: '',
         bench: '',
-<<<<<<< 42d402457c72a6c66589a324f7eee83c665819ba
         press: '',
       },
 
@@ -83,30 +63,6 @@ class BeginCycle extends React.Component {
     this.loadTemplates();
   }
 
-=======
-        press: ''
-      },
-
-      loadingTemplates: true,
-      templates: [],
-      selectedTemplateId: 0
-    };
-
-    this.loadTrainingMaxes = this.loadTrainingMaxes.bind(this);
-    this.loadTemplates = this.loadTemplates.bind(this);
-    this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
-    this.handleTemplateChange = this.handleTemplateChange.bind(this);
-    this.handleOptionChange = this.handleOptionChange.bind(this);
-    this.handleFormSubmission = this.handleFormSubmission.bind(this);
-    this.getSelectedTemplate = this.getSelectedTemplate.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadTrainingMaxes();
-    this.loadTemplates();
-  }
-
->>>>>>> Add ESLint/Prettier
   loadTrainingMaxes() {
     UsersService.getTrainingMaxes('current').then(trainingMaxes =>
       this.setState(prevState => ({

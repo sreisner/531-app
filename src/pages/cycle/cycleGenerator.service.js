@@ -170,22 +170,39 @@ const standard351WeeklyRepSchemes = [
 ];
 
 const foreverBBBConfig = options => {
+  const {
+    repScheme: repSchemeName,
+    advanced,
+    dailyLifts,
+    daysPerWeek,
+    slightlyLessBoring,
+  } = options;
+
   const repScheme =
-    options.repScheme === '531'
+    repSchemeName === '531'
       ? standard531WeeklyRepSchemes
       : standard351WeeklyRepSchemes;
 
+  const supplementalTmPercentages =
+    repSchemeName === '531'
+      ? advanced
+        ? [0.4, 0.5, 0.6]
+        : [0.5, 0.6, 0.7]
+      : advanced
+        ? [0.5, 0.4, 0.6]
+        : [0.6, 0.5, 0.7];
+
   return {
-    dailyLifts: options.dailyLifts,
-    daysPerWeek: options.daysPerWeek,
+    dailyLifts,
+    daysPerWeek,
     jumpsThrows: 10,
-    weeklyRepSchemes: repScheme.map(week => [
+    weeklyRepSchemes: repScheme.map((week, i) => [
       ...week,
       {
-        percentage: options.supplementalTmPercentage,
+        percentage: supplementalTmPercentages[i],
         reps: 10,
         sets: 5,
-        liftIndex: options.slightlyLessBoring ? 1 : 0,
+        liftIndex: slightlyLessBoring ? 1 : 0,
       },
     ]),
     assistance: {
@@ -235,4 +252,4 @@ export default {
   generateCycle,
 };
 
-// http://localhost:3000/cycle?squat=315&deadlift=405&bench=225&press=135&templateId=1&options={"daysPerWeek":3,"supplementalTmPercentage":0.4,"dailyLifts":[["squat","deadlift"],["bench","press"],["deadlift","squat"],["press","bench"]],"slightlyLessBoring":true}
+// http://localhost:3000/cycle?squat=315&deadlift=405&bench=225&press=135&templateId=1&options={%22daysPerWeek%22:3,%22repScheme%22:%22531%22,%22dailyLifts%22:[[%22squat%22],[%22deadlift%22],[%22press%22],[%22bench%22]],%22slightlyLessBoring%22:false,%22advanced%22:false}

@@ -83,7 +83,7 @@ class Login extends React.Component {
     const { redirectToReferrer, loading, error } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
 
-    if (redirectToReferrer || sessionStorage.isLoggedIn === 'true') {
+    if (redirectToReferrer || localStorage.isLoggedIn === 'true') {
       return <Redirect to={from} />;
     }
 

@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   handleSuccessfulLogin(user) {
-    sessionStorage.isLoggedIn = true;
+    localStorage.isLoggedIn = true;
     this.forceUpdate();
   }
 

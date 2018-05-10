@@ -5,7 +5,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      return sessionStorage.isLoggedIn === 'true' ? (
+      return localStorage.isLoggedIn === 'true' ? (
         <Component {...props} />
       ) : (
         <Redirect

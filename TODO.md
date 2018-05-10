@@ -6,3 +6,4 @@
   /login temporarily while the full page loading screen is up, then it takes
   them back to the page they were on, which is technically fine, but seems less
   than ideal
+- Handle non-200 responses from API gracefully

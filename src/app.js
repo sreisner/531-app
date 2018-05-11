@@ -11,7 +11,7 @@ import { Cycle } from './pages/cycle/cycle.component';
 
 const styles = theme => ({
   root: {
-    width: '100vw',
+    width: '100%',
     height: '100vh',
   },
 });

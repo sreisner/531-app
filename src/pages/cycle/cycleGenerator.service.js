@@ -175,7 +175,6 @@ const foreverBBBConfig = options => {
     advanced,
     dailyLifts,
     daysPerWeek,
-    slightlyLessBoring,
   } = options;
 
   const repScheme =
@@ -202,7 +201,7 @@ const foreverBBBConfig = options => {
         percentage: supplementalTmPercentages[i],
         reps: 10,
         sets: 5,
-        liftIndex: slightlyLessBoring ? 1 : 0,
+        liftIndex: 0,
       },
     ]),
     assistance: {

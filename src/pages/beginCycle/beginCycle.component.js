@@ -14,6 +14,8 @@ import { Grid } from 'material-ui';
 import { UsersService } from '../../services/api/users/users.service';
 import { TitleCard } from './components/titleCard.component';
 import { Button } from 'material-ui';
+import { FormControlLabel } from 'material-ui';
+import { Switch } from 'material-ui';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -53,7 +55,7 @@ class BeginCycle extends React.Component {
     this.loadTemplates = this.loadTemplates.bind(this);
     this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
     this.handleTemplateChange = this.handleTemplateChange.bind(this);
-    this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.updateOptionValue = this.updateOptionValue.bind(this);
     this.handleFormSubmission = this.handleFormSubmission.bind(this);
     this.getSelectedTemplate = this.getSelectedTemplate.bind(this);
   }
@@ -76,73 +78,87 @@ class BeginCycle extends React.Component {
   }
 
   loadTemplates() {
-    setTimeout(
-      () =>
-        this.setState({
-          loadingTemplates: false,
-          templates: [
+    this.setState({
+      loadingTemplates: false,
+      templates: [
+        {
+          id: 1,
+          name: 'Forever BBB',
+          description: [
+            'Always a Leader template.',
+            'Great for people loking to gain some muscle.',
+            'Strength can be gained in younger lifters.',
+            'Not a good option for athletes, true beginners and very advanced lifters.',
+            '85% TM for most lifters, 90% for beginners.',
+          ],
+          options: [
             {
-              id: 1,
-              name: 'Forever BBB',
-              description: [
-                'Always a Leader template.',
-                'Great for people loking to gain some muscle.',
-                'Strength can be gained in younger lifters.',
-                'Not a good option for athletes, true beginners and very advanced lifters.',
-                '85% TM for most lifters, 90% for beginners.',
-              ],
-              options: [
+              key: 'daysPerWeek',
+              name: 'Days Per Week',
+              type: 'select',
+              value: 3,
+              values: [
                 {
-                  name: 'Supplemental TM Percentage',
-                  type: 'select',
-                  value: 30,
-                  values: [
-                    {
-                      display: '30%',
-                      value: 30,
-                    },
-                    {
-                      display: '40%',
-                      value: 40,
-                    },
-                    {
-                      display: '50%',
-                      value: 50,
-                    },
-                    {
-                      display: '60%',
-                      value: 60,
-                    },
-                  ],
+                  display: '3',
+                  value: 3,
                 },
                 {
-                  name: 'Days Per Week',
-                  type: 'select',
-                  value: 3,
-                  values: [
-                    {
-                      display: '3',
-                      value: 3,
-                    },
-                    {
-                      display: '4',
-                      value: 4,
-                    },
-                  ],
+                  display: '4',
+                  value: 4,
                 },
               ],
             },
             {
-              id: 2,
-              name: 'Original BBB',
-              description: [],
-              options: [],
+              key: 'repScheme',
+              name: 'Rep Scheme',
+              type: 'select',
+              value: '531',
+              values: [
+                {
+                  display: '5/3/1',
+                  value: '531',
+                },
+                {
+                  display: '3/5/1',
+                  value: '351',
+                },
+              ],
+            },
+            {
+              key: 'dailyLifts',
+              name: 'Lift Order',
+              type: 'select',
+              value: 0,
+              values: [
+                {
+                  display: 'Squat, Deadlift, Press, Bench',
+                  value: ['squat', 'deadlift', 'press', 'bench'],
+                },
+                {
+                  display: 'Squat, Bench, Deadlift, Press',
+                  value: ['squat', 'bench', 'deadlift', 'press'],
+                },
+              ],
+            },
+            {
+              key: 'advanced',
+              name: 'Advanced Intermediate?',
+              type: 'boolean',
+              value: false,
+              helpText:
+                'Advanced intermediate lifters need lower supplemental training max percentages.',
             },
           ],
-          selectedTemplateId: 1,
-        }),
-      1000
-    );
+        },
+        {
+          id: 2,
+          name: 'Original BBB',
+          description: [],
+          options: [],
+        },
+      ],
+      selectedTemplateId: 1,
+    });
   }
 
   handleTrainingMaxChange(event) {
@@ -160,9 +176,8 @@ class BeginCycle extends React.Component {
     this.setState({ selectedTemplateId: event.target.value });
   }
 
-  handleOptionChange(event) {
+  updateOptionValue(key, value) {
     const { selectedTemplateId } = this.state;
-    const { name, value } = event.target;
 
     this.setState(prevState => ({
       templates: prevState.templates.map(
@@ -171,20 +186,16 @@ class BeginCycle extends React.Component {
             ? {
                 ...template,
                 options: template.options.map(
-                  option =>
-                    option.name === name ? { ...option, value } : option
+                  option => (option.key === key ? { ...option, value } : option)
                 ),
               }
             : template
       ),
     }));
-
-    console.log(this.state.templates);
   }
 
   handleFormSubmission(event) {
     event.preventDefault();
-    console.log(event);
   }
 
   getSelectedTemplate() {
@@ -299,12 +310,14 @@ class BeginCycle extends React.Component {
                   selectedTemplate.options.map(o => {
                     if (o.type === 'select') {
                       return (
-                        <FormControl key={o.name}>
+                        <FormControl key={o.key}>
                           <InputLabel htmlFor={o.name}>{o.name}</InputLabel>
                           <Select
-                            value={o.value}
-                            onChange={this.handleOptionChange}
-                            inputProps={{ name: o.name }}
+                            value={o.value || o.values[0].value}
+                            onChange={e =>
+                              this.updateOptionValue(o.key, e.target.value)
+                            }
+                            inputProps={{ name: o.key }}
                           >
                             {o.values.map(v => (
                               <MenuItem key={v.value} value={v.value}>
@@ -313,6 +326,22 @@ class BeginCycle extends React.Component {
                             ))}
                           </Select>
                         </FormControl>
+                      );
+                    } else if (o.type === 'boolean') {
+                      return (
+                        <FormControlLabel
+                          key={o.key}
+                          control={
+                            <Switch
+                              checked={o.value}
+                              onChange={e =>
+                                this.updateOptionValue(o.key, e.target.checked)
+                              }
+                              value={o.value.toString()}
+                            />
+                          }
+                          label={o.name}
+                        />
                       );
                     } else {
                       return null;

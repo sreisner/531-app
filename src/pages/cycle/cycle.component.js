@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
 import CycleGenerator from './cycleGenerator.service';
+import queryString from 'query-string';
 
 const styles = theme => ({});
 
@@ -16,7 +17,9 @@ class Cycle extends React.Component {
   }
 
   componentDidMount() {
-    const { templateId, options, ...trainingMaxes } = this.props.location.state;
+    const { templateId, options, ...trainingMaxes } = queryString.parse(
+      this.props.location.search
+    );
 
     CycleGenerator.generateCycle(templateId, trainingMaxes, options).then(
       cycle =>
@@ -29,7 +32,7 @@ class Cycle extends React.Component {
 
   render() {
     if (this.state.cycle) {
-      console.log(this.state.cycle);
+      console.log(JSON.stringify(this.state.cycle, null, 2));
     }
 
     return (

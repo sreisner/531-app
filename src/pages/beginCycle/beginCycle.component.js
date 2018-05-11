@@ -18,6 +18,8 @@ import { FormControlLabel } from 'material-ui';
 import { Switch } from 'material-ui';
 import { Redirect } from 'react-router-dom';
 import { TemplatesService } from '../../services/api/templates/templates.service';
+import queryString from 'query-string';
+import base64 from 'base-64';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -156,20 +158,21 @@ class BeginCycle extends React.Component {
       } = this.state;
       const { squat, deadlift, press, bench } = trainingMaxes;
 
-      const state = {
+      const queryParams = {
         squat,
         deadlift,
         bench,
         press,
         templateId,
-        options,
+        options: base64.encode(JSON.stringify(options)),
       };
+
+      const queryParamsStr = queryString.stringify(queryParams);
 
       return (
         <Redirect
           to={{
-            pathname: `/cycle`,
-            state,
+            pathname: `/cycle?${queryParamsStr}`,
           }}
         />
       );

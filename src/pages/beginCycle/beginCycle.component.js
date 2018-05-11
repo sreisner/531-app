@@ -25,9 +25,6 @@ const styles = theme => ({
   form: theme.mixins.gutters({
     paddingTop: theme.spacing.unit * 2,
   }),
-  submitContainer: {
-    paddingTop: theme.spacing.unit * 2,
-  },
   submitButton: {
     [theme.breakpoints.only('xs')]: {
       width: '100%',

@@ -17,6 +17,7 @@ import { Button } from 'material-ui';
 import { FormControlLabel } from 'material-ui';
 import { Switch } from 'material-ui';
 import { Redirect } from 'react-router-dom';
+import { TemplatesService } from '../../services/api/templates/templates.service';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -79,87 +80,21 @@ class BeginCycle extends React.Component {
   }
 
   loadTemplates() {
-    const templates = [
-      {
-        id: 1,
-        name: 'Forever BBB',
-        description: [
-          'Always a Leader template.',
-          'Great for people loking to gain some muscle.',
-          'Strength can be gained in younger lifters.',
-          'Not a good option for athletes, true beginners and very advanced lifters.',
-          '85% TM for most lifters, 90% for beginners.',
-        ],
-        options: [
-          {
-            key: 'daysPerWeek',
-            displayText: 'Days Per Week',
-            type: 'select',
-            defaultValue: 3,
-            values: [
-              {
-                displayText: '3',
-                value: 3,
-              },
-              {
-                displayText: '4',
-                value: 4,
-              },
-            ],
-          },
-          {
-            key: 'repScheme',
-            displayText: 'Rep Scheme',
-            type: 'select',
-            defaultValue: '531',
-            values: [
-              {
-                displayText: '5/3/1',
-                value: '531',
-              },
-              {
-                displayText: '3/5/1',
-                value: '351',
-              },
-            ],
-          },
-          {
-            key: 'dailyLifts',
-            displayText: 'Lift Order',
-            type: 'select',
-            defaultValue: 'squat,deadlift,press,bench',
-            values: [
-              {
-                displayText: 'Squat, Deadlift, Press, Bench',
-                value: 'squat,deadlift,press,bench',
-              },
-              {
-                displayText: 'Squat, Bench, Deadlift, Press',
-                value: 'squat,bench,deadlift,press',
-              },
-            ],
-          },
-          {
-            key: 'advanced',
-            displayText: 'Advanced Intermediate?',
-            type: 'boolean',
-            defaultValue: false,
-            helpText:
-              'Advanced intermediate lifters need lower supplemental training max percentages.',
-          },
-        ],
-      },
-    ];
+    TemplatesService.getTemplates().then(templates =>
+      this.setState({
+        loadingTemplates: false,
+        templates,
+        selectedTemplateId: templates[0]._id,
+        options: this.getDefaultOptions(templates[0]),
+      })
+    );
+  }
 
-    this.setState({
-      loadingTemplates: false,
-      templates,
-      selectedTemplateId: templates[0].id,
-      options: templates[0].options.reduce(
-        (acc, curr) => ({ ...acc, [curr.key]: curr.defaultValue }),
-        {}
-      ),
-    });
+  getDefaultOptions(template) {
+    return template.options.reduce(
+      (acc, curr) => ({ ...acc, [curr.key]: curr.defaultValue }),
+      {}
+    );
   }
 
   handleTrainingMaxChange(event) {
@@ -174,7 +109,14 @@ class BeginCycle extends React.Component {
   }
 
   handleTemplateChange(event) {
-    this.setState({ selectedTemplateId: event.target.value, options: {} });
+    const selectedTemplateId = event.target.value;
+    const template = this.state.templates.find(
+      t => t._id === selectedTemplateId
+    );
+    this.setState({
+      selectedTemplateId,
+      options: this.getDefaultOptions(template),
+    });
   }
 
   updateOptionValue(key, value) {
@@ -196,7 +138,7 @@ class BeginCycle extends React.Component {
 
   getSelectedTemplate() {
     const { templates, selectedTemplateId } = this.state;
-    return templates.find(t => t.id === selectedTemplateId);
+    return templates.find(t => t._id === selectedTemplateId);
   }
 
   formIsValid() {
@@ -305,7 +247,7 @@ class BeginCycle extends React.Component {
                     disabled={loadingTemplates}
                   >
                     {templates.map(t => (
-                      <MenuItem key={t.id} value={t.id}>
+                      <MenuItem key={t._id} value={t._id}>
                         {t.name}
                       </MenuItem>
                     ))}

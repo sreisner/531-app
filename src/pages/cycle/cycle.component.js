@@ -10,15 +10,21 @@ class Cycle extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      loading: true,
+    };
   }
 
   componentDidMount() {
     const { templateId, options, ...trainingMaxes } = this.props.location.state;
 
-    this.setState({
-      cycle: CycleGenerator.generateCycle(templateId, trainingMaxes, options),
-    });
+    CycleGenerator.generateCycle(templateId, trainingMaxes, options).then(
+      cycle =>
+        this.setState({
+          loading: false,
+          cycle,
+        })
+    );
   }
 
   render() {

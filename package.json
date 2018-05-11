@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@devexpress/dx-react-core": "^1.1.2",
-    "@devexpress/dx-react-grid": "^1.1.2",
-    "@devexpress/dx-react-grid-material-ui": "^1.1.2",
+    "@devexpress/dx-react-core": "^1.2.0",
+    "@devexpress/dx-react-grid": "^1.2.0",
+    "@devexpress/dx-react-grid-material-ui": "^1.2.0",
     "@material-ui/icons": "^1.0.0-beta.43",
     "base-64": "^0.1.0",
-    "material-ui": "^1.0.0-beta.44",
+    "material-ui": "^1.0.0-beta.47",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-router-dom": "^4.2.2",
@@ -16,22 +16,12 @@
   },
   "devDependencies": {
     "eslint-plugin-prettier": "^2.6.0",
-    "eslint-config-prettier": "^2.9.0",
-    "prettier": "^1.12.1",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.1.0"
+    "prettier": "^1.12.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "eject": "react-scripts eject"
   }
 }

@@ -261,5 +261,3 @@ const generateCycle = (templateId, trainingMaxes, options) => {
 export default {
   generateCycle,
 };
-
-// http://localhost:3000/cycle?squat=315&deadlift=405&bench=225&press=135&templateId=1&options={%22daysPerWeek%22:3,%22repScheme%22:%22531%22,%22dailyLifts%22:[[%22squat%22],[%22deadlift%22],[%22press%22],[%22bench%22]],%22slightlyLessBoring%22:false,%22advanced%22:false}

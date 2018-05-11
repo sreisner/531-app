@@ -233,10 +233,9 @@ const templateConfigMap = {
 };
 
 const generateCycle = (templateId, trainingMaxes, options) => {
-  const normalizedOptions = JSON.parse(JSON.stringify(options));
   const config = templateConfigMap[templateId]({
-    ...normalizedOptions,
-    dailyLifts: normalizedOptions.dailyLifts.split(','),
+    ...options,
+    dailyLifts: options.dailyLifts.split(','),
   });
 
   const {

@@ -24,13 +24,11 @@ const styles = theme => ({
   }),
   submitContainer: {
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
   },
   submitButton: {
     [theme.breakpoints.only('xs')]: {
       width: '100%',
     },
-    float: 'right',
   },
 });
 
@@ -215,17 +213,6 @@ class BeginCycle extends React.Component {
       const { squat, deadlift, press, bench } = trainingMaxes;
       const selectedTemplate = this.getSelectedTemplate();
 
-      console.log(
-        JSON.stringify(
-          selectedTemplate.options.reduce(
-            (acc, option) => ({
-              ...acc,
-              [option.key]: option.value,
-            }),
-            {}
-          )
-        )
-      );
       const state = {
         squat,
         deadlift,
@@ -270,8 +257,8 @@ class BeginCycle extends React.Component {
           noValidate
           onSubmit={this.handleFormSubmission}
         >
-          <Grid container>
-            <Grid item xs={12} md={4}>
+          <Grid container justify="center" spacing={16}>
+            <Grid item xs={12} sm={6} md={3}>
               <TitleCard title="Training Maxes" loading={loadingTrainingMaxes}>
                 <TextField
                   label="Squat TM"
@@ -312,7 +299,7 @@ class BeginCycle extends React.Component {
               </TitleCard>
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <TitleCard title="Template" loading={loadingTemplates}>
                 <FormControl>
                   <InputLabel />
@@ -337,7 +324,7 @@ class BeginCycle extends React.Component {
               </TitleCard>
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <TitleCard title="Options">
                 {!selectedTemplate ? (
                   <Typography variant="caption">
@@ -391,13 +378,7 @@ class BeginCycle extends React.Component {
                 )}
               </TitleCard>
             </Grid>
-          </Grid>
-          <Grid
-            container
-            className={classes.submitContainer}
-            justify="flex-end"
-          >
-            <Grid item xs={12}>
+            <Grid item xs={12} align="center">
               <Button
                 className={classes.submitButton}
                 variant="raised"

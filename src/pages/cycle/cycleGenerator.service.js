@@ -23,7 +23,14 @@ const generateWeeklySessions = (
 
       return {
         sets: week.map(day => {
-          const lift = dailyLifts[day.liftIndex];
+          // TODO:  Turn the liftOrder argument to this function
+          // into an array of arrays.  Each element in the array
+          // of arrays represents the lift options for a single
+          // day and the liftIndex corresponds to one of those
+          // lifts.  The challenge right now is moving the chosen
+          // array of arrays to this page via query params.
+          // const lift = dailyLifts[day.liftIndex];
+          const lift = dailyLifts;
 
           return {
             lift,
@@ -226,7 +233,12 @@ const templateConfigMap = {
 };
 
 const generateCycle = (templateId, trainingMaxes, options) => {
-  const config = templateConfigMap[templateId](options);
+  const normalizedOptions = JSON.parse(JSON.stringify(options));
+  const config = templateConfigMap[templateId]({
+    ...normalizedOptions,
+    dailyLifts: normalizedOptions.dailyLifts.split(','),
+  });
+
   const {
     jumpsThrows,
     weeklyRepSchemes,

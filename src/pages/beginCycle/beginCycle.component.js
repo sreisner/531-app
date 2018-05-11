@@ -16,6 +16,7 @@ import { TitleCard } from './components/titleCard.component';
 import { Button } from 'material-ui';
 import { FormControlLabel } from 'material-ui';
 import { Switch } from 'material-ui';
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -49,6 +50,7 @@ class BeginCycle extends React.Component {
       loadingTemplates: true,
       templates: [],
       selectedTemplateId: 0,
+      redirectToCyclePage: false,
     };
 
     this.loadTrainingMaxes = this.loadTrainingMaxes.bind(this);
@@ -128,15 +130,15 @@ class BeginCycle extends React.Component {
               key: 'dailyLifts',
               name: 'Lift Order',
               type: 'select',
-              value: 0,
+              value: 'squat,deadlift,press,bench',
               values: [
                 {
                   display: 'Squat, Deadlift, Press, Bench',
-                  value: ['squat', 'deadlift', 'press', 'bench'],
+                  value: 'squat,deadlift,press,bench',
                 },
                 {
                   display: 'Squat, Bench, Deadlift, Press',
-                  value: ['squat', 'bench', 'deadlift', 'press'],
+                  value: 'squat,bench,deadlift,press',
                 },
               ],
             },
@@ -190,6 +192,10 @@ class BeginCycle extends React.Component {
 
   handleFormSubmission(event) {
     event.preventDefault();
+
+    this.setState({
+      redirectToCyclePage: true,
+    });
   }
 
   getSelectedTemplate() {
@@ -204,6 +210,47 @@ class BeginCycle extends React.Component {
   }
 
   render() {
+    if (this.state.redirectToCyclePage) {
+      const { trainingMaxes, selectedTemplateId: templateId } = this.state;
+      const { squat, deadlift, press, bench } = trainingMaxes;
+      const selectedTemplate = this.getSelectedTemplate();
+
+      console.log(
+        JSON.stringify(
+          selectedTemplate.options.reduce(
+            (acc, option) => ({
+              ...acc,
+              [option.key]: option.value,
+            }),
+            {}
+          )
+        )
+      );
+      const state = {
+        squat,
+        deadlift,
+        bench,
+        press,
+        templateId,
+        ...selectedTemplate.options.reduce(
+          (acc, option) => ({
+            ...acc,
+            [option.key]: option.value,
+          }),
+          {}
+        ),
+      };
+
+      return (
+        <Redirect
+          to={{
+            pathname: `/cycle`,
+            state,
+          }}
+        />
+      );
+    }
+
     const { classes } = this.props;
     const {
       selectedTemplateId,
@@ -307,7 +354,7 @@ class BeginCycle extends React.Component {
                         <FormControl key={o.key}>
                           <InputLabel htmlFor={o.name}>{o.name}</InputLabel>
                           <Select
-                            value={o.value || o.values[0].value}
+                            value={o.value}
                             onChange={e =>
                               this.updateOptionValue(o.key, e.target.value)
                             }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import { withStyles } from 'material-ui/styles';
 import { AppBar531 } from '../../core/appBar531/appBar531.component';
 import CycleGenerator from './cycleGenerator.service';
@@ -8,26 +7,36 @@ import CycleGenerator from './cycleGenerator.service';
 const styles = theme => ({});
 
 class Cycle extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cycle: {},
+    };
+  }
+
   componentDidMount() {
-    const queryParams = queryString.parse(this.props.location.search);
-    const templateId = queryParams.templateId;
+    const {
+      templateId,
+      squat,
+      deadlift,
+      bench,
+      press,
+      ...options
+    } = this.props.location.state;
 
     const trainingMaxes = {
-      squat: queryParams.squat,
-      deadlift: queryParams.deadlift,
-      bench: queryParams.bench,
-      press: queryParams.press,
+      squat,
+      deadlift,
+      bench,
+      press,
     };
 
-    const options = JSON.parse(queryParams.options);
+    this.setState({
+      cycle: CycleGenerator.generateCycle(templateId, trainingMaxes, options),
+    });
 
-    console.log(
-      JSON.stringify(
-        CycleGenerator.generateCycle(templateId, trainingMaxes, options),
-        null,
-        4
-      )
-    );
+    console.log(this.state.cycle);
   }
 
   render() {

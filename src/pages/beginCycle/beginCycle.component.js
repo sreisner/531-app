@@ -150,12 +150,6 @@ class BeginCycle extends React.Component {
             },
           ],
         },
-        {
-          id: 2,
-          name: 'Original BBB',
-          description: [],
-          options: [],
-        },
       ],
       selectedTemplateId: 1,
     });

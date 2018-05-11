@@ -10,36 +10,22 @@ class Cycle extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      cycle: {},
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    const {
-      templateId,
-      squat,
-      deadlift,
-      bench,
-      press,
-      ...options
-    } = this.props.location.state;
-
-    const trainingMaxes = {
-      squat,
-      deadlift,
-      bench,
-      press,
-    };
+    const { templateId, options, ...trainingMaxes } = this.props.location.state;
 
     this.setState({
       cycle: CycleGenerator.generateCycle(templateId, trainingMaxes, options),
     });
-
-    console.log(this.state.cycle);
   }
 
   render() {
+    if (this.state.cycle) {
+      console.log(this.state.cycle);
+    }
+
     return (
       <div>
         <AppBar531 title="Cycle" />

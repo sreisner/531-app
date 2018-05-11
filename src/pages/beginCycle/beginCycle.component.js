@@ -49,6 +49,7 @@ class BeginCycle extends React.Component {
       templates: [],
       selectedTemplateId: 0,
       redirectToCyclePage: false,
+      options: {},
     };
 
     this.loadTrainingMaxes = this.loadTrainingMaxes.bind(this);
@@ -78,80 +79,86 @@ class BeginCycle extends React.Component {
   }
 
   loadTemplates() {
+    const templates = [
+      {
+        id: 1,
+        name: 'Forever BBB',
+        description: [
+          'Always a Leader template.',
+          'Great for people loking to gain some muscle.',
+          'Strength can be gained in younger lifters.',
+          'Not a good option for athletes, true beginners and very advanced lifters.',
+          '85% TM for most lifters, 90% for beginners.',
+        ],
+        options: [
+          {
+            key: 'daysPerWeek',
+            displayText: 'Days Per Week',
+            type: 'select',
+            defaultValue: 3,
+            values: [
+              {
+                displayText: '3',
+                value: 3,
+              },
+              {
+                displayText: '4',
+                value: 4,
+              },
+            ],
+          },
+          {
+            key: 'repScheme',
+            displayText: 'Rep Scheme',
+            type: 'select',
+            defaultValue: '531',
+            values: [
+              {
+                displayText: '5/3/1',
+                value: '531',
+              },
+              {
+                displayText: '3/5/1',
+                value: '351',
+              },
+            ],
+          },
+          {
+            key: 'dailyLifts',
+            displayText: 'Lift Order',
+            type: 'select',
+            defaultValue: 'squat,deadlift,press,bench',
+            values: [
+              {
+                displayText: 'Squat, Deadlift, Press, Bench',
+                value: 'squat,deadlift,press,bench',
+              },
+              {
+                displayText: 'Squat, Bench, Deadlift, Press',
+                value: 'squat,bench,deadlift,press',
+              },
+            ],
+          },
+          {
+            key: 'advanced',
+            displayText: 'Advanced Intermediate?',
+            type: 'boolean',
+            defaultValue: false,
+            helpText:
+              'Advanced intermediate lifters need lower supplemental training max percentages.',
+          },
+        ],
+      },
+    ];
+
     this.setState({
       loadingTemplates: false,
-      templates: [
-        {
-          id: 1,
-          name: 'Forever BBB',
-          description: [
-            'Always a Leader template.',
-            'Great for people loking to gain some muscle.',
-            'Strength can be gained in younger lifters.',
-            'Not a good option for athletes, true beginners and very advanced lifters.',
-            '85% TM for most lifters, 90% for beginners.',
-          ],
-          options: [
-            {
-              key: 'daysPerWeek',
-              name: 'Days Per Week',
-              type: 'select',
-              value: 3,
-              values: [
-                {
-                  display: '3',
-                  value: 3,
-                },
-                {
-                  display: '4',
-                  value: 4,
-                },
-              ],
-            },
-            {
-              key: 'repScheme',
-              name: 'Rep Scheme',
-              type: 'select',
-              value: '531',
-              values: [
-                {
-                  display: '5/3/1',
-                  value: '531',
-                },
-                {
-                  display: '3/5/1',
-                  value: '351',
-                },
-              ],
-            },
-            {
-              key: 'dailyLifts',
-              name: 'Lift Order',
-              type: 'select',
-              value: 'squat,deadlift,press,bench',
-              values: [
-                {
-                  display: 'Squat, Deadlift, Press, Bench',
-                  value: 'squat,deadlift,press,bench',
-                },
-                {
-                  display: 'Squat, Bench, Deadlift, Press',
-                  value: 'squat,bench,deadlift,press',
-                },
-              ],
-            },
-            {
-              key: 'advanced',
-              name: 'Advanced Intermediate?',
-              type: 'boolean',
-              value: false,
-              helpText:
-                'Advanced intermediate lifters need lower supplemental training max percentages.',
-            },
-          ],
-        },
-      ],
-      selectedTemplateId: 1,
+      templates,
+      selectedTemplateId: templates[0].id,
+      options: templates[0].options.reduce(
+        (acc, curr) => ({ ...acc, [curr.key]: curr.defaultValue }),
+        {}
+      ),
     });
   }
 
@@ -167,24 +174,15 @@ class BeginCycle extends React.Component {
   }
 
   handleTemplateChange(event) {
-    this.setState({ selectedTemplateId: event.target.value });
+    this.setState({ selectedTemplateId: event.target.value, options: {} });
   }
 
   updateOptionValue(key, value) {
-    const { selectedTemplateId } = this.state;
-
     this.setState(prevState => ({
-      templates: prevState.templates.map(
-        template =>
-          template.id === selectedTemplateId
-            ? {
-                ...template,
-                options: template.options.map(
-                  option => (option.key === key ? { ...option, value } : option)
-                ),
-              }
-            : template
-      ),
+      options: {
+        ...prevState.options,
+        [key]: value,
+      },
     }));
   }
 
@@ -209,9 +207,12 @@ class BeginCycle extends React.Component {
 
   render() {
     if (this.state.redirectToCyclePage) {
-      const { trainingMaxes, selectedTemplateId: templateId } = this.state;
+      const {
+        trainingMaxes,
+        selectedTemplateId: templateId,
+        options,
+      } = this.state;
       const { squat, deadlift, press, bench } = trainingMaxes;
-      const selectedTemplate = this.getSelectedTemplate();
 
       const state = {
         squat,
@@ -219,13 +220,7 @@ class BeginCycle extends React.Component {
         bench,
         press,
         templateId,
-        ...selectedTemplate.options.reduce(
-          (acc, option) => ({
-            ...acc,
-            [option.key]: option.value,
-          }),
-          {}
-        ),
+        options,
       };
 
       return (
@@ -244,6 +239,7 @@ class BeginCycle extends React.Component {
       loadingTemplates,
       loadingTrainingMaxes,
       templates,
+      options,
     } = this.state;
     const { squat, deadlift, bench, press } = this.state.trainingMaxes;
 
@@ -339,9 +335,11 @@ class BeginCycle extends React.Component {
                     if (o.type === 'select') {
                       return (
                         <FormControl key={o.key}>
-                          <InputLabel htmlFor={o.name}>{o.name}</InputLabel>
+                          <InputLabel htmlFor={o.key}>
+                            {o.displayText}
+                          </InputLabel>
                           <Select
-                            value={o.value}
+                            value={options[o.key]}
                             onChange={e =>
                               this.updateOptionValue(o.key, e.target.value)
                             }
@@ -349,7 +347,7 @@ class BeginCycle extends React.Component {
                           >
                             {o.values.map(v => (
                               <MenuItem key={v.value} value={v.value}>
-                                {v.display}
+                                {v.displayText}
                               </MenuItem>
                             ))}
                           </Select>
@@ -361,14 +359,14 @@ class BeginCycle extends React.Component {
                           key={o.key}
                           control={
                             <Switch
-                              checked={o.value}
+                              checked={options[o.key]}
                               onChange={e =>
                                 this.updateOptionValue(o.key, e.target.checked)
                               }
-                              value={o.value.toString()}
+                              value={options[o.key].toString()}
                             />
                           }
-                          label={o.name}
+                          label={o.displayText}
                         />
                       );
                     } else {

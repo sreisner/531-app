@@ -1,24 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { Paper, Typography, Grid, CircularProgress } from 'material-ui';
+import Card, { CardContent } from 'material-ui/Card';
+import { Typography, Grid, CircularProgress } from 'material-ui';
 
 const styles = theme => ({
-  paper: {
-    padding: theme.spacing.unit * 4,
+  card: {
     height: '100%',
-  },
-  inputContainer: {
-    [theme.breakpoints.only('xs')]: {
-      width: '100%',
-    },
-    [theme.breakpoints.only('sm')]: {
-      width: '61%',
-    },
-    [theme.breakpoints.only('md')]: {
-      width: '100%',
-    },
-    width: '61%',
   },
   loading: {
     display: 'flex',
@@ -28,14 +16,12 @@ const styles = theme => ({
   },
 });
 
-class TitleCard extends React.Component {
-  state = {};
+let TitleCard = props => {
+  const { classes, children, title, loading } = props;
 
-  render() {
-    const { classes, children, title, loading } = this.props;
-
-    return (
-      <Paper className={classes.paper} square={true} elevation={1}>
+  return (
+    <Card className={classes.card}>
+      <CardContent>
         {loading ? (
           <div className={classes.loading}>
             <Typography variant="title">Loading...</Typography>
@@ -55,10 +41,10 @@ class TitleCard extends React.Component {
             </Grid>
           </div>
         )}
-      </Paper>
-    );
-  }
-}
+      </CardContent>
+    </Card>
+  );
+};
 
 TitleCard.propTypes = {
   classes: PropTypes.object.isRequired,

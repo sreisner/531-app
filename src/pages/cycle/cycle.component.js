@@ -12,7 +12,11 @@ import { CardContent, CardHeader } from 'material-ui';
 const styles = theme => ({
   grid: theme.mixins.gutters({
     paddingTop: theme.spacing.unit * 2,
+    // TODO:  The following two rules override Material UIs CSS, which
+    // means I'm probably not doing something right.  Try to figure out
+    // what that might be
     width: '100%',
+    margin: 0,
   }),
   lift: {
     fontWeight: 'bold',

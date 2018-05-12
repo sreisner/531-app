@@ -7,7 +7,6 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
-import AdjustIcon from '@material-ui/icons/Adjust';
 import {
   Drawer,
   List,
@@ -79,14 +78,6 @@ class AppBar531 extends React.Component {
                       <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
-                  </ListItem>
-                </Link>
-                <Link to="/begin-cycle">
-                  <ListItem button>
-                    <ListItemIcon>
-                      <AdjustIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Begin Cycle" />
                   </ListItem>
                 </Link>
               </List>

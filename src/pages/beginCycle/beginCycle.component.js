@@ -47,8 +47,7 @@ class BeginCycle extends React.Component {
 
       loadingTemplates: true,
       templates: [],
-      selectedTemplateId: 0,
-      redirectToCyclePage: false,
+      templateId: 0,
       options: {},
     };
 
@@ -83,7 +82,7 @@ class BeginCycle extends React.Component {
       this.setState({
         loadingTemplates: false,
         templates,
-        selectedTemplateId: templates[0]._id,
+        templateId: templates[0]._id,
         options: this.getDefaultOptions(templates[0]),
       })
     );
@@ -108,12 +107,10 @@ class BeginCycle extends React.Component {
   }
 
   handleTemplateChange(event) {
-    const selectedTemplateId = event.target.value;
-    const template = this.state.templates.find(
-      t => t._id === selectedTemplateId
-    );
+    const templateId = event.target.value;
+    const template = this.state.templates.find(t => t._id === templateId);
     this.setState({
-      selectedTemplateId,
+      templateId,
       options: this.getDefaultOptions(template),
     });
   }
@@ -130,49 +127,34 @@ class BeginCycle extends React.Component {
   handleFormSubmission(event) {
     event.preventDefault();
 
-    this.setState({
-      redirectToCyclePage: true,
-    });
+    const { trainingMaxes, templateId, options } = this.state;
+
+    const queryParams = {
+      ...trainingMaxes,
+      templateId: templateId,
+      options: base64.encode(JSON.stringify(options)),
+    };
+
+    const queryParamsStr = queryString.stringify(queryParams);
+
+    this.props.history.push(`/cycle?${queryParamsStr}`);
   }
 
   getSelectedTemplate() {
-    const { templates, selectedTemplateId } = this.state;
-    return templates.find(t => t._id === selectedTemplateId);
+    const { templates, templateId } = this.state;
+    return templates.find(t => t._id === templateId);
   }
 
   formIsValid() {
-    const { selectedTemplateId } = this.state;
+    const { templateId } = this.state;
     const { squat, deadlift, bench, press } = this.state.trainingMaxes;
-    return squat && deadlift && bench && press && selectedTemplateId;
+    return squat && deadlift && bench && press && templateId;
   }
 
   render() {
-    if (this.state.redirectToCyclePage) {
-      const {
-        trainingMaxes,
-        selectedTemplateId: templateId,
-        options,
-      } = this.state;
-      const { squat, deadlift, press, bench } = trainingMaxes;
-
-      const queryParams = {
-        squat,
-        deadlift,
-        bench,
-        press,
-        templateId,
-        options: base64.encode(JSON.stringify(options)),
-      };
-
-      const queryParamsStr = queryString.stringify(queryParams);
-
-      this.props.history.push(`/cycle?${queryParamsStr}`);
-      return null;
-    }
-
     const { classes } = this.props;
     const {
-      selectedTemplateId,
+      templateId,
       loadingTemplates,
       loadingTrainingMaxes,
       templates,
@@ -236,7 +218,7 @@ class BeginCycle extends React.Component {
                 <FormControl>
                   <InputLabel />
                   <Select
-                    value={selectedTemplateId}
+                    value={templateId}
                     onChange={this.handleTemplateChange}
                     disabled={loadingTemplates}
                   >

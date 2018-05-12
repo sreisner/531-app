@@ -15,8 +15,9 @@ import { TitleCard } from './components/titleCard.component';
 import { Button } from 'material-ui';
 import { FormControlLabel } from 'material-ui';
 import { Switch } from 'material-ui';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, withRouter } from 'react-router-dom';
 import { TemplatesService } from '../../services/api/templates/templates.service';
+import { Cycle } from '../cycle/cycle.component';
 import queryString from 'query-string';
 import base64 from 'base-64';
 
@@ -66,15 +67,15 @@ class BeginCycle extends React.Component {
   }
 
   loadTrainingMaxes() {
-    UsersService.getTrainingMaxes('current').then(trainingMaxes =>
-      this.setState(prevState => ({
-        loadingTrainingMaxes: false,
-        trainingMaxes: {
-          ...prevState.trainingMaxes,
-          ...trainingMaxes,
-        },
-      }))
-    );
+    this.setState({
+      loadingTrainingMaxes: false,
+      trainingMaxes: {
+        press: 135,
+        bench: 225,
+        squat: 315,
+        deadlift: 405,
+      },
+    });
   }
 
   loadTemplates() {
@@ -165,13 +166,8 @@ class BeginCycle extends React.Component {
 
       const queryParamsStr = queryString.stringify(queryParams);
 
-      return (
-        <Redirect
-          to={{
-            pathname: `/cycle?${queryParamsStr}`,
-          }}
-        />
-      );
+      this.props.history.push(`/cycle?${queryParamsStr}`);
+      return null;
     }
 
     const { classes } = this.props;
@@ -187,145 +183,150 @@ class BeginCycle extends React.Component {
     const selectedTemplate = this.getSelectedTemplate();
 
     return (
-      <form
-        className={classes.form}
-        noValidate
-        onSubmit={this.handleFormSubmission}
-      >
-        <Grid container justify="center" spacing={16}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TitleCard title="Training Maxes" loading={loadingTrainingMaxes}>
-              <TextField
-                label="Squat TM"
-                value={squat}
-                name="squat"
-                type="number"
-                onChange={this.handleTrainingMaxChange}
-                required
-                error={!squat}
-              />
-              <TextField
-                label="Deadlift TM"
-                value={deadlift}
-                name="deadlift"
-                type="number"
-                onChange={this.handleTrainingMaxChange}
-                required
-                error={!deadlift}
-              />
-              <TextField
-                label="Bench Press TM"
-                value={bench}
-                name="bench"
-                type="number"
-                onChange={this.handleTrainingMaxChange}
-                required
-                error={!bench}
-              />
-              <TextField
-                label="Overhead Press TM"
-                value={press}
-                name="press"
-                type="number"
-                onChange={this.handleTrainingMaxChange}
-                required
-                error={!press}
-              />
-            </TitleCard>
-          </Grid>
+      <div>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={this.handleFormSubmission}
+        >
+          <Grid container justify="center" spacing={16}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TitleCard title="Training Maxes" loading={loadingTrainingMaxes}>
+                <TextField
+                  label="Squat TM"
+                  value={squat}
+                  name="squat"
+                  type="number"
+                  onChange={this.handleTrainingMaxChange}
+                  required
+                  error={!squat}
+                />
+                <TextField
+                  label="Deadlift TM"
+                  value={deadlift}
+                  name="deadlift"
+                  type="number"
+                  onChange={this.handleTrainingMaxChange}
+                  required
+                  error={!deadlift}
+                />
+                <TextField
+                  label="Bench Press TM"
+                  value={bench}
+                  name="bench"
+                  type="number"
+                  onChange={this.handleTrainingMaxChange}
+                  required
+                  error={!bench}
+                />
+                <TextField
+                  label="Overhead Press TM"
+                  value={press}
+                  name="press"
+                  type="number"
+                  onChange={this.handleTrainingMaxChange}
+                  required
+                  error={!press}
+                />
+              </TitleCard>
+            </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <TitleCard title="Template" loading={loadingTemplates}>
-              <FormControl>
-                <InputLabel />
-                <Select
-                  value={selectedTemplateId}
-                  onChange={this.handleTemplateChange}
-                  disabled={loadingTemplates}
-                >
-                  {templates.map(t => (
-                    <MenuItem key={t._id} value={t._id}>
-                      {t.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <ul>
-                {selectedTemplate &&
-                  selectedTemplate.description.map((d, i) => (
-                    <li key={i}>{d}</li>
-                  ))}
-              </ul>
-            </TitleCard>
-          </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <TitleCard title="Template" loading={loadingTemplates}>
+                <FormControl>
+                  <InputLabel />
+                  <Select
+                    value={selectedTemplateId}
+                    onChange={this.handleTemplateChange}
+                    disabled={loadingTemplates}
+                  >
+                    {templates.map(t => (
+                      <MenuItem key={t._id} value={t._id}>
+                        {t.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <ul>
+                  {selectedTemplate &&
+                    selectedTemplate.description.map((d, i) => (
+                      <li key={i}>{d}</li>
+                    ))}
+                </ul>
+              </TitleCard>
+            </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <TitleCard title="Options">
-              {!selectedTemplate ? (
-                <Typography variant="caption">
-                  You must select a template to customize options.
-                </Typography>
-              ) : selectedTemplate.options.length === 0 ? (
-                <Typography variant="caption">
-                  There are no options available for this template.
-                </Typography>
-              ) : (
-                selectedTemplate.options.map(o => {
-                  if (o.type === 'select') {
-                    return (
-                      <FormControl key={o.key}>
-                        <InputLabel htmlFor={o.key}>{o.displayText}</InputLabel>
-                        <Select
-                          value={options[o.key]}
-                          onChange={e =>
-                            this.updateOptionValue(o.key, e.target.value)
-                          }
-                          inputProps={{ name: o.key }}
-                        >
-                          {o.values.map(v => (
-                            <MenuItem key={v.value} value={v.value}>
-                              {v.displayText}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    );
-                  } else if (o.type === 'boolean') {
-                    return (
-                      <FormControlLabel
-                        key={o.key}
-                        control={
-                          <Switch
-                            checked={options[o.key]}
+            <Grid item xs={12} sm={6} md={3}>
+              <TitleCard title="Options">
+                {!selectedTemplate ? (
+                  <Typography variant="caption">
+                    You must select a template to customize options.
+                  </Typography>
+                ) : selectedTemplate.options.length === 0 ? (
+                  <Typography variant="caption">
+                    There are no options available for this template.
+                  </Typography>
+                ) : (
+                  selectedTemplate.options.map(o => {
+                    if (o.type === 'select') {
+                      return (
+                        <FormControl key={o.key}>
+                          <InputLabel htmlFor={o.key}>
+                            {o.displayText}
+                          </InputLabel>
+                          <Select
+                            value={options[o.key]}
                             onChange={e =>
-                              this.updateOptionValue(o.key, e.target.checked)
+                              this.updateOptionValue(o.key, e.target.value)
                             }
-                            value={options[o.key].toString()}
-                          />
-                        }
-                        label={o.displayText}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                })
-              )}
-            </TitleCard>
+                            inputProps={{ name: o.key }}
+                          >
+                            {o.values.map(v => (
+                              <MenuItem key={v.value} value={v.value}>
+                                {v.displayText}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      );
+                    } else if (o.type === 'boolean') {
+                      return (
+                        <FormControlLabel
+                          key={o.key}
+                          control={
+                            <Switch
+                              checked={options[o.key]}
+                              onChange={e =>
+                                this.updateOptionValue(o.key, e.target.checked)
+                              }
+                              value={options[o.key].toString()}
+                            />
+                          }
+                          label={o.displayText}
+                        />
+                      );
+                    } else {
+                      return null;
+                    }
+                  })
+                )}
+              </TitleCard>
+            </Grid>
+            <Grid item xs={12} align="center">
+              <Button
+                className={classes.submitButton}
+                variant="raised"
+                color="primary"
+                type="submit"
+                disabled={!this.formIsValid()}
+              >
+                Generate
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} align="center">
-            <Button
-              className={classes.submitButton}
-              variant="raised"
-              color="primary"
-              type="submit"
-              disabled={!this.formIsValid()}
-            >
-              Generate
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+        </form>
+        <Route exact path="/cycle" component={Cycle} />
+      </div>
     );
   }
 }

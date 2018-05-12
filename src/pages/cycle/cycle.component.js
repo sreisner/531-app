@@ -61,69 +61,64 @@ class Cycle extends React.Component {
     const { classes } = this.props;
     const { cycle } = this.state;
 
-    let cycleUI = null;
-    if (cycle) {
-      const { push, pull, abs } = cycle.assistance;
-      cycleUI = cycle.weeklySessions.map((week, i) => (
-        <Grid
-          key={i}
-          container
-          className={classes.grid}
-          justify="center"
-          spacing={16}
-        >
-          {week.sessions.map((session, j) => (
-            <Grid key={j} item className={classes.cardContainer}>
-              <Card className={classes.card}>
-                <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
-                <CardContent>
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Warmup/Mobility
-                  </Typography>
-                  <Divider light={true} />
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Jumps/Throws ({cycle.jumpsThrows})
-                  </Typography>
-                  <Divider light={true} />
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Lifts
-                  </Typography>
-                  {session.sets.map((set, k) => (
-                    <Typography key={k} variant="body1">
-                      <span className={classes.lift}>{set.lift}</span>:{' '}
-                      {set.sets}x{set.reps}@{set.weight}lbs
-                    </Typography>
-                  ))}
-                  <Divider light={true} />
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Assistance
-                  </Typography>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Push</span>: {push.minReps} -{' '}
-                    {push.maxReps}
-                  </Typography>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Pull</span>: {pull.minReps} -{' '}
-                    {pull.maxReps}
-                  </Typography>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Abs/Single Leg</span>:{' '}
-                    {abs.minReps} - {abs.maxReps}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ));
+    if (!cycle) {
+      return null;
     }
 
-    return (
-      <div>
-        <AppBar531 title="Cycle" />
-        {cycleUI}
-      </div>
-    );
+    const { push, pull, abs } = cycle.assistance;
+    return cycle.weeklySessions.map((week, i) => (
+      <Grid
+        key={i}
+        container
+        className={classes.grid}
+        justify="center"
+        spacing={16}
+      >
+        {week.sessions.map((session, j) => (
+          <Grid key={j} item className={classes.cardContainer}>
+            <Card className={classes.card}>
+              <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
+              <CardContent>
+                <Typography variant="subheading" gutterBottom={true}>
+                  Warmup/Mobility
+                </Typography>
+                <Divider light={true} />
+                <Typography variant="subheading" gutterBottom={true}>
+                  Jumps/Throws ({cycle.jumpsThrows})
+                </Typography>
+                <Divider light={true} />
+                <Typography variant="subheading" gutterBottom={true}>
+                  Lifts
+                </Typography>
+                {session.sets.map((set, k) => (
+                  <Typography key={k} variant="body1">
+                    <span className={classes.lift}>{set.lift}</span>: {set.sets}x{
+                      set.reps
+                    }@{set.weight}lbs
+                  </Typography>
+                ))}
+                <Divider light={true} />
+                <Typography variant="subheading" gutterBottom={true}>
+                  Assistance
+                </Typography>
+                <Typography variant="body1">
+                  <span className={classes.bold}>Push</span>: {push.minReps} -{' '}
+                  {push.maxReps}
+                </Typography>
+                <Typography variant="body1">
+                  <span className={classes.bold}>Pull</span>: {pull.minReps} -{' '}
+                  {pull.maxReps}
+                </Typography>
+                <Typography variant="body1">
+                  <span className={classes.bold}>Abs/Single Leg</span>:{' '}
+                  {abs.minReps} - {abs.maxReps}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    ));
   }
 }
 

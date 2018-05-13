@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { Typography, Divider } from 'material-ui';
+import { Typography, Divider, CardActions } from 'material-ui';
 import CycleGenerator from './cycleGenerator.service';
 import queryString from 'query-string';
 import Card from 'material-ui/Card';
 import { Grid } from 'material-ui';
 import { CardContent, CardHeader } from 'material-ui';
+import { Button } from 'material-ui';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -21,15 +22,17 @@ const styles = theme => ({
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },
-  cardContainer: {
-    // flexGrow: 1,
-    // maxWidth: 400,
-  },
   card: {
     width: '100%',
   },
   bold: {
     fontWeight: 'bold',
+  },
+  startButton: {
+    flexGrow: 1,
+  },
+  cardParentList: {
+    paddingLeft: 0,
   },
 });
 
@@ -84,42 +87,55 @@ class Cycle extends React.Component {
           >
             <Card className={classes.card}>
               <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
+              <Divider />
               <CardContent>
-                <Typography variant="subheading" gutterBottom={true}>
-                  Warmup/Mobility
-                </Typography>
-                <Divider light={true} />
-                <Typography variant="subheading" gutterBottom={true}>
-                  Jumps/Throws ({cycle.jumpsThrows})
-                </Typography>
-                <Divider light={true} />
-                <Typography variant="subheading" gutterBottom={true}>
-                  Lifts
-                </Typography>
-                {session.sets.map((set, k) => (
-                  <Typography key={k} variant="body1">
-                    <span className={classes.lift}>{set.lift}</span>: {set.sets}x{
-                      set.reps
-                    }@{set.weight}lbs
+                <ul className={classes.cardParentList}>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Warmup/Mobility
                   </Typography>
-                ))}
-                <Divider light={true} />
-                <Typography variant="subheading" gutterBottom={true}>
-                  Assistance
-                </Typography>
-                <Typography variant="body1">
-                  <span className={classes.bold}>Push</span>: {push.minReps} -{' '}
-                  {push.maxReps}
-                </Typography>
-                <Typography variant="body1">
-                  <span className={classes.bold}>Pull</span>: {pull.minReps} -{' '}
-                  {pull.maxReps}
-                </Typography>
-                <Typography variant="body1">
-                  <span className={classes.bold}>Abs/Single Leg</span>:{' '}
-                  {abs.minReps} - {abs.maxReps}
-                </Typography>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Jumps/Throws ({cycle.jumpsThrows})
+                  </Typography>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Lifts
+                  </Typography>
+                  <ul>
+                    {session.sets.map((set, k) => (
+                      <Typography key={k} variant="body1">
+                        <span className={classes.lift}>{set.lift}</span>:{' '}
+                        {set.sets}x{set.reps}@{set.weight}lbs
+                      </Typography>
+                    ))}
+                  </ul>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Assistance
+                  </Typography>
+                  <ul>
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Push</span>: {push.minReps}{' '}
+                      - {push.maxReps}
+                    </Typography>
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Pull</span>: {pull.minReps}{' '}
+                      - {pull.maxReps}
+                    </Typography>
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Abs/Single Leg</span>:{' '}
+                      {abs.minReps} - {abs.maxReps}
+                    </Typography>
+                  </ul>
+                </ul>
               </CardContent>
+              <Divider />
+              <CardActions>
+                <Button
+                  variant="raised"
+                  color="secondary"
+                  className={classes.startButton}
+                >
+                  Start Session
+                </Button>
+              </CardActions>
             </Card>
           </Grid>
         ))}

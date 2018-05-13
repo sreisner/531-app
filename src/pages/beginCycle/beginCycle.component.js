@@ -1,25 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import {
-  TextField,
-  Select,
-  MenuItem,
-  Typography,
-  FormControl,
-  InputLabel,
-} from 'material-ui';
 import { Grid } from 'material-ui';
-import { UsersService } from '../../services/api/users/users.service';
-import { TitleCard } from './components/titleCard.component';
 import { Button } from 'material-ui';
-import { FormControlLabel } from 'material-ui';
-import { Switch } from 'material-ui';
-import { Redirect, Route, withRouter } from 'react-router-dom';
 import { TemplatesService } from '../../services/api/templates/templates.service';
-import { Cycle } from '../cycle/cycle.component';
 import queryString from 'query-string';
 import base64 from 'base-64';
+import { TrainingMaxesCard } from './components/trainingMaxesCard.component';
+import { TemplateCard } from './components/templateCard.component';
+import { OptionsCard } from './components/optionsCard.component';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -38,6 +27,7 @@ class BeginCycle extends React.Component {
 
     this.state = {
       loadingTrainingMaxes: true,
+      loadingTemplates: true,
       trainingMaxes: {
         squat: '',
         deadlift: '',
@@ -45,19 +35,28 @@ class BeginCycle extends React.Component {
         press: '',
       },
 
-      loadingTemplates: true,
       templates: [],
-      templateId: 0,
-      options: {},
+      selectedTemplate: {},
+      selectedVariant: {},
+
+      templateOptionValues: {},
+      variantOptionValues: {},
     };
 
     this.loadTrainingMaxes = this.loadTrainingMaxes.bind(this);
-    this.loadTemplates = this.loadTemplates.bind(this);
     this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
+
     this.handleTemplateChange = this.handleTemplateChange.bind(this);
+    this.handleVariantChange = this.handleVariantChange.bind(this);
+    this.getTemplate = this.getTemplate.bind(this);
+    this.getVariant = this.getVariant.bind(this);
+
+    this.getDefaultOptionValues = this.getDefaultOptionValues.bind(this);
     this.updateOptionValue = this.updateOptionValue.bind(this);
+    this.getAllOptionValues = this.getAllOptionValues.bind(this);
+
+    this.formSubmissionIsEnabled = this.formSubmissionIsEnabled.bind(this);
     this.handleFormSubmission = this.handleFormSubmission.bind(this);
-    this.getSelectedTemplate = this.getSelectedTemplate.bind(this);
   }
 
   componentDidMount() {
@@ -77,24 +76,6 @@ class BeginCycle extends React.Component {
     });
   }
 
-  loadTemplates() {
-    TemplatesService.getTemplates().then(templates =>
-      this.setState({
-        loadingTemplates: false,
-        templates,
-        templateId: templates[0]._id,
-        options: this.getDefaultOptions(templates[0]),
-      })
-    );
-  }
-
-  getDefaultOptions(template) {
-    return template.options.reduce(
-      (acc, curr) => ({ ...acc, [curr.key]: curr.defaultValue }),
-      {}
-    );
-  }
-
   handleTrainingMaxChange(event) {
     const { name: lift, value: weight } = event.target;
 
@@ -106,33 +87,103 @@ class BeginCycle extends React.Component {
     }));
   }
 
-  handleTemplateChange(event) {
-    const templateId = event.target.value;
-    const template = this.state.templates.find(t => t._id === templateId);
+  loadTemplates() {
+    TemplatesService.getTemplates().then(templates =>
+      this.setState({
+        templates,
+        loadingTemplates: false,
+      })
+    );
+  }
+
+  handleTemplateChange(templateId) {
+    const template = this.getTemplate(templateId);
+
     this.setState({
-      templateId,
-      options: this.getDefaultOptions(template),
+      selectedTemplate: template,
+      selectedVariant: 0,
+      templateOptionValues: this.getDefaultOptionValues(template.options),
     });
   }
 
-  updateOptionValue(key, value) {
+  handleVariantChange(variantId) {
+    const variant = this.getVariant(variantId);
+
     this.setState(prevState => ({
-      options: {
-        ...prevState.options,
-        [key]: value,
-      },
+      selectedVariant: this.getVariant(variantId),
+      variantOptionValues: this.getDefaultOptionValues(variant.options),
     }));
+  }
+
+  getTemplate(templateId) {
+    return this.state.templates.find(t => t._id === templateId);
+  }
+
+  getVariant(variantId) {
+    return this.state.selectedTemplate.variants.find(v => v.id === variantId);
+  }
+
+  getDefaultOptionValues(optionsMeta) {
+    return optionsMeta.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.key]: curr.defaultValue,
+      }),
+      {}
+    );
+  }
+
+  getAllOptionValues() {
+    const { templateOptionValues, variantOptionValues } = this.state;
+    return { ...templateOptionValues, ...variantOptionValues };
+  }
+
+  updateOptionValue(key, value) {
+    // TODO:  This logic makes me think there's an issue with the
+    // underlying structure of the data within this component
+    if (this.state.templateOptionValues[key] !== undefined) {
+      this.setState(prevState => ({
+        templateOptionValues: {
+          ...prevState.templateOptionValues,
+          [key]: value,
+        },
+      }));
+    } else if (this.state.variantOptionValues[key] !== undefined) {
+      this.setState(prevState => ({
+        variantOptionValues: {
+          ...prevState.variantOptionValues,
+          [key]: value,
+        },
+      }));
+    }
+  }
+
+  formSubmissionIsEnabled() {
+    const {
+      loadingTrainingMaxes,
+      loadingTemplates,
+      selectedTemplate,
+      selectedVariant,
+    } = this.state;
+
+    return (
+      !loadingTrainingMaxes &&
+      !loadingTemplates &&
+      selectedTemplate._id &&
+      selectedVariant.id
+    );
   }
 
   handleFormSubmission(event) {
     event.preventDefault();
 
-    const { trainingMaxes, templateId, options } = this.state;
+    const { trainingMaxes, selectedTemplate, selectedVariant } = this.state;
 
     const queryParams = {
       ...trainingMaxes,
-      templateId: templateId,
-      options: base64.encode(JSON.stringify(options)),
+      templateId: selectedTemplate._id,
+      variantId: selectedVariant.id,
+      options: base64.encode(JSON.stringify(this.getAllOptionValues())),
     };
 
     const queryParamsStr = queryString.stringify(queryParams);
@@ -140,29 +191,16 @@ class BeginCycle extends React.Component {
     this.props.history.push(`/cycle?${queryParamsStr}`);
   }
 
-  getSelectedTemplate() {
-    const { templates, templateId } = this.state;
-    return templates.find(t => t._id === templateId);
-  }
-
-  formIsValid() {
-    const { templateId } = this.state;
-    const { squat, deadlift, bench, press } = this.state.trainingMaxes;
-    return squat && deadlift && bench && press && templateId;
-  }
-
   render() {
     const { classes } = this.props;
     const {
-      templateId,
-      loadingTemplates,
       loadingTrainingMaxes,
+      trainingMaxes,
+      loadingTemplates,
       templates,
-      options,
+      selectedTemplate,
+      selectedVariant,
     } = this.state;
-    const { squat, deadlift, bench, press } = this.state.trainingMaxes;
-
-    const selectedTemplate = this.getSelectedTemplate();
 
     return (
       <div>
@@ -173,141 +211,46 @@ class BeginCycle extends React.Component {
         >
           <Grid container justify="center" spacing={16}>
             <Grid item xs={12} sm={6} md={3}>
-              <TitleCard title="Training Maxes" loading={loadingTrainingMaxes}>
-                <TextField
-                  label="Squat TM"
-                  value={squat}
-                  name="squat"
-                  type="number"
-                  onChange={this.handleTrainingMaxChange}
-                  required
-                  error={!squat}
-                />
-                <TextField
-                  label="Deadlift TM"
-                  value={deadlift}
-                  name="deadlift"
-                  type="number"
-                  onChange={this.handleTrainingMaxChange}
-                  required
-                  error={!deadlift}
-                />
-                <TextField
-                  label="Bench Press TM"
-                  value={bench}
-                  name="bench"
-                  type="number"
-                  onChange={this.handleTrainingMaxChange}
-                  required
-                  error={!bench}
-                />
-                <TextField
-                  label="Overhead Press TM"
-                  value={press}
-                  name="press"
-                  type="number"
-                  onChange={this.handleTrainingMaxChange}
-                  required
-                  error={!press}
-                />
-              </TitleCard>
+              <TrainingMaxesCard
+                trainingMaxes={trainingMaxes}
+                onChange={this.handleTrainingMaxChange}
+                loading={loadingTrainingMaxes}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <TitleCard title="Template" loading={loadingTemplates}>
-                <FormControl>
-                  <InputLabel />
-                  <Select
-                    value={templateId}
-                    onChange={this.handleTemplateChange}
-                    disabled={loadingTemplates}
-                  >
-                    {templates.map(t => (
-                      <MenuItem key={t._id} value={t._id}>
-                        {t.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <ul>
-                  {selectedTemplate &&
-                    selectedTemplate.description.map((d, i) => (
-                      <li key={i}>{d}</li>
-                    ))}
-                </ul>
-              </TitleCard>
+              <TemplateCard
+                loading={loadingTemplates}
+                templates={templates}
+                selectedTemplate={selectedTemplate}
+                selectedVariant={selectedVariant}
+                onTemplateChange={this.handleTemplateChange}
+                onVariantChange={this.handleVariantChange}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <TitleCard title="Options">
-                {!selectedTemplate ? (
-                  <Typography variant="caption">
-                    You must select a template to customize options.
-                  </Typography>
-                ) : selectedTemplate.options.length === 0 ? (
-                  <Typography variant="caption">
-                    There are no options available for this template.
-                  </Typography>
-                ) : (
-                  selectedTemplate.options.map(o => {
-                    if (o.type === 'select') {
-                      return (
-                        <FormControl key={o.key}>
-                          <InputLabel htmlFor={o.key}>
-                            {o.displayText}
-                          </InputLabel>
-                          <Select
-                            value={options[o.key]}
-                            onChange={e =>
-                              this.updateOptionValue(o.key, e.target.value)
-                            }
-                            inputProps={{ name: o.key }}
-                          >
-                            {o.values.map(v => (
-                              <MenuItem key={v.value} value={v.value}>
-                                {v.displayText}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      );
-                    } else if (o.type === 'boolean') {
-                      return (
-                        <FormControlLabel
-                          key={o.key}
-                          control={
-                            <Switch
-                              checked={options[o.key]}
-                              onChange={e =>
-                                this.updateOptionValue(o.key, e.target.checked)
-                              }
-                              value={options[o.key].toString()}
-                            />
-                          }
-                          label={o.displayText}
-                        />
-                      );
-                    } else {
-                      return null;
-                    }
-                  })
-                )}
-              </TitleCard>
+              <OptionsCard
+                onChange={this.updateOptionValue}
+                selectedTemplate={selectedTemplate}
+                selectedVariant={selectedVariant}
+                optionValues={this.getAllOptionValues()}
+              />
             </Grid>
+
             <Grid item xs={12} align="center">
               <Button
                 className={classes.submitButton}
                 variant="raised"
-                color="primary"
+                color="secondary"
                 type="submit"
-                disabled={!this.formIsValid()}
+                disabled={!this.formSubmissionIsEnabled()}
               >
                 Generate
               </Button>
             </Grid>
           </Grid>
         </form>
-        <Route exact path="/cycle" component={Cycle} />
       </div>
     );
   }

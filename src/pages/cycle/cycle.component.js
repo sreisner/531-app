@@ -34,16 +34,23 @@ class Cycle extends React.Component {
   }
 
   componentDidMount() {
-    const { templateId, options, ...trainingMaxes } = queryString.parse(
-      this.props.location.search
-    );
+    const {
+      templateId,
+      variantId,
+      options,
+      ...trainingMaxes
+    } = queryString.parse(this.props.location.search);
 
-    CycleGenerator.generateCycle(templateId, trainingMaxes, options).then(
-      cycle =>
-        this.setState({
-          loading: false,
-          cycle,
-        })
+    CycleGenerator.generateCycle(
+      templateId,
+      variantId,
+      trainingMaxes,
+      options
+    ).then(cycle =>
+      this.setState({
+        loading: false,
+        cycle,
+      })
     );
   }
 

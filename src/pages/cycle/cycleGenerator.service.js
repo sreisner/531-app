@@ -21,38 +21,27 @@ const generateWeeklySessions = (
 
   return weeklyRepSchemes.map(week => ({
     sessions: [...Array(daysPerWeek)].map(_ => {
-      const dailyLifts = liftGen.next().value;
+      const lift = liftGen.next().value;
 
       return {
-        sets: week.map(day => {
-          // TODO:  Turn the liftOrder argument to this function
-          // into an array of arrays.  Each element in the array
-          // of arrays represents the lift options for a single
-          // day and the liftIndex corresponds to one of those
-          // lifts.  The challenge right now is moving the chosen
-          // array of arrays to this page via query params.
-          // const lift = dailyLifts[day.liftIndex];
-          const lift = dailyLifts;
-
-          return {
-            lift,
-            reps: day.reps,
-            sets: day.sets,
-            weight: calculateSetWeight(trainingMaxes[lift], day.percentage),
-          };
-        }),
+        sets: week.map(day => ({
+          lift,
+          reps: day.reps,
+          sets: day.sets,
+          weight: calculateSetWeight(trainingMaxes[lift], day.percentage),
+        })),
       };
     }),
   }));
 };
 
-const generateCycle = (templateId, trainingMaxes, options) =>
-  TemplatesService.getTemplateConfig(templateId, options).then(config => ({
+const generateCycle = (templateId, variantId, trainingMaxes, options) =>
+  TemplatesService.getConfig(templateId, variantId, options).then(config => ({
     jumpsThrows: config.jumpsThrows,
     weeklySessions: generateWeeklySessions(
       trainingMaxes,
       config.weeklyRepSchemes,
-      config.dailyLifts,
+      config.lifts,
       config.daysPerWeek
     ),
     assistance: config.assistance,

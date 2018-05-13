@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { Typography, Divider, CardActions } from 'material-ui';
+import { Typography, Divider } from 'material-ui';
 import CycleGenerator from './cycleGenerator.service';
 import queryString from 'query-string';
 import Card from 'material-ui/Card';
 import { Grid } from 'material-ui';
 import { CardContent, CardHeader } from 'material-ui';
-import { Button } from 'material-ui';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -126,16 +125,6 @@ class Cycle extends React.Component {
                   </ul>
                 </ul>
               </CardContent>
-              <Divider />
-              <CardActions>
-                <Button
-                  variant="raised"
-                  color="secondary"
-                  className={classes.startButton}
-                >
-                  Start Session
-                </Button>
-              </CardActions>
             </Card>
           </Grid>
         ))}

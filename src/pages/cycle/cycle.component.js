@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { Typography, Divider } from 'material-ui';
 import CycleGenerator from './cycleGenerator.service';
 import queryString from 'query-string';
-import Card from 'material-ui/Card';
-import { Grid } from 'material-ui';
-import { CardContent, CardHeader } from 'material-ui';
+import { SessionGrid } from './components/sessionGrid.component';
+// import { Button, Tooltip } from 'material-ui';
+// import AdjustIcon from '@material-ui/icons/Adjust';
+// import CheckIcon from '@material-ui/icons/Check';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -17,21 +17,10 @@ const styles = theme => ({
     width: '100%',
     margin: 0,
   }),
-  lift: {
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
-  },
-  card: {
-    width: '100%',
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  startButton: {
-    flexGrow: 1,
-  },
-  cardParentList: {
-    paddingLeft: 0,
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 3,
   },
 });
 
@@ -66,70 +55,18 @@ class Cycle extends React.Component {
       return null;
     }
 
-    const { push, pull, abs } = cycle.assistance;
-    return cycle.weeklySessions.map((week, i) => (
-      <Grid
-        key={i}
-        container
-        className={classes.grid}
-        justify="center"
-        spacing={16}
-      >
-        {week.sessions.map((session, j) => (
-          <Grid
-            key={j}
-            item
-            className={classes.cardContainer}
-            xs={12}
-            sm={6}
-            lg
-          >
-            <Card className={classes.card}>
-              <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
-              <Divider />
-              <CardContent>
-                <ul className={classes.cardParentList}>
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Warmup/Mobility
-                  </Typography>
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Jumps/Throws ({cycle.jumpsThrows})
-                  </Typography>
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Lifts
-                  </Typography>
-                  <ul>
-                    {session.sets.map((set, k) => (
-                      <Typography key={k} variant="body1">
-                        <span className={classes.lift}>{set.lift}</span>:{' '}
-                        {set.sets}x{set.reps}@{set.weight}lbs
-                      </Typography>
-                    ))}
-                  </ul>
-                  <Typography variant="subheading" gutterBottom={true}>
-                    Assistance
-                  </Typography>
-                  <ul>
-                    <Typography variant="body1">
-                      <span className={classes.bold}>Push</span>: {push.minReps}{' '}
-                      - {push.maxReps}
-                    </Typography>
-                    <Typography variant="body1">
-                      <span className={classes.bold}>Pull</span>: {pull.minReps}{' '}
-                      - {pull.maxReps}
-                    </Typography>
-                    <Typography variant="body1">
-                      <span className={classes.bold}>Abs/Single Leg</span>:{' '}
-                      {abs.minReps} - {abs.maxReps}
-                    </Typography>
-                  </ul>
-                </ul>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    ));
+    return (
+      <div>
+        <div className={classes.grid}>
+          <SessionGrid cycle={cycle} />
+        </div>
+        {/* <Tooltip title="Start Cycle" placement="left">
+          <Button variant="fab" color="secondary" className={classes.fab}>
+            <CheckIcon />
+          </Button>
+        </Tooltip> */}
+      </div>
+    );
   }
 }
 

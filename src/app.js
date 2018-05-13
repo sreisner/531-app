@@ -16,8 +16,6 @@ const styles = theme => ({
 const App = props => {
   const { classes } = props;
 
-  console.log('App render');
-
   return (
     <div className={classes.root}>
       <AppBar531 />

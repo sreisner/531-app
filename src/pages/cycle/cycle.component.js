@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { Typography, Divider } from 'material-ui';
-import { AppBar531 } from '../../core/appBar531/appBar531.component';
 import CycleGenerator from './cycleGenerator.service';
 import queryString from 'query-string';
 import Card from 'material-ui/Card';
@@ -23,8 +22,8 @@ const styles = theme => ({
     textTransform: 'capitalize',
   },
   cardContainer: {
-    flexGrow: 1,
-    maxWidth: 400,
+    // flexGrow: 1,
+    // maxWidth: 400,
   },
   card: {
     width: '100%',
@@ -75,7 +74,14 @@ class Cycle extends React.Component {
         spacing={16}
       >
         {week.sessions.map((session, j) => (
-          <Grid key={j} item className={classes.cardContainer}>
+          <Grid
+            key={j}
+            item
+            className={classes.cardContainer}
+            xs={12}
+            sm={6}
+            lg
+          >
             <Card className={classes.card}>
               <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
               <CardContent>

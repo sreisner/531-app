@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import CycleGenerator from './cycleGenerator.service';
 import queryString from 'query-string';
 import { SessionGrid } from './components/sessionGrid.component';
+import { CyclesService } from '../../services/api/cycles/cycles.service';
 // import { Button, Tooltip } from 'material-ui';
 // import AdjustIcon from '@material-ui/icons/Adjust';
 // import CheckIcon from '@material-ui/icons/Check';
@@ -34,19 +34,9 @@ class Cycle extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      templateId,
-      variantId,
-      options,
-      ...trainingMaxes
-    } = queryString.parse(this.props.location.search);
-
-    CycleGenerator.generateCycle(
-      templateId,
-      variantId,
-      trainingMaxes,
-      options
-    ).then(cycle =>
+    CyclesService.generateCycle({
+      ...queryString.parse(this.props.location.search),
+    }).then(cycle =>
       this.setState({
         loading: false,
         cycle,

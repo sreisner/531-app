@@ -71,7 +71,7 @@ class AppBar531 extends React.Component {
               onClose={this.toggleDrawer}
               anchor="left"
             >
-              <List>
+              <List onClick={this.toggleDrawer} onKeyDown={this.toggleDrawer}>
                 <Link to="/">
                   <ListItem button>
                     <ListItemIcon>

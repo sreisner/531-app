@@ -23,9 +23,7 @@ const styles = theme => ({
 });
 
 let SessionGrid = ({ classes, cycle }) => {
-  const { push, pull, abs } = cycle.assistance;
-
-  return cycle.weeklySessions.map((week, i) => (
+  return cycle.map((week, i) => (
     <Grid
       key={i}
       container
@@ -33,52 +31,62 @@ let SessionGrid = ({ classes, cycle }) => {
       justify="center"
       spacing={16}
     >
-      {week.sessions.map((session, j) => (
-        <Grid key={j} item className={classes.cardContainer} xs={12} sm={6} lg>
-          <Card className={classes.card}>
-            <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
-            <Divider />
-            <CardContent>
-              <ul className={classes.cardParentList}>
-                <Typography variant="subheading" gutterBottom={true}>
-                  Warmup/Mobility
-                </Typography>
-                <Typography variant="subheading" gutterBottom={true}>
-                  Jumps/Throws ({cycle.jumpsThrows})
-                </Typography>
-                <Typography variant="subheading" gutterBottom={true}>
-                  Lifts
-                </Typography>
-                <ul>
-                  {session.sets.map((set, k) => (
-                    <Typography key={k} variant="body1">
-                      <span className={classes.lift}>{set.lift}</span>:{' '}
-                      {set.sets}x{set.reps}@{set.weight}lbs
+      {week.map((session, j) => {
+        const { push, pull, abs } = session.assistance;
+        return (
+          <Grid
+            key={j}
+            item
+            className={classes.cardContainer}
+            xs={12}
+            sm={6}
+            lg
+          >
+            <Card className={classes.card}>
+              <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
+              <Divider />
+              <CardContent>
+                <ul className={classes.cardParentList}>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Warmup/Mobility
+                  </Typography>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Jumps/Throws ({session.jumpsThrows})
+                  </Typography>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Lifts
+                  </Typography>
+                  <ul>
+                    {session.sets.map((set, k) => (
+                      <Typography key={k} variant="body1">
+                        <span className={classes.lift}>{set.lift}</span>:{' '}
+                        {set.numSets}x{set.numReps}@{set.weight}lbs
+                      </Typography>
+                    ))}
+                  </ul>
+                  <Typography variant="subheading" gutterBottom={true}>
+                    Assistance
+                  </Typography>
+                  <ul>
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Push</span>: {push.minReps}{' '}
+                      - {push.maxReps}
                     </Typography>
-                  ))}
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Pull</span>: {pull.minReps}{' '}
+                      - {pull.maxReps}
+                    </Typography>
+                    <Typography variant="body1">
+                      <span className={classes.bold}>Abs/Single Leg</span>:{' '}
+                      {abs.minReps} - {abs.maxReps}
+                    </Typography>
+                  </ul>
                 </ul>
-                <Typography variant="subheading" gutterBottom={true}>
-                  Assistance
-                </Typography>
-                <ul>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Push</span>: {push.minReps} -{' '}
-                    {push.maxReps}
-                  </Typography>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Pull</span>: {pull.minReps} -{' '}
-                    {pull.maxReps}
-                  </Typography>
-                  <Typography variant="body1">
-                    <span className={classes.bold}>Abs/Single Leg</span>:{' '}
-                    {abs.minReps} - {abs.maxReps}
-                  </Typography>
-                </ul>
-              </ul>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
+              </CardContent>
+            </Card>
+          </Grid>
+        );
+      })}
     </Grid>
   ));
 };

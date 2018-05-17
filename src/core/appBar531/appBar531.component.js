@@ -15,6 +15,7 @@ import {
   ListItemIcon,
 } from 'material-ui';
 import Link from 'react-router-dom/Link';
+import { Button } from 'material-ui';
 
 const styles = {
   root: {
@@ -36,16 +37,22 @@ class AppBar531 extends React.Component {
     this.state = {
       drawerIsOpen: false,
     };
-
-    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
-  toggleDrawer() {
+  onAccountUserButtonClick = () => {
+    console.log('onAccountUserButtonClick click');
+  };
+
+  onLoginClick = () => {
+    console.log('onLoginClick');
+  };
+
+  toggleDrawer = () => {
     this.setState(prevState => ({ drawerIsOpen: !prevState.drawerIsOpen }));
-  }
+  };
 
   render() {
-    const { classes, title } = this.props;
+    const { classes, title, isLoggedIn } = this.props;
     const { drawerIsOpen } = this.state;
 
     return (
@@ -66,6 +73,16 @@ class AppBar531 extends React.Component {
             >
               {title}
             </Typography>
+            {isLoggedIn ? (
+              <IconButton
+                color="inherit"
+                onClick={this.onAccountUserButtonClick}
+              />
+            ) : (
+              <Button color="inherit" onClick={this.onLoginClick}>
+                Log In
+              </Button>
+            )}
             <Drawer
               open={drawerIsOpen}
               onClose={this.toggleDrawer}

@@ -42,21 +42,6 @@ class BeginCycle extends React.Component {
       templateOptionValues: {},
       variantOptionValues: {},
     };
-
-    this.loadTrainingMaxes = this.loadTrainingMaxes.bind(this);
-    this.handleTrainingMaxChange = this.handleTrainingMaxChange.bind(this);
-
-    this.handleTemplateChange = this.handleTemplateChange.bind(this);
-    this.handleVariantChange = this.handleVariantChange.bind(this);
-    this.getTemplate = this.getTemplate.bind(this);
-    this.getVariant = this.getVariant.bind(this);
-
-    this.getDefaultOptionValues = this.getDefaultOptionValues.bind(this);
-    this.updateOptionValue = this.updateOptionValue.bind(this);
-    this.getAllOptionValues = this.getAllOptionValues.bind(this);
-
-    this.formSubmissionIsEnabled = this.formSubmissionIsEnabled.bind(this);
-    this.handleFormSubmission = this.handleFormSubmission.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +49,7 @@ class BeginCycle extends React.Component {
     this.loadTemplates();
   }
 
-  loadTrainingMaxes() {
+  loadTrainingMaxes = () => {
     this.setState({
       loadingTrainingMaxes: false,
       trainingMaxes: {
@@ -74,9 +59,9 @@ class BeginCycle extends React.Component {
         deadlift: 405,
       },
     });
-  }
+  };
 
-  handleTrainingMaxChange(event) {
+  handleTrainingMaxChange = event => {
     const { name: lift, value: weight } = event.target;
 
     this.setState(prevState => ({
@@ -85,18 +70,18 @@ class BeginCycle extends React.Component {
         [lift]: weight,
       },
     }));
-  }
+  };
 
-  loadTemplates() {
+  loadTemplates = () => {
     TemplatesService.getTemplates().then(templates =>
       this.setState({
         templates,
         loadingTemplates: false,
       })
     );
-  }
+  };
 
-  handleTemplateChange(templateId) {
+  handleTemplateChange = templateId => {
     const template = this.getTemplate(templateId);
 
     this.setState({
@@ -104,26 +89,26 @@ class BeginCycle extends React.Component {
       selectedVariant: 0,
       templateOptionValues: this.getDefaultOptionValues(template.options),
     });
-  }
+  };
 
-  handleVariantChange(variantId) {
+  handleVariantChange = variantId => {
     const variant = this.getVariant(variantId);
 
     this.setState(prevState => ({
       selectedVariant: this.getVariant(variantId),
       variantOptionValues: this.getDefaultOptionValues(variant.options),
     }));
-  }
+  };
 
-  getTemplate(templateId) {
+  getTemplate = templateId => {
     return this.state.templates.find(t => t._id === templateId);
-  }
+  };
 
-  getVariant(variantId) {
+  getVariant = variantId => {
     return this.state.selectedTemplate.variants.find(v => v.id === variantId);
-  }
+  };
 
-  getDefaultOptionValues(optionsMeta) {
+  getDefaultOptionValues = optionsMeta => {
     return optionsMeta.reduce(
       (acc, curr) => ({
         ...acc,
@@ -131,14 +116,14 @@ class BeginCycle extends React.Component {
       }),
       {}
     );
-  }
+  };
 
-  getAllOptionValues() {
+  getAllOptionValues = () => {
     const { templateOptionValues, variantOptionValues } = this.state;
     return { ...templateOptionValues, ...variantOptionValues };
-  }
+  };
 
-  updateOptionValue(key, value) {
+  updateOptionValue = (key, value) => {
     // TODO:  This logic makes me think there's an issue with the
     // underlying structure of the data within this component
     if (this.state.templateOptionValues[key] !== undefined) {
@@ -156,9 +141,9 @@ class BeginCycle extends React.Component {
         },
       }));
     }
-  }
+  };
 
-  formSubmissionIsEnabled() {
+  formSubmissionIsEnabled = () => {
     const {
       loadingTrainingMaxes,
       loadingTemplates,
@@ -172,9 +157,9 @@ class BeginCycle extends React.Component {
       selectedTemplate._id &&
       selectedVariant.id
     );
-  }
+  };
 
-  handleFormSubmission(event) {
+  handleFormSubmission = event => {
     event.preventDefault();
 
     const { trainingMaxes, selectedTemplate, selectedVariant } = this.state;
@@ -189,7 +174,7 @@ class BeginCycle extends React.Component {
     const queryParamsStr = queryString.stringify(queryParams);
 
     this.props.history.push(`/cycle?${queryParamsStr}`);
-  }
+  };
 
   render() {
     const { classes } = this.props;

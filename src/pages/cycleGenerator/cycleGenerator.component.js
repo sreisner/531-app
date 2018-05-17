@@ -21,7 +21,7 @@ const styles = theme => ({
   },
 });
 
-class BeginCycle extends React.Component {
+class CycleGenerator extends React.Component {
   constructor(props) {
     super(props);
 
@@ -241,9 +241,9 @@ class BeginCycle extends React.Component {
   }
 }
 
-BeginCycle.propTypes = {
+CycleGenerator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-BeginCycle = withStyles(styles)(BeginCycle);
-export { BeginCycle };
+CycleGenerator = withStyles(styles)(CycleGenerator);
+export { CycleGenerator };

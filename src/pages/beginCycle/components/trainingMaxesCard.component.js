@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import { TitleCard } from './titleCard.component';
 import { TextField } from 'material-ui';
-
-const styles = theme => ({});
 
 let TrainingMaxesCard = props => {
   const { loading, trainingMaxes, onChange } = props;
@@ -53,11 +50,9 @@ let TrainingMaxesCard = props => {
 };
 
 TrainingMaxesCard.propTypes = {
-  classes: PropTypes.object.isRequired,
   trainingMaxes: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
-TrainingMaxesCard = withStyles(styles)(TrainingMaxesCard);
 export { TrainingMaxesCard };

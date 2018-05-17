@@ -16,6 +16,7 @@ import {
 } from 'material-ui';
 import Link from 'react-router-dom/Link';
 import { Button } from 'material-ui';
+import { LoginModal } from '../loginModal/loginModal.component';
 
 const styles = {
   root: {
@@ -36,6 +37,7 @@ class AppBar531 extends React.Component {
 
     this.state = {
       drawerIsOpen: false,
+      loginModalIsOpen: false,
     };
   }
 
@@ -44,7 +46,11 @@ class AppBar531 extends React.Component {
   };
 
   onLoginClick = () => {
-    console.log('onLoginClick');
+    this.setState({ loginModalIsOpen: true });
+  };
+
+  closeLoginModal = () => {
+    this.setState({ loginModalIsOpen: false });
   };
 
   toggleDrawer = () => {
@@ -53,7 +59,7 @@ class AppBar531 extends React.Component {
 
   render() {
     const { classes, title, isLoggedIn } = this.props;
-    const { drawerIsOpen } = this.state;
+    const { drawerIsOpen, loginModalIsOpen } = this.state;
 
     return (
       <div className={classes.root}>
@@ -101,6 +107,7 @@ class AppBar531 extends React.Component {
             </Drawer>
           </Toolbar>
         </AppBar>
+        <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
       </div>
     );
   }

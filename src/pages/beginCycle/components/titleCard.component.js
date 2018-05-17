@@ -7,12 +7,17 @@ import { Typography, Grid, CircularProgress } from 'material-ui';
 const styles = theme => ({
   card: {
     height: '100%',
+    minHeight: 200,
   },
   loading: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  cardContent: {
+    position: 'relative',
+    height: '100%',
   },
 });
 
@@ -21,17 +26,16 @@ let TitleCard = props => {
 
   return (
     <Card className={classes.card}>
-      <CardContent>
+      <CardContent className={classes.cardContent}>
+        <Typography variant="title" gutterBottom={true}>
+          {title}
+        </Typography>
         {loading ? (
           <div className={classes.loading}>
-            <Typography variant="title">Loading...</Typography>
             <CircularProgress />
           </div>
         ) : (
           <div>
-            <Typography variant="title" gutterBottom={true}>
-              {title}
-            </Typography>
             <Grid
               container
               direction="column"

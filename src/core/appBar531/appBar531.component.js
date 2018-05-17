@@ -53,6 +53,10 @@ class AppBar531 extends React.Component {
     this.setState({ loginModalIsOpen: false });
   };
 
+  onLoginSuccess = user => {
+    this.closeLoginModal();
+  };
+
   toggleDrawer = () => {
     this.setState(prevState => ({ drawerIsOpen: !prevState.drawerIsOpen }));
   };
@@ -107,7 +111,11 @@ class AppBar531 extends React.Component {
             </Drawer>
           </Toolbar>
         </AppBar>
-        <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
+        <LoginModal
+          open={loginModalIsOpen}
+          onClose={this.closeLoginModal}
+          onSuccess={this.onLoginSuccess}
+        />
       </div>
     );
   }

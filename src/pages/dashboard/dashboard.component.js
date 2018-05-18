@@ -2,6 +2,7 @@ import { Button, Typography, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.context';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -22,6 +23,10 @@ class Dashboard extends React.Component {
     this.state = {};
   }
 
+  getStarted = () => {
+    this.props.history.push('/cycle-generator');
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -34,7 +39,11 @@ class Dashboard extends React.Component {
                 <Typography variant="title" color="inherit" gutterBottom={true}>
                   You haven't started a cycle yet.
                 </Typography>
-                <Button variant="raised" color="primary">
+                <Button
+                  variant="raised"
+                  color="primary"
+                  onClick={this.getStarted}
+                >
                   Get Started
                 </Button>
               </div>
@@ -54,5 +63,5 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-Dashboard = withStyles(styles)(Dashboard);
+Dashboard = withRouter(withStyles(styles)(Dashboard));
 export default Dashboard;

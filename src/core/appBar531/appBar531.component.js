@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import ViewWeekIcon from '@material-ui/icons/ViewWeek';
 import {
   Drawer,
   List,
@@ -19,9 +20,6 @@ import { LoginModal } from '../loginModal/loginModal.component';
 import { UserAccountButton } from './userAccountButton.component';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-  },
   flex: {
     flex: 1,
   },
@@ -88,6 +86,14 @@ class AppBar531 extends React.Component {
                       <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
+                  </ListItem>
+                </Link>
+                <Link to="/cycle-generator">
+                  <ListItem button>
+                    <ListItemIcon>
+                      <ViewWeekIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Cycle Generator" />
                   </ListItem>
                 </Link>
               </List>

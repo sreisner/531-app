@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { Typography, Button, withStyles } from '@material-ui/core';
 
 const styles = theme => ({
-  root: {
+  root: theme.mixins.gutters({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-  },
+    textAlign: 'center',
+  }),
 });
 
 class Dashboard extends React.Component {

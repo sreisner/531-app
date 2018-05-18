@@ -10,6 +10,8 @@ import Dashboard from './pages/dashboard/dashboard.component';
 
 const styles = theme => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
     width: '100%',
     height: '100vh',
   },

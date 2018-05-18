@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
 import { AuthConsumer } from '../../context/authContext.context';
@@ -10,6 +11,7 @@ class LoggedInUserMenu extends React.Component {
   handleLogout = onLogout => {
     onLogout();
     this.props.onClose();
+    this.props.history.push('/');
   };
 
   render() {
@@ -46,5 +48,5 @@ LoggedInUserMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-LoggedInUserMenu = withStyles(styles)(LoggedInUserMenu);
+LoggedInUserMenu = withRouter(withStyles(styles)(LoggedInUserMenu));
 export { LoggedInUserMenu };

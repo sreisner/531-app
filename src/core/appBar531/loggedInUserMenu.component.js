@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
-import { AuthContext } from '../../context/authContext.context';
+import { AuthConsumer } from '../../context/authContext.context';
 
 const styles = theme => ({});
 
@@ -16,7 +16,7 @@ class LoggedInUserMenu extends React.Component {
     const { anchorElement, open, onClose } = this.props;
 
     return (
-      <AuthContext.Consumer>
+      <AuthConsumer>
         {({ onLogout }) => (
           <Menu
             id="menu-appbar"
@@ -37,7 +37,7 @@ class LoggedInUserMenu extends React.Component {
             </MenuItem>
           </Menu>
         )}
-      </AuthContext.Consumer>
+      </AuthConsumer>
     );
   }
 }

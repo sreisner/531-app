@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button, Typography, Modal } from '@material-ui/core';
 import { LoginService } from '../../services/api/login/login.service';
-import { AuthContext } from '../../context/authContext.context';
+import { AuthConsumer } from '../../context/authContext.context';
 
 const styles = theme => ({
   paper: {
@@ -84,7 +84,7 @@ class LoginModal extends React.Component {
     const { error, loading } = this.state;
 
     return (
-      <AuthContext.Consumer>
+      <AuthConsumer>
         {({ onLoginSuccess }) => (
           <Modal open={open} onClose={onClose}>
             <div className={classes.paper}>
@@ -133,7 +133,7 @@ class LoginModal extends React.Component {
             </div>
           </Modal>
         )}
-      </AuthContext.Consumer>
+      </AuthConsumer>
     );
   }
 }

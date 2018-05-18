@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AuthContext = React.createContext({
+const AuthContext = React.createContext({
   isLoggedIn: false,
   onLoginSuccess: () => {},
   onLogout: () => {},

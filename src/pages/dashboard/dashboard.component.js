@@ -1,6 +1,7 @@
-import React from 'react';
+import { Button, Typography, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { Typography, Button, withStyles } from '@material-ui/core';
+import React from 'react';
+import { AuthConsumer } from '../../context/authContext.context';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -26,12 +27,24 @@ class Dashboard extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant="title" color="inherit" gutterBottom={true}>
-          You haven't started a cycle yet.
-        </Typography>
-        <Button variant="raised" color="primary">
-          Get Started
-        </Button>
+        <AuthConsumer>
+          {({ isLoggedIn }) =>
+            isLoggedIn ? (
+              <div>
+                <Typography variant="title" color="inherit" gutterBottom={true}>
+                  You haven't started a cycle yet.
+                </Typography>
+                <Button variant="raised" color="primary">
+                  Get Started
+                </Button>
+              </div>
+            ) : (
+              <Typography variant="title" color="inherit">
+                Figure out something to put here for users who aren't logged in.
+              </Typography>
+            )
+          }
+        </AuthConsumer>
       </div>
     );
   }

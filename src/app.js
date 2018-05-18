@@ -24,11 +24,11 @@ class App extends React.Component {
       <div className={classes.root}>
         <AuthProvider>
           <AppBar531 title="5/3/1" />
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/cycle" component={Cycle} />
+          </Switch>
         </AuthProvider>
-        <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route exact path="/cycle" component={Cycle} />
-        </Switch>
       </div>
     );
   }

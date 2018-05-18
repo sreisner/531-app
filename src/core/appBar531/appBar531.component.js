@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import {
   Drawer,
   List,
@@ -85,9 +85,9 @@ class AppBar531 extends React.Component {
                 <Link to="/">
                   <ListItem button>
                     <ListItemIcon>
-                      <HomeIcon />
+                      <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Home" />
+                    <ListItemText primary="Dashboard" />
                   </ListItem>
                 </Link>
               </List>

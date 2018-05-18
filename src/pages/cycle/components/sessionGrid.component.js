@@ -93,7 +93,7 @@ let SessionGrid = ({ classes, cycle }) => {
 
 SessionGrid.propTypes = {
   classes: PropTypes.object.isRequired,
-  cycle: PropTypes.object.isRequired,
+  cycle: PropTypes.array.isRequired,
 };
 
 SessionGrid = withStyles(styles)(SessionGrid);

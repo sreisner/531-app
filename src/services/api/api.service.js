@@ -28,7 +28,7 @@ const handleError = response => {
 };
 
 const handleRequest = request =>
-  request.then(handleError).then(response => response.json());
+  request.catch(handleError).then(response => response.json());
 
 const get = path =>
   handleRequest(
@@ -51,7 +51,19 @@ const post = (path, data) =>
     )
   );
 
+const put = (path, data) =>
+  handleRequest(
+    fetch(
+      buildApiUri(path),
+      buildRequestConfig({
+        method: 'PUT',
+        body: JSON.stringify(data),
+      })
+    )
+  );
+
 export const ApiService = {
   get,
   post,
+  put,
 };

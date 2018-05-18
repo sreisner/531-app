@@ -4,6 +4,7 @@ import queryString from 'query-string';
 import base64 from 'base-64';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Button } from '@material-ui/core';
+import { UsersService } from '../../services/api/users/users.service';
 import { TemplatesService } from '../../services/api/templates/templates.service';
 import { TrainingMaxesCard } from './components/trainingMaxesCard.component';
 import { TemplateCard } from './components/templateCard.component';
@@ -28,10 +29,10 @@ class CycleGenerator extends React.Component {
       loadingTrainingMaxes: true,
       loadingTemplates: true,
       trainingMaxes: {
-        squat: '',
-        deadlift: '',
-        bench: '',
-        press: '',
+        squat: '315',
+        deadlift: '405',
+        bench: '225',
+        press: '135',
       },
 
       templates: [],
@@ -49,14 +50,14 @@ class CycleGenerator extends React.Component {
   }
 
   loadTrainingMaxes = () => {
-    this.setState({
-      loadingTrainingMaxes: false,
-      trainingMaxes: {
-        press: 135,
-        bench: 225,
-        squat: 315,
-        deadlift: 405,
-      },
+    UsersService.getTrainingMaxes('current').then(trainingMaxes => {
+      this.setState(prevState => ({
+        loadingTrainingMaxes: false,
+        trainingMaxes: {
+          ...prevState.trainingMaxes,
+          ...trainingMaxes,
+        },
+      }));
     });
   };
 
@@ -171,6 +172,8 @@ class CycleGenerator extends React.Component {
     };
 
     const queryParamsStr = queryString.stringify(queryParams);
+
+    UsersService.updateTrainingMaxes('current', trainingMaxes);
 
     this.props.history.push(`/cycle?${queryParamsStr}`);
   };

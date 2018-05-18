@@ -1,7 +1,8 @@
 {
   "files.eol": "\n",
   "files.associations": {
-    "*.component.js": "javascriptreact"
+    "*.component.js": "javascriptreact",
+    "*.context.js": "javascriptreact"
   },
   "editor.formatOnSave": true,
   "editor.tabSize": 2

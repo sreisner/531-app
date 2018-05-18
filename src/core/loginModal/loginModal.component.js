@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { TextField, Button, Typography, Modal, Divider } from 'material-ui';
+import { TextField, Button, Typography, Modal } from 'material-ui';
 import { LoginService } from '../../services/api/login/login.service';
+import { AuthContext } from '../../context/authContext.context';
 
 const styles = theme => ({
   paper: {
@@ -52,10 +53,10 @@ class LoginModal extends React.Component {
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event, onLoginSuccess) => {
     event.preventDefault();
 
-    const { onSuccess } = this.props;
+    const { onClose } = this.props;
     const { email, password } = this.state;
 
     this.setState({ loading: true });
@@ -67,7 +68,8 @@ class LoginModal extends React.Component {
           error: '',
         });
 
-        onSuccess(user);
+        onClose();
+        onLoginSuccess(user);
       })
       .catch(status =>
         this.setState({
@@ -82,45 +84,56 @@ class LoginModal extends React.Component {
     const { error, loading } = this.state;
 
     return (
-      <Modal open={open} onClose={onClose}>
-        <div className={classes.paper}>
-          <Typography variant="display2" color="inherit" gutterBottom={true}>
-            5/3/1
-          </Typography>
-          <form className={classes.form} onSubmit={this.handleSubmit}>
-            <TextField
-              className={classes.input}
-              label="Email"
-              value={this.state.email}
-              name="email"
-              type="text"
-              onChange={this.handleChange}
-            />
-            <TextField
-              className={classes.input}
-              label="Password"
-              value={this.state.password}
-              name="password"
-              type="password"
-              onChange={this.handleChange}
-            />
-            <Button
-              variant="raised"
-              color="primary"
-              type="submit"
-              disabled={loading}
-              className={classes.input}
-            >
-              Log In
-            </Button>
-            {error && (
-              <Typography variant="caption" color="error">
-                {error}
+      <AuthContext.Consumer>
+        {({ onLoginSuccess }) => (
+          <Modal open={open} onClose={onClose}>
+            <div className={classes.paper}>
+              <Typography
+                variant="display2"
+                color="inherit"
+                gutterBottom={true}
+              >
+                5/3/1
               </Typography>
-            )}
-          </form>
-        </div>
-      </Modal>
+              <form
+                className={classes.form}
+                onSubmit={e => this.handleSubmit(e, onLoginSuccess)}
+              >
+                <TextField
+                  className={classes.input}
+                  label="Email"
+                  value={this.state.email}
+                  name="email"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  className={classes.input}
+                  label="Password"
+                  value={this.state.password}
+                  name="password"
+                  type="password"
+                  onChange={this.handleChange}
+                />
+                <Button
+                  variant="raised"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                  className={classes.input}
+                >
+                  Log In
+                </Button>
+                {error && (
+                  <Typography variant="caption" color="error">
+                    {error}
+                  </Typography>
+                )}
+              </form>
+            </div>
+          </Modal>
+        )}
+      </AuthContext.Consumer>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { AuthContext } from '../../context/authContext.context';
+import { AuthConsumer } from '../../context/authContext.context';
 import { Button, IconButton } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { LoggedInUserMenu } from './loggedInUserMenu.component';
@@ -32,7 +32,7 @@ class UserAccountButton extends React.Component {
     const { onLoginClick } = this.props;
 
     return (
-      <AuthContext.Consumer>
+      <AuthConsumer>
         {({ isLoggedIn }) =>
           isLoggedIn ? (
             <div>
@@ -51,7 +51,7 @@ class UserAccountButton extends React.Component {
             </Button>
           )
         }
-      </AuthContext.Consumer>
+      </AuthConsumer>
     );
   }
 }

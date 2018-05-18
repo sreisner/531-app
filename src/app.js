@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // setInterval(() => this.isLoggedIn !== 'true' && this.onLogout(), 1000);
+    setInterval(() => !this.state.isLoggedIn && this.onLogout(), 1000);
   }
 
   onLoginSuccess = () => {
@@ -49,7 +49,7 @@ class App extends React.Component {
             onLogout: this.onLogout,
           }}
         >
-          <AppBar531 />
+          <AppBar531 title="5/3/1" />
         </AuthContext.Provider>
         <Switch>
           <Route exact path="/" component={CycleGenerator} />

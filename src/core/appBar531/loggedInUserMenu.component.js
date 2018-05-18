@@ -9,9 +9,10 @@ const styles = theme => ({});
 
 class LoggedInUserMenu extends React.Component {
   handleLogout = onLogout => {
-    onLogout();
-    this.props.onClose();
-    this.props.history.push('/');
+    onLogout().then(() => {
+      this.props.onClose();
+      this.props.history.push('/');
+    });
   };
 
   render() {

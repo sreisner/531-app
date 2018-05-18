@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoginService } from '../services/api/login/login.service';
 
 const AuthContext = React.createContext({
   isLoggedIn: false,
@@ -21,8 +22,10 @@ export class AuthProvider extends React.Component {
   };
 
   onLogout = () => {
-    this.setState({ isLoggedIn: false });
-    localStorage.isLoggedIn = 'false';
+    return LoginService.logout().then(() => {
+      this.setState({ isLoggedIn: false });
+      localStorage.isLoggedIn = 'false';
+    });
   };
 
   render() {

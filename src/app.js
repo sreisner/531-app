@@ -1,11 +1,12 @@
 import React from 'react';
 import withRoot from './withRoot';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { CycleGenerator } from './pages/cycleGenerator/cycleGenerator.component';
 import { AppBar531 } from './core/appBar531/appBar531.component';
 import { Route, Switch } from 'react-router-dom';
 import { Cycle } from './pages/cycle/cycle.component';
 import { AuthContext } from './context/authContext.context';
+import Dashboard from './pages/dashboard/dashboard.component';
 
 const styles = theme => ({
   root: {
@@ -52,7 +53,7 @@ class App extends React.Component {
           <AppBar531 title="5/3/1" />
         </AuthContext.Provider>
         <Switch>
-          <Route exact path="/" component={CycleGenerator} />
+          <Route exact path="/" component={Dashboard} />
           <Route exact path="/cycle" component={Cycle} />
         </Switch>
       </div>

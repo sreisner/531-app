@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Card from 'material-ui/Card';
-import { Grid } from 'material-ui';
-import { CardContent, CardHeader } from 'material-ui';
-import { Typography, Divider } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
+import {
+  Typography,
+  Divider,
+  CardContent,
+  CardHeader,
+  Grid,
+  Card,
+} from '@material-ui/core';
 
 const styles = theme => ({
   lift: {

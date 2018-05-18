@@ -1,9 +1,6 @@
 import React from 'react';
 import { TitleCard } from './titleCard.component';
-import { FormControl } from 'material-ui';
-import { InputLabel } from 'material-ui';
-import { Select } from 'material-ui';
-import { MenuItem } from 'material-ui';
+import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
 let TemplateCard = props => {
   const {

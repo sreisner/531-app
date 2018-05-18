@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { Grid } from 'material-ui';
-import { Button } from 'material-ui';
-import { TemplatesService } from '../../services/api/templates/templates.service';
 import queryString from 'query-string';
 import base64 from 'base-64';
+import { withStyles } from '@material-ui/core/styles';
+import { Grid, Button } from '@material-ui/core';
+import { TemplatesService } from '../../services/api/templates/templates.service';
 import { TrainingMaxesCard } from './components/trainingMaxesCard.component';
 import { TemplateCard } from './components/templateCard.component';
 import { OptionsCard } from './components/optionsCard.component';

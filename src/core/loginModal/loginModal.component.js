@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { TextField, Button, Typography, Modal } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
+import { TextField, Button, Typography, Modal } from '@material-ui/core';
 import { LoginService } from '../../services/api/login/login.service';
 import { AuthContext } from '../../context/authContext.context';
 

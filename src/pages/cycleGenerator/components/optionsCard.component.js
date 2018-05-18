@@ -1,11 +1,14 @@
 import React from 'react';
 import { TitleCard } from './titleCard.component';
-import { Typography, MenuItem } from 'material-ui';
-import { FormControl } from 'material-ui';
-import { InputLabel } from 'material-ui';
-import { Select } from 'material-ui';
-import { FormControlLabel } from 'material-ui';
-import { Switch } from 'material-ui';
+import {
+  Typography,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  FormControlLabel,
+  Switch,
+} from '@material-ui/core';
 
 let OptionsCard = props => {
   const { selectedTemplate, selectedVariant, optionValues, onChange } = props;

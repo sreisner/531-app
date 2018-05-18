@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { Menu, MenuItem } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
+import { Menu, MenuItem } from '@material-ui/core';
 import { AuthContext } from '../../context/authContext.context';
 
 const styles = theme => ({});

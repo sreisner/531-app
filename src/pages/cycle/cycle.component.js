@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 import { SessionGrid } from './components/sessionGrid.component';
 import { CyclesService } from '../../services/api/cycles/cycles.service';
-// import { Button, Tooltip } from 'material-ui';
+// import { Button, Tooltip } from '@material-ui/core';
 // import AdjustIcon from '@material-ui/icons/Adjust';
 // import CheckIcon from '@material-ui/icons/Check';
 

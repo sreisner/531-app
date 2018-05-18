@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
+import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import {
@@ -13,7 +9,11 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-} from 'material-ui';
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import Link from 'react-router-dom/Link';
 import { LoginModal } from '../loginModal/loginModal.component';
 import { UserAccountButton } from './userAccountButton.component';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import CssBaseline from 'material-ui/CssBaseline';
-import { grey, lightGreen } from 'material-ui/colors';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { grey, lightGreen } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
   palette: {

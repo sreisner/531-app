@@ -1,7 +1,6 @@
 import React from 'react';
 import withRoot from './withRoot';
 import { withStyles } from '@material-ui/core/styles';
-import { CycleGenerator } from './pages/cycleGenerator/cycleGenerator.component';
 import { AppBar531 } from './core/appBar531/appBar531.component';
 import { Route, Switch } from 'react-router-dom';
 import { Cycle } from './pages/cycle/cycle.component';

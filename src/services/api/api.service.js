@@ -16,6 +16,10 @@ const buildRequestConfig = (config = {}) => ({
 });
 
 const handleError = response => {
+  if (response.status === 401) {
+    localStorage.isLoggedIn = 'false';
+  }
+
   if (response.status !== 200) {
     throw Error(response);
   }

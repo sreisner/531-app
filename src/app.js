@@ -23,9 +23,18 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // setInterval(() => this.isLoggedIn !== 'true' && this.onLogout(), 1000);
+  }
+
   onLoginSuccess = () => {
     this.setState({ isLoggedIn: true });
     localStorage.isLoggedIn = 'true';
+  };
+
+  onLogout = () => {
+    this.setState({ isLoggedIn: false });
+    localStorage.isLoggedIn = 'false';
   };
 
   render() {
@@ -37,6 +46,7 @@ class App extends React.Component {
           value={{
             isLoggedIn: this.state.isLoggedIn,
             onLoginSuccess: this.onLoginSuccess,
+            onLogout: this.onLogout,
           }}
         >
           <AppBar531 />

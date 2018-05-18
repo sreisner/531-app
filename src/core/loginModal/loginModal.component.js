@@ -68,8 +68,8 @@ class LoginModal extends React.Component {
           error: '',
         });
 
-        onClose();
         onLoginSuccess(user);
+        onClose();
       })
       .catch(status =>
         this.setState({

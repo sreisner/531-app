@@ -41,10 +41,6 @@ class AppBar531 extends React.Component {
     };
   }
 
-  onAccountUserButtonClick = () => {
-    console.log('onAccountUserButtonClick click');
-  };
-
   onLoginClick = () => {
     this.setState({ loginModalIsOpen: true });
   };
@@ -79,10 +75,7 @@ class AppBar531 extends React.Component {
             >
               {title}
             </Typography>
-            <UserAccountButton
-              onLoginClick={this.onLoginClick}
-              onAccountUserButtonClick={this.onAccountUserButtonClick}
-            />
+            <UserAccountButton onLoginClick={this.onLoginClick} />
             <Drawer
               open={drawerIsOpen}
               onClose={this.toggleDrawer}

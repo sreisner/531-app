@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 import { SessionGrid } from './components/sessionGrid.component';
+import { Loading } from '../../core/loading/loading.component';
 import { CyclesService } from '../../services/api/cycles/cycles.service';
-// import { Button, Tooltip } from '@material-ui/core';
-// import AdjustIcon from '@material-ui/icons/Adjust';
-// import CheckIcon from '@material-ui/icons/Check';
+import { UsersService } from '../../services/api/users/users.service';
+import { Button, Tooltip } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -21,6 +22,12 @@ const styles = theme => ({
     position: 'fixed',
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 3,
+  },
+  loading: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
 });
 
@@ -44,12 +51,26 @@ class Cycle extends React.Component {
     );
   }
 
+  startCycle = () => {
+    this.setState({
+      loading: true,
+    });
+
+    UsersService.startCycle('current', this.state.cycle).then(() =>
+      this.props.history.push('/cycle/current')
+    );
+  };
+
   render() {
     const { classes } = this.props;
-    const { cycle } = this.state;
+    const { cycle, loading } = this.state;
 
-    if (!cycle) {
-      return null;
+    if (loading) {
+      return (
+        <div className={classes.loading}>
+          <Loading variant="title" />
+        </div>
+      );
     }
 
     return (
@@ -57,11 +78,17 @@ class Cycle extends React.Component {
         <div className={classes.grid}>
           <SessionGrid cycle={cycle} />
         </div>
-        {/* <Tooltip title="Start Cycle" placement="left">
-          <Button variant="fab" color="secondary" className={classes.fab}>
+        <Tooltip title="Start Cycle" placement="left">
+          <Button
+            variant="fab"
+            color="secondary"
+            className={classes.fab}
+            onClick={this.startCycle}
+            disabled={loading}
+          >
             <CheckIcon />
           </Button>
-        </Tooltip> */}
+        </Tooltip>
       </div>
     );
   }

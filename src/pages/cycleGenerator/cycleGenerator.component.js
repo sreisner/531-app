@@ -29,10 +29,10 @@ class CycleGenerator extends React.Component {
       loadingTrainingMaxes: true,
       loadingTemplates: true,
       trainingMaxes: {
-        squat: '315',
-        deadlift: '405',
-        bench: '225',
-        press: '135',
+        squat: 315,
+        deadlift: 405,
+        bench: 225,
+        press: 135,
       },
 
       templates: [],

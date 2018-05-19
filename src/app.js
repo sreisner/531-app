@@ -7,6 +7,9 @@ import { Cycle } from './pages/cycle/cycle.component';
 import { CycleGenerator } from './pages/cycleGenerator/cycleGenerator.component';
 import { AuthProvider } from './context/authContext.context';
 import Dashboard from './pages/dashboard/dashboard.component';
+import { UsersService } from './services/api/users/users.service';
+import { Loading } from './core/loading/loading.component';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -18,22 +21,46 @@ const styles = theme => ({
 });
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+    };
+  }
+
+  componentDidMount() {
+    UsersService.getCurrentUser().then(user => {
+      const isLoggedIn = !!user._id;
+
+      if (!isLoggedIn) {
+        // TODO:  Set isLoggedIn to false
+        this.props.onLogout();
+        this.props.history.push('/');
+      }
+
+      this.setState({ loading: false });
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
+    if (this.state.loading) {
+      return <Loading variant="title" />;
+    }
+
     return (
       <div className={classes.root}>
-        <AuthProvider>
-          <AppBar531 title="5/3/1" />
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/cycle" component={Cycle} />
-            <Route exact path="/cycle-generator" component={CycleGenerator} />
-          </Switch>
-        </AuthProvider>
+        <AppBar531 title="5/3/1" />
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/cycle" component={Cycle} />
+          <Route exact path="/cycle-generator" component={CycleGenerator} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default withRoot(withStyles(styles)(App));
+export default withRouter(withRoot(withStyles(styles)(App)));

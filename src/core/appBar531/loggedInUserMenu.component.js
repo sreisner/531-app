@@ -5,7 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
 import { AuthConsumer } from '../../context/authContext.context';
 
-const styles = theme => ({});
+const styles = theme => ({
+  menu: {
+    minWidth: 200,
+  },
+});
 
 class LoggedInUserMenu extends React.Component {
   handleLogout = onLogout => {
@@ -16,7 +20,7 @@ class LoggedInUserMenu extends React.Component {
   };
 
   render() {
-    const { anchorElement, open, onClose } = this.props;
+    const { anchorElement, open, onClose, classes } = this.props;
 
     return (
       <AuthConsumer>
@@ -35,7 +39,10 @@ class LoggedInUserMenu extends React.Component {
             open={open}
             onClose={onClose}
           >
-            <MenuItem onClick={() => this.handleLogout(onLogout)}>
+            <MenuItem
+              onClick={() => this.handleLogout(onLogout)}
+              className={classes.menu}
+            >
               Log Out
             </MenuItem>
           </Menu>

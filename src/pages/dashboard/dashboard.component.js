@@ -1,7 +1,7 @@
 import { Button, Typography, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { AuthConsumer } from '../../context/authContext.context';
+import { AuthConsumer } from '../../context/authContext.component';
 import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({

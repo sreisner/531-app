@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button, Typography, Modal } from '@material-ui/core';
 import { LoginService } from '../../services/api/login/login.service';
-import { AuthConsumer } from '../../context/authContext.context';
+import { AuthConsumer } from '../../context/authContext.component';
 
 const styles = theme => ({
   paper: {
@@ -53,7 +53,7 @@ class LoginModal extends React.Component {
     });
   };
 
-  handleSubmit = (event, onLoginSuccess) => {
+  handleSubmit = (event, login) => {
     event.preventDefault();
 
     const { onClose } = this.props;
@@ -61,14 +61,13 @@ class LoginModal extends React.Component {
 
     this.setState({ loading: true });
 
-    LoginService.login(email, password)
+    login(email, password)
       .then(user => {
         this.setState({
           loading: false,
           error: '',
         });
 
-        onLoginSuccess(user);
         onClose();
       })
       .catch(status =>
@@ -85,7 +84,7 @@ class LoginModal extends React.Component {
 
     return (
       <AuthConsumer>
-        {({ onLoginSuccess }) => (
+        {({ login }) => (
           <Modal open={open} onClose={onClose}>
             <div className={classes.paper}>
               <Typography
@@ -97,7 +96,7 @@ class LoginModal extends React.Component {
               </Typography>
               <form
                 className={classes.form}
-                onSubmit={e => this.handleSubmit(e, onLoginSuccess)}
+                onSubmit={e => this.handleSubmit(e, login)}
               >
                 <TextField
                   className={classes.input}

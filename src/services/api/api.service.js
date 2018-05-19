@@ -15,20 +15,8 @@ const buildRequestConfig = (config = {}) => ({
   ...config,
 });
 
-const handleError = response => {
-  if (response.status === 401) {
-    localStorage.isLoggedIn = 'false';
-  }
-
-  if (response.status !== 200) {
-    throw Error(response);
-  }
-
-  return response;
-};
-
 const handleRequest = request =>
-  request.catch(handleError).then(response => response.json());
+  request.then(response => response.json()).catch(() => ({}));
 
 const get = path =>
   handleRequest(

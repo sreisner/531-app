@@ -4,14 +4,12 @@ import './index.css';
 import App from './app';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider, AuthConsumer } from './context/authContext.context';
+import { AuthProvider } from './context/authContext.component';
 
 ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
-      <AuthConsumer>
-        {({ onLogout }) => <App onLogout={onLogout} />}
-      </AuthConsumer>
+      <App />
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById('root')

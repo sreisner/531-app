@@ -6,5 +6,5 @@ export const UsersService = {
   updateTrainingMaxes: (userId, trainingMaxes) =>
     ApiService.put(`/users/${userId}/training-maxes`, trainingMaxes),
   startCycle: (userId, cycle) =>
-    ApiService.put(`/users/${userId}/cycle`, cycle),
+    ApiService.put(`/users/${userId}/cycles/current`, cycle),
 };

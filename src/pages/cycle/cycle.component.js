@@ -8,6 +8,7 @@ import { CyclesService } from '../../services/api/cycles/cycles.service';
 import { UsersService } from '../../services/api/users/users.service';
 import { Button, Tooltip } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import { AuthConsumer } from '../../context/authContext.component';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -64,22 +65,28 @@ class Cycle extends React.Component {
     }
 
     return (
-      <div>
-        <div className={classes.grid}>
-          <SessionGrid cycle={cycle} />
-        </div>
-        <Tooltip title="Start Cycle" placement="left">
-          <Button
-            variant="fab"
-            color="secondary"
-            className={classes.fab}
-            onClick={this.startCycle}
-            disabled={loading}
-          >
-            <CheckIcon />
-          </Button>
-        </Tooltip>
-      </div>
+      <AuthConsumer>
+        {({ isLoggedIn }) => (
+          <div>
+            <div className={classes.grid}>
+              <SessionGrid cycle={cycle} />
+            </div>
+            {isLoggedIn && (
+              <Tooltip title="Start Cycle" placement="left">
+                <Button
+                  variant="fab"
+                  color="secondary"
+                  className={classes.fab}
+                  onClick={this.startCycle}
+                  disabled={loading}
+                >
+                  <CheckIcon />
+                </Button>
+              </Tooltip>
+            )}
+          </div>
+        )}
+      </AuthConsumer>
     );
   }
 }

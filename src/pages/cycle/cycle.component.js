@@ -23,12 +23,6 @@ const styles = theme => ({
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 3,
   },
-  loading: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
 });
 
 class Cycle extends React.Component {
@@ -66,11 +60,7 @@ class Cycle extends React.Component {
     const { cycle, loading } = this.state;
 
     if (loading) {
-      return (
-        <div className={classes.loading}>
-          <Loading variant="title" />
-        </div>
-      );
+      return <Loading variant="title" />;
     }
 
     return (

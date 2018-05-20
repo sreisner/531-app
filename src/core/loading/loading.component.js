@@ -5,6 +5,10 @@ import { Typography, CircularProgress } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

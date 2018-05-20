@@ -14,17 +14,10 @@ import { AuthConsumer } from './context/authContext.component.js';
 
 const styles = theme => ({
   root: {
-    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     height: '100vh',
-  },
-  loading: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
   },
 });
 
@@ -36,9 +29,7 @@ class App extends React.Component {
       <AuthConsumer>
         {({ loading }) =>
           loading ? (
-            <div className={classes.loading}>
-              <Loading variant="title" />
-            </div>
+            <Loading variant="title" />
           ) : (
             <div className={classes.root}>
               <AppBar531 title="5/3/1" />

@@ -1,8 +1,9 @@
-import { Button, Typography, withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
-import { withRouter } from 'react-router-dom';
+import { NotLoggedInDashboard } from './components/notLoggedInDashboard.component';
+import { LoggedInDashboard } from './components/loggedInDashboard.component';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -23,34 +24,17 @@ class Dashboard extends React.Component {
     this.state = {};
   }
 
-  getStarted = () => {
-    this.props.history.push('/cycle-generator');
-  };
-
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <AuthConsumer>
-          {({ isLoggedIn }) =>
+          {({ isLoggedIn, user }) =>
             isLoggedIn ? (
-              <div>
-                <Typography variant="title" color="inherit" gutterBottom={true}>
-                  You haven't started a cycle yet.
-                </Typography>
-                <Button
-                  variant="raised"
-                  color="primary"
-                  onClick={this.getStarted}
-                >
-                  Get Started
-                </Button>
-              </div>
+              <LoggedInDashboard user={user} />
             ) : (
-              <Typography variant="title" color="inherit">
-                Figure out something to put here for users who aren't logged in.
-              </Typography>
+              <NotLoggedInDashboard />
             )
           }
         </AuthConsumer>
@@ -63,5 +47,5 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-Dashboard = withRouter(withStyles(styles)(Dashboard));
+Dashboard = withStyles(styles)(Dashboard);
 export default Dashboard;

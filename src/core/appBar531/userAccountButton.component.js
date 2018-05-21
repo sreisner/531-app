@@ -33,8 +33,8 @@ class UserAccountButton extends React.Component {
 
     return (
       <AuthConsumer>
-        {({ isLoggedIn }) =>
-          isLoggedIn ? (
+        {({ user }) =>
+          user ? (
             <div>
               <IconButton color="inherit" onClick={this.openLoggedInUserMenu}>
                 <AccountCircleIcon />

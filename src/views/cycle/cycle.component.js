@@ -66,12 +66,12 @@ class Cycle extends React.Component {
 
     return (
       <AuthConsumer>
-        {({ isLoggedIn }) => (
+        {({ user }) => (
           <div>
             <div className={classes.grid}>
               <SessionGrid cycle={cycle} />
             </div>
-            {isLoggedIn && (
+            {user && (
               <Tooltip title="Start Cycle" placement="left">
                 <Button
                   variant="fab"

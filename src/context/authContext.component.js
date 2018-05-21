@@ -4,7 +4,6 @@ import { UsersService } from '../services/api/users/users.service';
 
 const AuthContext = React.createContext({
   loading: true,
-  isLoggedIn: false,
   user: undefined,
   login: () => {},
   logout: () => {},
@@ -16,24 +15,16 @@ export class AuthProvider extends React.Component {
 
     this.state = {
       loading: true,
-      isLoggedIn: false,
       user: undefined,
     };
   }
 
   componentDidMount() {
     UsersService.getCurrentUser().then(user => {
-      this.setState(
-        {
-          user,
-          loading: false,
-        },
-        () => {
-          this.setState({
-            isLoggedIn: !!this.state.user._id,
-          });
-        }
-      );
+      this.setState({
+        user: user._id ? user : undefined,
+        loading: false,
+      });
     });
   }
 
@@ -41,7 +32,7 @@ export class AuthProvider extends React.Component {
     this.setState({ loading: true });
 
     return LoginService.login(email, password).then(user => {
-      this.setState({ isLoggedIn: true, user, loading: false });
+      this.setState({ user, loading: false });
     });
   };
 
@@ -49,7 +40,7 @@ export class AuthProvider extends React.Component {
     this.setState({ loading: true });
 
     return LoginService.logout().then(() => {
-      this.setState({ isLoggedIn: false, user: undefined, loading: false });
+      this.setState({ user: undefined, loading: false });
     });
   };
 
@@ -60,7 +51,6 @@ export class AuthProvider extends React.Component {
       <AuthContext.Provider
         value={{
           loading: this.state.loading,
-          isLoggedIn: this.state.isLoggedIn,
           user: this.state.user,
           login: this.login,
           logout: this.logout,

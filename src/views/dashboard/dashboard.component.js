@@ -30,12 +30,8 @@ class Dashboard extends React.Component {
     return (
       <div className={classes.root}>
         <AuthConsumer>
-          {({ isLoggedIn, user }) =>
-            isLoggedIn ? (
-              <LoggedInDashboard user={user} />
-            ) : (
-              <NotLoggedInDashboard />
-            )
+          {({ user }) =>
+            user ? <LoggedInDashboard user={user} /> : <NotLoggedInDashboard />
           }
         </AuthConsumer>
       </div>

@@ -73,7 +73,6 @@ class Cycle extends React.Component {
     return (
       <AuthConsumer>
         {({ user }) => {
-          console.log(user);
           if (user.currentCycle.length > 0) {
             return (
               <div>

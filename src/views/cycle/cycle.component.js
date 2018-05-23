@@ -6,7 +6,7 @@ import { SessionGrid } from './components/sessionGrid.component';
 import { Loading } from '../../core/loading/loading.component';
 import { CyclesService } from '../../services/api/cycles/cycles.service';
 import { UsersService } from '../../services/api/users/users.service';
-import { Button, Tooltip } from '@material-ui/core';
+import { Button, Tooltip, Typography } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import { AuthConsumer } from '../../context/authContext.component';
 
@@ -36,14 +36,20 @@ class Cycle extends React.Component {
   }
 
   componentDidMount() {
-    CyclesService.generateCycle({
-      ...queryString.parse(this.props.location.search),
-    }).then(cycle =>
+    if (this.props.location.search) {
+      CyclesService.generateCycle({
+        ...queryString.parse(this.props.location.search),
+      }).then(cyclePreview =>
+        this.setState({
+          loading: false,
+          cyclePreview,
+        })
+      );
+    } else {
       this.setState({
         loading: false,
-        cycle,
-      })
-    );
+      });
+    }
   }
 
   startCycle = () => {
@@ -58,7 +64,7 @@ class Cycle extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { cycle, loading } = this.state;
+    const { loading } = this.state;
 
     if (loading) {
       return <Loading variant="title" />;
@@ -66,26 +72,46 @@ class Cycle extends React.Component {
 
     return (
       <AuthConsumer>
-        {({ user }) => (
-          <div>
-            <div className={classes.grid}>
-              <SessionGrid cycle={cycle} />
-            </div>
-            {user && (
-              <Tooltip title="Start Cycle" placement="left">
+        {({ user }) => {
+          console.log(user);
+          if (user.currentCycle.length > 0) {
+            return (
+              <div>
+                <div className={classes.grid}>
+                  <SessionGrid cycle={user.currentCycle} />
+                </div>
+                {user && (
+                  <Tooltip title="Start Cycle" placement="left">
+                    <Button
+                      variant="fab"
+                      color="secondary"
+                      className={classes.fab}
+                      onClick={this.startCycle}
+                      disabled={loading}
+                    >
+                      <CheckIcon />
+                    </Button>
+                  </Tooltip>
+                )}
+              </div>
+            );
+          } else {
+            return (
+              <div>
+                <Typography variant="title" color="inherit" gutterBottom={true}>
+                  You haven't started a cycle yet.
+                </Typography>
                 <Button
-                  variant="fab"
-                  color="secondary"
-                  className={classes.fab}
-                  onClick={this.startCycle}
-                  disabled={loading}
+                  variant="raised"
+                  color="primary"
+                  onClick={this.getStarted}
                 >
-                  <CheckIcon />
+                  Get Started
                 </Button>
-              </Tooltip>
-            )}
-          </div>
-        )}
+              </div>
+            );
+          }
+        }}
       </AuthConsumer>
     );
   }

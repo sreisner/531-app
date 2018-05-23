@@ -13,10 +13,7 @@ const styles = theme => ({
 
 class LoggedInUserMenu extends React.Component {
   handleLogout = logout => {
-    logout().then(() => {
-      this.props.onClose();
-      this.props.history.push('/');
-    });
+    logout().then(() => this.props.history.push('/'));
   };
 
   render() {

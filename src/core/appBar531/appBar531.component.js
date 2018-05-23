@@ -2,22 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ViewWeekIcon from '@material-ui/icons/ViewWeek';
 import {
   Drawer,
   List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
   AppBar,
   Toolbar,
   Typography,
   IconButton,
 } from '@material-ui/core';
-import Link from 'react-router-dom/Link';
 import { LoginModal } from '../loginModal/loginModal.component';
 import { UserAccountButton } from './userAccountButton.component';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ViewWeekIcon from '@material-ui/icons/ViewWeek';
+import AppBarLink from './appBarLink.component';
 
 const styles = {
   flex: {
@@ -80,22 +77,18 @@ class AppBar531 extends React.Component {
               anchor="left"
             >
               <List onClick={this.toggleDrawer} onKeyDown={this.toggleDrawer}>
-                <Link to="/">
-                  <ListItem button>
-                    <ListItemIcon>
-                      <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Dashboard" />
-                  </ListItem>
-                </Link>
-                <Link to="/cycle-generator">
-                  <ListItem button>
-                    <ListItemIcon>
-                      <ViewWeekIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Cycle Generator" />
-                  </ListItem>
-                </Link>
+                <AppBarLink
+                  text="Current Cycle"
+                  to="/cycle/current"
+                  showIfNotLoggedIn={false}
+                  icon={<DashboardIcon />}
+                />
+                <AppBarLink
+                  text="Cycle Generator"
+                  to="/cycle/generator"
+                  showIfNotLoggedIn={true}
+                  icon={<ViewWeekIcon />}
+                />
               </List>
             </Drawer>
           </Toolbar>

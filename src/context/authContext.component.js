@@ -20,20 +20,24 @@ export class AuthProvider extends React.Component {
   }
 
   componentDidMount() {
-    UsersService.getCurrentUser().then(user => {
-      this.setState({
-        user: user._id ? user : undefined,
-        loading: false,
-      });
-    });
+    this._loadCurrentUser();
   }
+
+  _loadCurrentUser = () => {
+    this.setState({ loading: true }, () =>
+      UsersService.getCurrentUser().then(user => {
+        this.setState({
+          user: user._id ? user : undefined,
+          loading: false,
+        });
+      })
+    );
+  };
 
   login = (email, password) => {
     this.setState({ loading: true });
 
-    return LoginService.login(email, password).then(user => {
-      this.setState({ user, loading: false });
-    });
+    return LoginService.login(email, password).then(this._loadCurrentUser);
   };
 
   logout = () => {

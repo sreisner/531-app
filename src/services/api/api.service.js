@@ -50,7 +50,7 @@ const put = (path, data) =>
     )
   );
 
-export const ApiService = {
+export default {
   get,
   post,
   put,

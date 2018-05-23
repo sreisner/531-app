@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { AuthConsumer } from '../../context/authContext.component';
 
 const styles = theme => ({
@@ -54,5 +54,4 @@ LoggedInUserMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-LoggedInUserMenu = withRouter(withStyles(styles)(LoggedInUserMenu));
-export { LoggedInUserMenu };
+export default withRouter(withStyles(styles)(LoggedInUserMenu));

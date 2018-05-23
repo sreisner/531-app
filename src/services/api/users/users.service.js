@@ -1,6 +1,6 @@
-import { ApiService } from '../api.service';
+import ApiService from '../api.service';
 
-export const UsersService = {
+export default {
   getCurrentUser: userId => ApiService.get(`/users/current`),
   getTrainingMaxes: userId => ApiService.get(`/users/${userId}/training-maxes`),
   updateTrainingMaxes: (userId, trainingMaxes) =>

@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import {
-  Typography,
-  Grid,
-  CircularProgress,
   Card,
   CardContent,
+  CircularProgress,
+  Grid,
+  Typography,
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const styles = theme => ({
   card: {
@@ -60,4 +60,4 @@ TitleCard.propTypes = {
 };
 
 TitleCard = withStyles(styles)(TitleCard);
-export { TitleCard };
+export default TitleCard;

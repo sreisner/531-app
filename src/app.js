@@ -1,13 +1,12 @@
-import React from 'react';
-import withRoot from './withRoot';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar531 } from './core/appBar531/appBar531.component';
-import { Route, Switch } from 'react-router-dom';
-import { Cycle } from './views/cycle/cycle.component';
-import { CycleGenerator } from './views/cycleGenerator/cycleGenerator.component';
-import { Loading } from './core/loading/loading.component';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from './context/authContext.component.js';
+import AppBar531 from './core/appBar531/appBar531.component';
+import Loading from './core/loading/loading.component';
+import Cycle from './views/cycle/cycle.component';
+import CycleGenerator from './views/cycleGenerator/cycleGenerator.component';
+import withRoot from './withRoot';
 
 const styles = theme => ({
   root: {

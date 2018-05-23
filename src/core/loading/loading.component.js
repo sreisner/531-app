@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { CircularProgress, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, CircularProgress } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const styles = theme => ({
   root: {
@@ -33,5 +33,4 @@ Loading.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-Loading = withStyles(styles)(Loading);
-export { Loading };
+export default withStyles(styles)(Loading);

@@ -1,6 +1,6 @@
-import { ApiService } from '../a.service';
+import ApiService from '../a.service';
 
-export const RegisterService = {
+export default {
   register: (email, password) =>
     ApiService.post('/register', { email, password }),
 };

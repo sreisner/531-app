@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import queryString from 'query-string';
-import { SessionGrid } from './components/sessionGrid.component';
-import { Loading } from '../../core/loading/loading.component';
-import { CyclesService } from '../../services/api/cycles/cycles.service';
-import { UsersService } from '../../services/api/users/users.service';
 import { Button, Tooltip, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
+import Loading from '../../core/loading/loading.component';
+import CyclesService from '../../services/api/cycles/cycles.service';
+import UsersService from '../../services/api/users/users.service';
+import SessionGrid from './components/sessionGrid.component';
 
 const styles = theme => ({
   grid: theme.mixins.gutters({
@@ -120,5 +120,4 @@ Cycle.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-Cycle = withStyles(styles)(Cycle);
-export { Cycle };
+export default withStyles(styles)(Cycle);

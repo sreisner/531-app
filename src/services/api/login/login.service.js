@@ -1,8 +1,6 @@
-import { ApiService } from '../api.service';
+import ApiService from '../api.service';
 
-const LoginService = {
+export default {
   login: (email, password) => ApiService.post('/login', { email, password }),
   logout: () => ApiService.get('/logout'),
 };
-
-export { LoginService };

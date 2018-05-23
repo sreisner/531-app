@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Button, Modal, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, Button, Typography, Modal } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
 
 const styles = theme => ({
@@ -55,26 +55,16 @@ class LoginModal extends React.Component {
   handleSubmit = (event, login) => {
     event.preventDefault();
 
-    const { onClose } = this.props;
     const { email, password } = this.state;
 
     this.setState({ loading: true });
 
-    login(email, password)
-      .then(user => {
-        this.setState({
-          loading: false,
-          error: '',
-        });
-
-        onClose();
+    login(email, password).catch(status =>
+      this.setState({
+        error: 'Login failed',
+        loading: false,
       })
-      .catch(status =>
-        this.setState({
-          error: 'Login failed',
-          loading: false,
-        })
-      );
+    );
   };
 
   render() {
@@ -140,5 +130,4 @@ LoginModal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-LoginModal = withStyles(styles)(LoginModal);
-export { LoginModal };
+export default withStyles(styles)(LoginModal);

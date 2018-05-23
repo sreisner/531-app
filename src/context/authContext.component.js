@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoginService } from '../services/api/login/login.service';
-import { UsersService } from '../services/api/users/users.service';
+import LoginService from '../services/api/login/login.service';
+import UsersService from '../services/api/users/users.service';
 
 const AuthContext = React.createContext({
   loading: true,
@@ -24,7 +24,7 @@ export class AuthProvider extends React.Component {
   }
 
   _loadCurrentUser = () => {
-    this.setState({ loading: true }, () =>
+    return this.setState({ loading: true }, () =>
       UsersService.getCurrentUser().then(user => {
         this.setState({
           user: user._id ? user : undefined,

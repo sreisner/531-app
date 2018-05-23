@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import {
-  Drawer,
-  List,
   AppBar,
+  Drawer,
+  IconButton,
+  List,
   Toolbar,
   Typography,
-  IconButton,
 } from '@material-ui/core';
-import { LoginModal } from '../loginModal/loginModal.component';
-import { UserAccountButton } from './userAccountButton.component';
+import { withStyles } from '@material-ui/core/styles';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import MenuIcon from '@material-ui/icons/Menu';
 import ViewWeekIcon from '@material-ui/icons/ViewWeek';
+import PropTypes from 'prop-types';
+import React from 'react';
+import LoginModal from '../loginModal/loginModal.component';
 import AppBarLink from './appBarLink.component';
+import UserAccountButton from './userAccountButton.component';
 
 const styles = {
   flex: {
@@ -103,5 +103,4 @@ AppBar531.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-AppBar531 = withStyles(styles)(AppBar531);
-export { AppBar531 };
+export default withStyles(styles)(AppBar531);

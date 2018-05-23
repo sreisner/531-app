@@ -1,9 +1,7 @@
-import { ApiService } from '../api.service';
 import queryString from 'query-string';
+import ApiService from '../api.service';
 
-const CyclesService = {
+export default {
   generateCycle: queryParams =>
     ApiService.get(`/cycles?${queryString.stringify(queryParams)}`),
 };
-
-export { CyclesService };

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { TitleCard } from './titleCard.component';
 import { TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
+import TitleCard from './titleCard.component';
 
 let TrainingMaxesCard = props => {
   const { loading, trainingMaxes, onChange } = props;
@@ -55,4 +55,4 @@ TrainingMaxesCard.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-export { TrainingMaxesCard };
+export default TrainingMaxesCard;

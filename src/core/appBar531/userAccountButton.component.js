@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { AuthConsumer } from '../../context/authContext.component';
 import { Button, IconButton } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { LoggedInUserMenu } from './loggedInUserMenu.component';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { AuthConsumer } from '../../context/authContext.component';
+import LoggedInUserMenu from './loggedInUserMenu.component';
 
 const styles = theme => ({});
 
@@ -60,5 +60,4 @@ UserAccountButton.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-UserAccountButton = withStyles(styles)(UserAccountButton);
-export { UserAccountButton };
+export default withStyles(styles)(UserAccountButton);

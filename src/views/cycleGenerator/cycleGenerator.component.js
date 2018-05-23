@@ -1,14 +1,12 @@
-import React from 'react';
+import { Button, Grid } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import base64 from 'base-64';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import base64 from 'base-64';
-import { withStyles } from '@material-ui/core/styles';
-import { Grid, Button } from '@material-ui/core';
-import { UsersService } from '../../services/api/users/users.service';
-import { TemplatesService } from '../../services/api/templates/templates.service';
-import { TrainingMaxesCard } from './components/trainingMaxesCard.component';
-import { TemplateCard } from './components/templateCard.component';
-import { OptionsCard } from './components/optionsCard.component';
+import React from 'react';
+import TemplatesService from '../../services/api/templates/templates.service';
+import UsersService from '../../services/api/users/users.service';
+import { OptionsCard, TemplateCard, TrainingMaxesCard } from './cards';
 
 const styles = theme => ({
   form: theme.mixins.gutters({
@@ -247,5 +245,4 @@ CycleGenerator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-CycleGenerator = withStyles(styles)(CycleGenerator);
-export { CycleGenerator };
+export default withStyles(styles)(CycleGenerator);

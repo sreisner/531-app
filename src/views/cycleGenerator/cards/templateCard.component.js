@@ -1,6 +1,6 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
-import { TitleCard } from './titleCard.component';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import TitleCard from './titleCard.component';
 
 let TemplateCard = props => {
   const {
@@ -50,4 +50,4 @@ let TemplateCard = props => {
   );
 };
 
-export { TemplateCard };
+export default TemplateCard;

@@ -1,6 +1,6 @@
-import { ApiService } from '../api.service';
+import ApiService from '../api.service';
 
-export const TemplatesService = {
+export default {
   getTemplates: () => ApiService.get(`/templates`),
   getConfig: (templateId, variantId, options) =>
     ApiService.get(

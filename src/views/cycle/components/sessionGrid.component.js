@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import {
-  Typography,
-  Divider,
+  Card,
   CardContent,
   CardHeader,
+  Divider,
   Grid,
-  Card,
+  Typography,
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const styles = theme => ({
   lift: {
@@ -100,5 +100,4 @@ SessionGrid.propTypes = {
   cycle: PropTypes.array.isRequired,
 };
 
-SessionGrid = withStyles(styles)(SessionGrid);
-export { SessionGrid };
+export default withStyles(styles)(SessionGrid);

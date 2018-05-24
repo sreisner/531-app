@@ -1,8 +1,10 @@
 import queryString from 'query-string';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { AuthConsumer } from '../../../../context/authContext.component';
 import Loading from '../../../../core/loading/loading.component';
 import CyclesService from '../../../../services/api/cycles/cycles.service';
+import UsersService from '../../../../services/api/users/users.service';
 import CycleGeneratorPreview from './cycleGeneratorPreview.component';
 
 class CycleGeneratorPreviewContainer extends React.Component {
@@ -30,12 +32,32 @@ class CycleGeneratorPreviewContainer extends React.Component {
     }
   }
 
+  handleStartCycleClick = () => {
+    this.setState({
+      loading: true,
+    });
+
+    UsersService.startCycle('current', this.state.cycle).then(() =>
+      this.props.history.push('/cycle/current')
+    );
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
     }
 
-    return <CycleGeneratorPreview cycle={this.state.cycle} />;
+    return (
+      <AuthConsumer>
+        {({ user }) => (
+          <CycleGeneratorPreview
+            cycle={this.state.cycle}
+            isLoggedIn={!!user}
+            onStartCycleClick={this.handleStartCycleClick}
+          />
+        )}
+      </AuthConsumer>
+    );
   }
 }
 

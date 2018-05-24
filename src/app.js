@@ -18,7 +18,7 @@ const styles = theme => ({
 });
 
 let DefaultPathForwarder = props => {
-  const forwardTo = path => props.history.push(path);
+  const forwardTo = path => props.history.replace(path);
 
   if (props.user) {
     forwardTo('/cycle/current');

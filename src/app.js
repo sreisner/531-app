@@ -4,8 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from './context/authContext.component.js';
 import AppBar531 from './core/appBar531/appBar531.component';
 import Loading from './core/loading/loading.component';
-import Cycle from './views/cycle/cycle.component';
-import CycleGenerator from './views/cycleGenerator/cycleGenerator.component';
+import CycleContainer from './views/cycle/cycle.container.js';
 import withRoot from './withRoot';
 
 const styles = theme => ({
@@ -23,7 +22,7 @@ let DefaultPathForwarder = props => {
   if (props.user) {
     forwardTo('/cycle/current');
   } else {
-    forwardTo('/cycle/generator');
+    forwardTo('/cycle/generator/form');
   }
 
   return null;
@@ -49,12 +48,7 @@ class App extends React.Component {
                   path="/"
                   render={() => <DefaultPathForwarder user={user} />}
                 />
-                <Route exact path="/cycle/current" component={Cycle} />
-                <Route
-                  exact
-                  path="/cycle/generator"
-                  component={CycleGenerator}
-                />
+                <Route path="/cycle" component={CycleContainer} />
               </Switch>
             </div>
           )

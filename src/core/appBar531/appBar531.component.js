@@ -85,7 +85,7 @@ class AppBar531 extends React.Component {
                 />
                 <AppBarLink
                   text="Cycle Generator"
-                  to="/cycle/generator"
+                  to="/cycle/generator/form"
                   showIfNotLoggedIn={true}
                   icon={<ViewWeekIcon />}
                 />

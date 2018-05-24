@@ -17,28 +17,42 @@ const styles = theme => ({
   },
 });
 
+let DefaultPathForwarder = props => {
+  const forwardTo = path => props.history.push(path);
+
+  if (props.user) {
+    forwardTo('/cycle/current');
+  } else {
+    forwardTo('/cycle/generator');
+  }
+
+  return null;
+};
+
+DefaultPathForwarder = withRouter(DefaultPathForwarder);
+
 class App extends React.Component {
   render() {
     const { classes } = this.props;
 
     return (
       <AuthConsumer>
-        {({ loading }) =>
+        {({ loading, user }) =>
           loading ? (
             <Loading variant="title" />
           ) : (
             <div className={classes.root}>
               <AppBar531 title="5/3/1" />
               <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => <DefaultPathForwarder user={user} />}
+                />
                 <Route exact path="/cycle/current" component={Cycle} />
                 <Route
                   exact
                   path="/cycle/generator"
-                  component={CycleGenerator}
-                />
-                <Route
-                  exact
-                  path="/cycle-generator"
                   component={CycleGenerator}
                 />
               </Switch>

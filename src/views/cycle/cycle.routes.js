@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import CurrentCycleContainer from './current/currentCycle.container';
-import CycleGeneratorContainer from './generator/cycleGenerator.container';
+import CycleGeneratorContainer from './generator/cycleGenerator.routes';
 
 class CycleContainer extends React.Component {
   render() {

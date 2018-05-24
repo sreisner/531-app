@@ -2,7 +2,10 @@
   "files.eol": "\n",
   "files.associations": {
     "*.component.js": "javascriptreact",
-    "*.container.js": "javascriptreact"
+    "*.container.js": "javascriptreact",
+    "*.routes.js": "javascriptreact",
+    "app.js": "javascriptreact",
+    "*.test.js": "javascriptreact"
   },
   "editor.formatOnSave": true,
   "editor.tabSize": 2,

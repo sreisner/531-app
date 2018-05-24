@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from './context/authContext.component.js';
 import AppBar531 from './core/appBar531/appBar531.component';
 import Loading from './core/loading/loading.component';
-import CycleContainer from './views/cycle/cycle.container.js';
+import CycleContainer from './views/cycle/cycle.routes';
 import withRoot from './withRoot';
 
 const styles = theme => ({

@@ -1,13 +1,13 @@
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import SessionGrid from '../core/sessionGrid.component';
+import SessionGridContainer from '../core/sessionGrid.container';
 
 const styles = theme => ({});
 
 let CurrentCycle = props => (
   <div>
-    <SessionGrid cycle={props.cycle} />
+    <SessionGridContainer cycle={props.cycle} />
   </div>
 );
 

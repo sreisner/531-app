@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import PropTypes from 'prop-types';
 import React from 'react';
-import SessionGrid from '../../core/sessionGrid.component';
+import SessionGridContainer from '../../core/sessionGrid.container';
 
 const styles = theme => ({
   fab: {
@@ -18,7 +18,7 @@ let CycleGeneratorPreview = props => {
 
   return (
     <div>
-      <SessionGrid cycle={cycle} />
+      <SessionGridContainer cycle={cycle} />
       {isLoggedIn && (
         <Tooltip title="Start Cycle" placement="left">
           <Button

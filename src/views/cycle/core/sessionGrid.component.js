@@ -1,5 +1,7 @@
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -32,9 +34,12 @@ const styles = theme => ({
     width: '100%',
     margin: 0,
   }),
+  beginSessionButton: {
+    width: '100%',
+  },
 });
 
-let SessionGrid = ({ classes, cycle }) => {
+let SessionGrid = ({ classes, cycle, onBeginSessionClick }) => {
   return cycle.map((week, i) => (
     <Grid
       key={i}
@@ -95,6 +100,18 @@ let SessionGrid = ({ classes, cycle }) => {
                   </ul>
                 </ul>
               </CardContent>
+              {session.isComplete === false && (
+                <CardActions>
+                  <Button
+                    variant="raised"
+                    color="secondary"
+                    className={classes.beginSessionButton}
+                    onClick={e => onBeginSessionClick(session._id)}
+                  >
+                    Begin Session
+                  </Button>
+                </CardActions>
+              )}
             </Card>
           </Grid>
         );

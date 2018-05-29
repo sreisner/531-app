@@ -37,9 +37,9 @@ class CycleGeneratorPreviewContainer extends React.Component {
       loading: true,
     });
 
-    UsersService.startCycle('current', this.state.cycle).then(() =>
-      this.props.history.push('/cycle/current')
-    );
+    CyclesService.createCycle(this.state.cycle)
+      .then(cycleId => UsersService.startCycle(cycleId))
+      .then(() => this.props.history.push('/cycle/current'));
   };
 
   render() {
@@ -53,7 +53,7 @@ class CycleGeneratorPreviewContainer extends React.Component {
           <CycleGeneratorPreview
             cycle={this.state.cycle}
             isLoggedIn={!!user}
-            onStartCycleClick={this.handleStartCycleClick}
+            onStartCycleClick={() => this.handleStartCycleClick()}
           />
         )}
       </AuthConsumer>

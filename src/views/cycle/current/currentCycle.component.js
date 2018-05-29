@@ -7,13 +7,13 @@ const styles = theme => ({});
 
 let CurrentCycle = props => (
   <div>
-    <SessionGridContainer cycle={props.cycle} />
+    <SessionGridContainer sessions={props.cycle.sessions} />
   </div>
 );
 
 CurrentCycle.propTypes = {
   classes: PropTypes.object.isRequired,
-  cycle: PropTypes.array.isRequired,
+  cycle: PropTypes.object.isRequired,
 };
 
 CurrentCycle = withStyles(styles)(CurrentCycle);

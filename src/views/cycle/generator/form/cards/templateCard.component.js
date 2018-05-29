@@ -7,7 +7,6 @@ let TemplateCard = props => {
     templates,
     selectedTemplate,
     selectedVariant,
-    loading,
     onTemplateChange,
     onVariantChange,
   } = props;
@@ -15,7 +14,7 @@ let TemplateCard = props => {
   const { description = [], variants = [] } = selectedTemplate;
 
   return (
-    <TitleCard title="Template" loading={loading}>
+    <TitleCard title="Template">
       <FormControl>
         <InputLabel>Name</InputLabel>
         <Select

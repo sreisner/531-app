@@ -9,7 +9,7 @@ export default class SessionGridContainer extends Component {
   render() {
     return (
       <SessionGrid
-        cycle={this.props.cycle}
+        sessions={this.props.sessions}
         onBeginSessionClick={this.handleBeginSessionClick}
       />
     );

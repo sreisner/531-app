@@ -1,10 +1,7 @@
 import ApiService from '../api.service';
 
 export default {
-  getCurrentUser: userId => ApiService.get(`/users/current`),
-  getTrainingMaxes: userId => ApiService.get(`/users/${userId}/training-maxes`),
-  updateTrainingMaxes: (userId, trainingMaxes) =>
-    ApiService.put(`/users/${userId}/training-maxes`, trainingMaxes),
-  startCycle: (userId, cycle) =>
-    ApiService.put(`/users/${userId}/cycles/current`, cycle),
+  getCurrentUser: () => ApiService.get(`/users/me`),
+  startCycle: cycleId => ApiService.put(`/users/me/current-cycle`, { cycleId }),
+  getCurrentCycle: () => ApiService.get(`/users/me/current-cycle`),
 };

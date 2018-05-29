@@ -39,8 +39,8 @@ const styles = theme => ({
   },
 });
 
-let SessionGrid = ({ classes, cycle, onBeginSessionClick }) => {
-  return cycle.map((week, i) => (
+let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
+  return sessions.map((week, i) => (
     <Grid
       key={i}
       container
@@ -122,7 +122,7 @@ let SessionGrid = ({ classes, cycle, onBeginSessionClick }) => {
 
 SessionGrid.propTypes = {
   classes: PropTypes.object.isRequired,
-  cycle: PropTypes.array.isRequired,
+  sessions: PropTypes.array.isRequired,
 };
 
 SessionGrid = withStyles(styles)(SessionGrid);

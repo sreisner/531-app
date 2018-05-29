@@ -1,16 +1,17 @@
 import base64 from 'base-64';
 import queryString from 'query-string';
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import TemplatesService from '../../../../services/api/templates/templates.service';
 import UsersService from '../../../../services/api/users/users.service';
 import CycleGeneratorForm from './cycleGeneratorForm.component';
 
-export default class CycleGeneratorFormContainer extends React.Component {
+class CycleGeneratorFormContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loadingTrainingMaxes: true,
+      loadingCurrentCycle: false,
       loadingTemplates: true,
       trainingMaxes: {
         squat: 315,
@@ -29,19 +30,15 @@ export default class CycleGeneratorFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.loadTrainingMaxes();
     this.loadTemplates();
+    this.props.user && this.loadCurrentCycle();
   }
 
-  loadTrainingMaxes = () => {
-    UsersService.getTrainingMaxes('current').then(trainingMaxes => {
-      this.setState(prevState => ({
-        loadingTrainingMaxes: false,
-        trainingMaxes: {
-          ...prevState.trainingMaxes,
-          ...trainingMaxes,
-        },
-      }));
+  loadCurrentCycle = userId => {
+    this.setState({ loadingCurrentCycle: true });
+
+    UsersService.getCurrentCycle().then(currentCycle => {
+      this.setState({ loadingCurrentCycle: false, currentCycle });
     });
   };
 
@@ -57,10 +54,10 @@ export default class CycleGeneratorFormContainer extends React.Component {
   };
 
   loadTemplates = () => {
-    TemplatesService.getTemplates().then(templates =>
+    return TemplatesService.getTemplates().then(templates =>
       this.setState({
-        templates,
         loadingTemplates: false,
+        templates,
       })
     );
   };
@@ -128,19 +125,13 @@ export default class CycleGeneratorFormContainer extends React.Component {
   };
 
   formSubmissionIsEnabled = () => {
-    const {
-      loadingTrainingMaxes,
-      loadingTemplates,
-      selectedTemplate,
-      selectedVariant,
-    } = this.state;
+    const { selectedTemplate, selectedVariant } = this.state;
 
-    return !!(
-      !loadingTrainingMaxes &&
-      !loadingTemplates &&
-      selectedTemplate._id &&
-      selectedVariant.id
-    );
+    return !!(!this.isLoading() && selectedTemplate._id && selectedVariant.id);
+  };
+
+  isLoading = () => {
+    return this.state.loadingTemplates || this.state.loadingCurrentCycle;
   };
 
   handleFormSubmission = event => {
@@ -157,15 +148,11 @@ export default class CycleGeneratorFormContainer extends React.Component {
 
     const queryParamsStr = queryString.stringify(queryParams);
 
-    UsersService.updateTrainingMaxes('current', trainingMaxes);
-
     this.props.history.push(`/cycle/generator/preview?${queryParamsStr}`);
   };
 
   render() {
     const {
-      loadingTrainingMaxes,
-      loadingTemplates,
       trainingMaxes,
       templates,
       selectedTemplate,
@@ -177,8 +164,7 @@ export default class CycleGeneratorFormContainer extends React.Component {
 
     return (
       <CycleGeneratorForm
-        loadingTrainingMaxes={loadingTrainingMaxes}
-        loadingTemplates={loadingTemplates}
+        loading={this.isLoading()}
         trainingMaxes={trainingMaxes}
         templates={templates}
         selectedTemplate={selectedTemplate}
@@ -194,3 +180,5 @@ export default class CycleGeneratorFormContainer extends React.Component {
     );
   }
 }
+
+export default withRouter(CycleGeneratorFormContainer);

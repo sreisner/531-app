@@ -2,6 +2,7 @@ import { Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Loading from '../../../../core/loading/loading.component';
 import { OptionsCard, TemplateCard, TrainingMaxesCard } from './cards';
 
 const styles = theme => ({
@@ -19,9 +20,8 @@ class CycleGeneratorForm extends React.Component {
   render() {
     const {
       classes,
-      loadingTrainingMaxes,
+      loading,
       trainingMaxes,
-      loadingTemplates,
       templates,
       selectedTemplate,
       selectedVariant,
@@ -34,6 +34,10 @@ class CycleGeneratorForm extends React.Component {
       onOptionValueChange,
     } = this.props;
 
+    if (loading) {
+      return <Loading />;
+    }
+
     return (
       <form className={classes.form} noValidate onSubmit={onFormSubmission}>
         <Grid container justify="center" spacing={16}>
@@ -41,13 +45,11 @@ class CycleGeneratorForm extends React.Component {
             <TrainingMaxesCard
               trainingMaxes={trainingMaxes}
               onChange={onTrainingMaxChange}
-              loading={loadingTrainingMaxes}
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <TemplateCard
-              loading={loadingTemplates}
               templates={templates}
               selectedTemplate={selectedTemplate}
               selectedVariant={selectedVariant}
@@ -84,8 +86,7 @@ class CycleGeneratorForm extends React.Component {
 
 CycleGeneratorForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  loadingTrainingMaxes: PropTypes.bool.isRequired,
-  loadingTemplates: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
   trainingMaxes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
   selectedTemplate: PropTypes.object.isRequired,

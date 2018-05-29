@@ -27,7 +27,7 @@ export class AuthProvider extends React.Component {
     return this.setState({ loading: true }, () =>
       UsersService.getCurrentUser().then(user => {
         this.setState({
-          user: user._id ? user : undefined,
+          user,
           loading: false,
         });
       })

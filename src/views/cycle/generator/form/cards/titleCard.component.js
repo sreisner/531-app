@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,12 +8,6 @@ const styles = theme => ({
     height: '100%',
     minHeight: 200,
   },
-  loading: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
   cardContent: {
     position: 'relative',
     height: '100%',
@@ -27,7 +15,7 @@ const styles = theme => ({
 });
 
 let TitleCard = props => {
-  const { classes, children, title, loading } = props;
+  const { classes, children, title } = props;
 
   return (
     <Card className={classes.card}>
@@ -35,21 +23,11 @@ let TitleCard = props => {
         <Typography variant="title" gutterBottom={true}>
           {title}
         </Typography>
-        {loading ? (
-          <div className={classes.loading}>
-            <CircularProgress />
-          </div>
-        ) : (
-          <div>
-            <Grid
-              container
-              direction="column"
-              className={classes.inputContainer}
-            >
-              {children}
-            </Grid>
-          </div>
-        )}
+        <div>
+          <Grid container direction="column" className={classes.inputContainer}>
+            {children}
+          </Grid>
+        </div>
       </CardContent>
     </Card>
   );

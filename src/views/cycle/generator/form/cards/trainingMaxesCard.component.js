@@ -4,11 +4,11 @@ import React from 'react';
 import TitleCard from './titleCard.component';
 
 let TrainingMaxesCard = props => {
-  const { loading, trainingMaxes, onChange } = props;
+  const { trainingMaxes, onChange } = props;
   const { squat, deadlift, press, bench } = trainingMaxes;
 
   return (
-    <TitleCard title="Training Maxes" loading={loading}>
+    <TitleCard title="Training Maxes">
       <TextField
         label="Squat TM"
         value={squat}
@@ -52,7 +52,6 @@ let TrainingMaxesCard = props => {
 TrainingMaxesCard.propTypes = {
   trainingMaxes: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default TrainingMaxesCard;

@@ -16,7 +16,15 @@ const buildRequestConfig = (config = {}) => ({
 });
 
 const handleRequest = request =>
-  request.then(response => response.json()).catch(() => ({}));
+  request
+    .then(response => {
+      if (response.status === 204) {
+        return undefined;
+      } else {
+        return response.json();
+      }
+    })
+    .catch(() => ({}));
 
 const get = path =>
   handleRequest(

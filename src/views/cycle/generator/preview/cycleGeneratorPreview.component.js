@@ -18,7 +18,7 @@ let CycleGeneratorPreview = props => {
 
   return (
     <div>
-      <SessionGridContainer cycle={cycle} />
+      <SessionGridContainer sessions={cycle.sessions} />
       {isLoggedIn && (
         <Tooltip title="Start Cycle" placement="left">
           <Button
@@ -37,7 +37,7 @@ let CycleGeneratorPreview = props => {
 
 CycleGeneratorPreview.propTypes = {
   classes: PropTypes.object.isRequired,
-  cycle: PropTypes.array.isRequired,
+  cycle: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   onStartCycleClick: PropTypes.func.isRequired,
 };

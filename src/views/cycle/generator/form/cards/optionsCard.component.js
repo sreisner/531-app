@@ -11,25 +11,17 @@ import React from 'react';
 import TitleCard from './titleCard.component';
 
 let OptionsCard = props => {
-  const { selectedTemplate, selectedVariant, optionValues, onChange } = props;
-
-  const templateOptions = selectedTemplate.options || [];
-  const variantOptions = selectedVariant.options || [];
-  const optionsMeta = [...templateOptions, ...variantOptions];
+  const { optionsMeta, selectedOptionValues, onChange } = props;
 
   return (
     <TitleCard title="Options">
-      {!selectedTemplate._id || !selectedVariant.id ? (
+      {optionsMeta.length === 0 ? (
         <Typography variant="caption">
           Select a template to customize options.
         </Typography>
-      ) : optionsMeta.length === 0 ? (
-        <Typography variant="caption">
-          There are no options available for this template.
-        </Typography>
       ) : (
         optionsMeta.map(o => {
-          const value = optionValues[o.key];
+          const value = selectedOptionValues[o.key];
           if (o.type === 'select') {
             return (
               <FormControl key={o.key}>

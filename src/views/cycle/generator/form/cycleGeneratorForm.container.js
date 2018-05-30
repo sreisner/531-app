@@ -24,21 +24,30 @@ class CycleGeneratorFormContainer extends React.Component {
       selectedTemplate: {},
       selectedVariant: {},
 
-      templateOptionValues: {},
-      variantOptionValues: {},
+      optionsMeta: [],
+      selectedOptionValues: {},
     };
   }
 
   componentDidMount() {
-    this.loadTemplates();
-    this.props.user && this.loadCurrentCycle();
+    this.loadTemplates().then(() => {
+      this.props.user && this.loadCurrentCycle();
+    });
   }
 
   loadCurrentCycle = userId => {
     this.setState({ loadingCurrentCycle: true });
 
     UsersService.getCurrentCycle().then(currentCycle => {
-      this.setState({ loadingCurrentCycle: false, currentCycle });
+      if (currentCycle) {
+        this.handleTemplateChange(currentCycle.templateId);
+        this.handleVariantChange(currentCycle.variantId);
+        this.setState({
+          trainingMaxes: currentCycle.trainingMaxes,
+          selectedOptionValues: currentCycle.options,
+        });
+      }
+      this.setState({ loadingCurrentCycle: false });
     });
   };
 
@@ -68,7 +77,8 @@ class CycleGeneratorFormContainer extends React.Component {
     this.setState({
       selectedTemplate: template,
       selectedVariant: {},
-      templateOptionValues: this.getDefaultOptionValues(template.options),
+      optionsMeta: template.options,
+      selectedOptionValues: this.getDefaultOptionValues(template.options),
     });
   };
 
@@ -77,8 +87,19 @@ class CycleGeneratorFormContainer extends React.Component {
 
     this.setState({
       selectedVariant: this.getVariant(variantId),
-      variantOptionValues: this.getDefaultOptionValues(variant.options),
+      optionsMeta: [...this.state.selectedTemplate.options, ...variant.options],
+      selectedOptionValues: {
+        ...this.getSelectedTemplateSelectedOptionValues(),
+        ...this.getDefaultOptionValues(variant.options),
+      },
     });
+  };
+
+  getSelectedTemplateSelectedOptionValues = () => {
+    return this.state.selectedTemplate.options.reduce((acc, curr) => {
+      acc[curr.key] = this.state.selectedOptionValues[curr.key];
+      return acc;
+    }, {});
   };
 
   getTemplate = templateId => {
@@ -99,29 +120,13 @@ class CycleGeneratorFormContainer extends React.Component {
     );
   };
 
-  getAllOptionValues = () => {
-    const { templateOptionValues, variantOptionValues } = this.state;
-    return { ...templateOptionValues, ...variantOptionValues };
-  };
-
-  handleOptionValueChange = (key, value) => {
-    // TODO:  This logic makes me think there's an issue with the
-    // underlying structure of the data within this component
-    if (this.state.templateOptionValues[key] !== undefined) {
-      this.setState(prevState => ({
-        templateOptionValues: {
-          ...prevState.templateOptionValues,
-          [key]: value,
-        },
-      }));
-    } else if (this.state.variantOptionValues[key] !== undefined) {
-      this.setState(prevState => ({
-        variantOptionValues: {
-          ...prevState.variantOptionValues,
-          [key]: value,
-        },
-      }));
-    }
+  handleSelectedOptionValueChange = (key, value) => {
+    this.setState({
+      selectedOptionValues: {
+        ...this.state.selectedOptionValues,
+        [key]: value,
+      },
+    });
   };
 
   formSubmissionIsEnabled = () => {
@@ -143,7 +148,7 @@ class CycleGeneratorFormContainer extends React.Component {
       ...trainingMaxes,
       templateId: selectedTemplate._id,
       variantId: selectedVariant.id,
-      options: base64.encode(JSON.stringify(this.getAllOptionValues())),
+      options: base64.encode(JSON.stringify(this.state.selectedOptionValues)),
     };
 
     const queryParamsStr = queryString.stringify(queryParams);
@@ -157,9 +162,10 @@ class CycleGeneratorFormContainer extends React.Component {
       templates,
       selectedTemplate,
       selectedVariant,
+      optionsMeta,
+      selectedOptionValues,
     } = this.state;
 
-    const optionValues = this.getAllOptionValues();
     const formSubmissionIsEnabled = this.formSubmissionIsEnabled();
 
     return (
@@ -169,13 +175,14 @@ class CycleGeneratorFormContainer extends React.Component {
         templates={templates}
         selectedTemplate={selectedTemplate}
         selectedVariant={selectedVariant}
-        optionValues={optionValues}
+        optionsMeta={optionsMeta}
+        selectedOptionValues={selectedOptionValues}
         formSubmissionIsEnabled={formSubmissionIsEnabled}
         onFormSubmission={this.handleFormSubmission}
         onTrainingMaxChange={this.handleTrainingMaxChange}
         onTemplateChange={this.handleTemplateChange}
         onVariantChange={this.handleVariantChange}
-        onOptionValueChange={this.handleOptionValueChange}
+        onSelectedOptionValueChange={this.handleSelectedOptionValueChange}
       />
     );
   }

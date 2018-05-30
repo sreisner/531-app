@@ -25,13 +25,14 @@ class CycleGeneratorForm extends React.Component {
       templates,
       selectedTemplate,
       selectedVariant,
-      optionValues,
+      optionsMeta,
+      selectedOptionValues,
       formSubmissionIsEnabled,
       onFormSubmission,
       onTrainingMaxChange,
       onTemplateChange,
       onVariantChange,
-      onOptionValueChange,
+      onSelectedOptionValueChange,
     } = this.props;
 
     if (loading) {
@@ -60,10 +61,9 @@ class CycleGeneratorForm extends React.Component {
 
           <Grid item xs={12} sm={6} md={3}>
             <OptionsCard
-              onChange={onOptionValueChange}
-              selectedTemplate={selectedTemplate}
-              selectedVariant={selectedVariant}
-              optionValues={optionValues}
+              onChange={onSelectedOptionValueChange}
+              optionsMeta={optionsMeta}
+              selectedOptionValues={selectedOptionValues}
             />
           </Grid>
 
@@ -91,12 +91,12 @@ CycleGeneratorForm.propTypes = {
   templates: PropTypes.array.isRequired,
   selectedTemplate: PropTypes.object.isRequired,
   selectedVariant: PropTypes.object.isRequired,
-  optionValues: PropTypes.object.isRequired,
+  selectedOptionValues: PropTypes.object.isRequired,
   formSubmissionIsEnabled: PropTypes.bool.isRequired,
   onFormSubmission: PropTypes.func.isRequired,
   onTemplateChange: PropTypes.func.isRequired,
   onVariantChange: PropTypes.func.isRequired,
-  onOptionValueChange: PropTypes.func.isRequired,
+  onSelectedOptionValueChange: PropTypes.func.isRequired,
 };
 
 CycleGeneratorForm = withStyles(styles)(CycleGeneratorForm);

@@ -4,7 +4,7 @@ import { AuthConsumer } from '../../../context/authContext.component';
 import CycleGeneratorFormContainer from './form';
 import CycleGeneratorPreviewContainer from './preview/cycleGeneratorPreview.container';
 
-class CycleGeneratorContainer extends React.Component {
+class CycleGeneratorRoutes extends React.Component {
   render() {
     const { match } = this.props;
 
@@ -29,5 +29,5 @@ class CycleGeneratorContainer extends React.Component {
   }
 }
 
-CycleGeneratorContainer = withRouter(CycleGeneratorContainer);
-export default CycleGeneratorContainer;
+CycleGeneratorRoutes = withRouter(CycleGeneratorRoutes);
+export default CycleGeneratorRoutes;

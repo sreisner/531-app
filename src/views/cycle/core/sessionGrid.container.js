@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import SessionGrid from './sessionGrid.component';
 
-export default class SessionGridContainer extends Component {
+class SessionGridContainer extends Component {
   handleBeginSessionClick = sessionId => {
     this.props.history.push(`/cycle/current/session/${sessionId}`);
   };
@@ -15,3 +16,5 @@ export default class SessionGridContainer extends Component {
     );
   }
 }
+
+export default withRouter(SessionGridContainer);

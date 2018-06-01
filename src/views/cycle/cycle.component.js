@@ -1,11 +1,28 @@
 import { Button, Typography } from '@material-ui/core';
-import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { default as React } from 'react';
 import { withRouter } from 'react-router-dom';
-import Loading from '../../../core/loading/loading.component';
-import UsersService from '../../../services/api/users/users.service';
-import CurrentCycle from './currentCycle.component';
+import Loading from '../../core/loading/loading.component';
+import UsersService from '../../services/api/users/users.service';
+import SessionGridContainer from './core/sessionGrid.container';
 
-class CurrentCycleContainer extends React.Component {
+const styles = theme => ({});
+
+let Cycle = props => (
+  <div>
+    <SessionGridContainer sessions={props.cycle.sessions} />
+  </div>
+);
+
+Cycle.propTypes = {
+  classes: PropTypes.object.isRequired,
+  cycle: PropTypes.object.isRequired,
+};
+
+Cycle = withStyles(styles)(Cycle);
+
+class CycleContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -42,7 +59,7 @@ class CurrentCycleContainer extends React.Component {
         {user ? (
           <div>
             {currentCycle ? (
-              <CurrentCycle cycle={currentCycle} />
+              <Cycle cycle={currentCycle} />
             ) : (
               <div>
                 <Typography variant="title" color="inherit" gutterBottom={true}>
@@ -70,4 +87,4 @@ class CurrentCycleContainer extends React.Component {
   }
 }
 
-export default withRouter(CurrentCycleContainer);
+export default withRouter(CycleContainer);

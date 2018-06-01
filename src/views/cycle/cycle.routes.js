@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from '../../context/authContext.component';
-import CurrentCycleContainer from './current/currentCycle.container';
+import CycleContainer from './cycle.component';
 import CycleGeneratorRoutes from './generator/cycleGenerator.routes';
 
 class CycleRoutes extends React.Component {
@@ -17,8 +17,8 @@ class CycleRoutes extends React.Component {
               component={CycleGeneratorRoutes}
             />
             <Route
-              path={`${match.url}/current`}
-              render={() => <CurrentCycleContainer user={user} />}
+              path={`${match.url}/:cycleId`}
+              render={() => <CycleContainer user={user} />}
             />
           </Switch>
         )}

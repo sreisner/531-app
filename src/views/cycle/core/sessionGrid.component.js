@@ -130,7 +130,8 @@ SessionGrid = withStyles(styles)(SessionGrid);
 
 class SessionGridContainer extends Component {
   handleBeginSessionClick = sessionId => {
-    this.props.history.push(`/cycle/current/session/${sessionId}`);
+    const { history, match } = this.props;
+    history.push(`${match.url}/session/${sessionId}`);
   };
 
   render() {

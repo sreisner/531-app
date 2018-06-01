@@ -15,13 +15,12 @@ class CycleRoutes extends React.Component {
           <Switch>
             <Route
               exact
-              path={`${match.url}/generator`}
-              component={CycleGeneratorRoutes}
-            />
-            <Route
-              exact
               path={`${match.url}/:cycleId`}
               render={() => <CycleContainer user={user} />}
+            />
+            <Route
+              path={`${match.url}/generator`}
+              component={CycleGeneratorRoutes}
             />
             <Route
               exact

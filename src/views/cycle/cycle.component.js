@@ -1,10 +1,9 @@
-import { Button, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { default as React } from 'react';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../core/loading/loading.component';
-import UsersService from '../../services/api/users/users.service';
+import CyclesService from '../../services/api/cycles/cycles.service';
 import SessionGridContainer from './core/sessionGrid.component';
 
 const styles = theme => ({});
@@ -27,63 +26,37 @@ class CycleContainer extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
     };
   }
 
   componentDidMount() {
-    const { user } = this.props;
-    if (user && user.currentCycleId) {
-      this.setState({ loading: true });
+    const cycleId = this.props.match.params.cycleId;
 
-      UsersService.getCurrentCycle().then(currentCycle => {
-        this.setState({ loading: false, currentCycle });
-      });
-    }
+    this.setState({ loading: true });
+
+    CyclesService.getCycle(cycleId).then(cycle => {
+      this.setState({ loading: false, cycle });
+    });
   }
 
-  getStarted = () => {
+  goToGeneratorForm = () => {
     this.props.history.push('/cycle/generator/form');
   };
 
   render() {
-    const { user } = this.props;
-    const { currentCycle, loading } = this.state;
+    const { cycle, loading } = this.state;
 
     if (loading) {
       return <Loading />;
     }
 
-    return (
-      <div>
-        {user ? (
-          <div>
-            {currentCycle ? (
-              <Cycle cycle={currentCycle} />
-            ) : (
-              <div>
-                <Typography variant="title" color="inherit" gutterBottom={true}>
-                  You haven't started a cycle yet.
-                </Typography>
-                <Button
-                  variant="raised"
-                  color="primary"
-                  onClick={this.getStarted}
-                >
-                  Get Started
-                </Button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <Typography variant="title" color="inherit" gutterBottom={true}>
-              You must be logged in to keep track of your current cycle.
-            </Typography>
-          </div>
-        )}
-      </div>
-    );
+    if (!cycle) {
+      this.goToGeneratorForm();
+      return null;
+    }
+
+    return <Cycle cycle={cycle} />;
   }
 }
 

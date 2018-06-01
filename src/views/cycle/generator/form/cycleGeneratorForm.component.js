@@ -6,8 +6,8 @@ import queryString from 'query-string';
 import { default as React } from 'react';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../../../core/loading/loading.component';
+import CyclesService from '../../../../services/api/cycles/cycles.service';
 import TemplatesService from '../../../../services/api/templates/templates.service';
-import UsersService from '../../../../services/api/users/users.service';
 import { OptionsCard, TemplateCard, TrainingMaxesCard } from './cards';
 
 const styles = theme => ({
@@ -111,7 +111,7 @@ class CycleGeneratorFormContainer extends React.Component {
     super(props);
 
     this.state = {
-      loadingCurrentCycle: false,
+      loadingLastKnownCycle: false,
       loadingTemplates: true,
       trainingMaxes: {
         squat: 315,
@@ -131,24 +131,32 @@ class CycleGeneratorFormContainer extends React.Component {
 
   componentDidMount() {
     this.loadTemplates().then(() => {
-      this.props.user && this.loadCurrentCycle();
+      this.loadLastKnownCycle();
     });
   }
 
-  loadCurrentCycle = userId => {
-    this.setState({ loadingCurrentCycle: true });
+  loadLastKnownCycle = () => {
+    const { user } = this.props;
 
-    UsersService.getCurrentCycle().then(currentCycle => {
-      if (currentCycle) {
-        this.handleTemplateChange(currentCycle.templateId);
-        this.handleVariantChange(currentCycle.variantId);
+    if (!user) {
+      return;
+    }
+
+    const cycleId = user.currentCycleId || user.previousCycleIds[0];
+
+    if (cycleId) {
+      this.setState({ loadingLastKnownCycle: true });
+
+      CyclesService.getCycle(cycleId).then(cycle => {
+        this.handleTemplateChange(cycle.templateId);
+        this.handleVariantChange(cycle.variantId);
         this.setState({
-          trainingMaxes: currentCycle.trainingMaxes,
-          selectedOptionValues: currentCycle.options,
+          trainingMaxes: cycle.trainingMaxes,
+          selectedOptionValues: cycle.options,
         });
-      }
-      this.setState({ loadingCurrentCycle: false });
-    });
+        this.setState({ loadingLastKnownCycle: false });
+      });
+    }
   };
 
   handleTrainingMaxChange = event => {
@@ -236,7 +244,7 @@ class CycleGeneratorFormContainer extends React.Component {
   };
 
   isLoading = () => {
-    return this.state.loadingTemplates || this.state.loadingCurrentCycle;
+    return this.state.loadingTemplates || this.state.loadingLastKnownCycle;
   };
 
   handleFormSubmission = event => {

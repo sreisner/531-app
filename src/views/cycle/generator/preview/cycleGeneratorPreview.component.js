@@ -80,9 +80,13 @@ class CycleGeneratorPreviewContainer extends React.Component {
       loading: true,
     });
 
-    CyclesService.createCycle(this.state.cycle)
-      .then(cycleId => UsersService.startCycle(cycleId))
-      .then(() => this.props.history.push('/cycle/current'));
+    return CyclesService.createCycle(this.state.cycle).then(cycleId => {
+      return UsersService.startCycle(cycleId).then(() => {
+        // TODO:  Figure out how to get the "Current Cycle" link to appear
+        // in the sidenav without a browser refresh.
+        this.props.history.push(`/cycle/${cycleId}`);
+      });
+    });
   };
 
   render() {

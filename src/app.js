@@ -17,10 +17,12 @@ const styles = theme => ({
 });
 
 let DefaultPathForwarder = props => {
-  const forwardTo = path => props.history.replace(path);
+  const { history, user } = props;
 
-  if (props.user) {
-    forwardTo('/cycle/current');
+  const forwardTo = path => history.replace(path);
+
+  if (user && user.currentCycleId) {
+    forwardTo(`/cycle/${user.currentCycleId}`);
   } else {
     forwardTo('/cycle/generator/form');
   }

@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ViewWeekIcon from '@material-ui/icons/ViewWeek';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { AuthConsumer } from '../../context/authContext.component';
 import LoginModal from '../loginModal/loginModal.component';
 import AppBarLink from './appBarLink.component';
 import UserAccountButton from './userAccountButton.component';
@@ -54,45 +55,56 @@ class AppBar531 extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              onClick={this.toggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
-              {title}
-            </Typography>
-            <UserAccountButton onLoginClick={this.onLoginClick} />
-            <Drawer
-              open={drawerIsOpen}
-              onClose={this.toggleDrawer}
-              anchor="left"
-            >
-              <List onClick={this.toggleDrawer} onKeyDown={this.toggleDrawer}>
-                <AppBarLink
-                  text="Current Cycle"
-                  to="/cycle/current"
-                  showIfNotLoggedIn={false}
-                  icon={<DashboardIcon />}
-                />
-                <AppBarLink
-                  text="Cycle Generator"
-                  to="/cycle/generator/form"
-                  showIfNotLoggedIn={true}
-                  icon={<ViewWeekIcon />}
-                />
-              </List>
-            </Drawer>
-          </Toolbar>
-        </AppBar>
+        <AuthConsumer>
+          {({ user }) => (
+            <AppBar position="static">
+              <Toolbar>
+                <IconButton
+                  className={classes.menuButton}
+                  color="inherit"
+                  onClick={this.toggleDrawer}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  variant="title"
+                  color="inherit"
+                  className={classes.flex}
+                >
+                  {title}
+                </Typography>
+                <UserAccountButton onLoginClick={this.onLoginClick} />
+                <Drawer
+                  open={drawerIsOpen}
+                  onClose={this.toggleDrawer}
+                  anchor="left"
+                >
+                  <List
+                    onClick={this.toggleDrawer}
+                    onKeyDown={this.toggleDrawer}
+                  >
+                    {user &&
+                      user.currentCycleId && (
+                        <AppBarLink
+                          icon={<DashboardIcon />}
+                          text="Current Cycle"
+                          to={`/cycle/${user && user.currentCycleId}`}
+                          showIfNotLoggedIn={false}
+                        />
+                      )}
+                    <AppBarLink
+                      icon={<ViewWeekIcon />}
+                      text="Cycle Generator"
+                      to="/cycle/generator/form"
+                      showIfNotLoggedIn={true}
+                    />
+                  </List>
+                </Drawer>
+              </Toolbar>
+            </AppBar>
+          )}
+        </AuthConsumer>
+
         <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from '../../../context/authContext.component';
 import CycleGeneratorFormContainer from './form';
-import CycleGeneratorPreviewContainer from './preview/cycleGeneratorPreview.container';
+import CycleGeneratorPreviewContainer from './preview/cycleGeneratorPreview.component';
 
 class CycleGeneratorRoutes extends React.Component {
   render() {

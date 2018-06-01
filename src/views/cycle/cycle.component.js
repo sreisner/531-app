@@ -5,7 +5,7 @@ import { default as React } from 'react';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../core/loading/loading.component';
 import UsersService from '../../services/api/users/users.service';
-import SessionGridContainer from './core/sessionGrid.container';
+import SessionGridContainer from './core/sessionGrid.component';
 
 const styles = theme => ({});
 

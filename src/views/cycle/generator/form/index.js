@@ -1,3 +1,3 @@
-import CycleGeneratorFormContainer from './cycleGeneratorForm.container';
+import CycleGeneratorFormContainer from './cycleGeneratorForm.component';
 
 export default CycleGeneratorFormContainer;

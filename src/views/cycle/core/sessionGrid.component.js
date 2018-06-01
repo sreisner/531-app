@@ -10,7 +10,8 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Component, default as React } from 'react';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   lift: {
@@ -126,4 +127,20 @@ SessionGrid.propTypes = {
 };
 
 SessionGrid = withStyles(styles)(SessionGrid);
-export default SessionGrid;
+
+class SessionGridContainer extends Component {
+  handleBeginSessionClick = sessionId => {
+    this.props.history.push(`/cycle/current/session/${sessionId}`);
+  };
+
+  render() {
+    return (
+      <SessionGrid
+        sessions={this.props.sessions}
+        onBeginSessionClick={this.handleBeginSessionClick}
+      />
+    );
+  }
+}
+
+export default withRouter(SessionGridContainer);

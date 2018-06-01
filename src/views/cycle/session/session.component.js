@@ -1,11 +1,11 @@
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Loading from '../../../../core/loading/loading.component';
+import Loading from '../../../core/loading/loading.component';
 
 const styles = theme => ({});
 
-let Session = props => ({});
+let Session = props => <h1>Test</h1>;
 
 Session.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -35,4 +35,4 @@ class SessionContainer extends React.Component {
   }
 }
 
-export { SessionContainer };
+export default SessionContainer;

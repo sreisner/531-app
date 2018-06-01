@@ -8,4 +8,6 @@ export default {
   getCycle: cycleId => ApiService.get(`/cycles/${cycleId}`),
   updateCurrentCycle: cycleId =>
     ApiService.put('/users/me/current-cycle', cycleId),
+  getSession: (cycleId, sessionId) =>
+    ApiService.get(`/cycles/${cycleId}/sessions/${sessionId}`),
 };

@@ -1,11 +1,13 @@
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Loading from '../../../core/loading/loading.component';
+import CyclesService from '../../../services/api/cycles/cycles.service';
 
 const styles = theme => ({});
 
-let Session = props => <h1>Test</h1>;
+let Session = props => <p>{props.session.jumpsThrows}</p>;
 
 Session.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -18,12 +20,15 @@ class SessionContainer extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
     };
   }
 
   componentDidMount() {
-    this.setState({ loading: true });
+    const { cycleId, sessionId } = this.props.match.params;
+    CyclesService.getSession(cycleId, sessionId).then(session =>
+      this.setState({ session, loading: false })
+    );
   }
 
   render() {
@@ -35,4 +40,4 @@ class SessionContainer extends React.Component {
   }
 }
 
-export default SessionContainer;
+export default withRouter(SessionContainer);

@@ -20,16 +20,16 @@ export class AuthProvider extends React.Component {
   }
 
   componentDidMount() {
-    this._loadCurrentUser();
+    this.refreshCurrentUser();
   }
 
-  _loadCurrentUser = () => {
-    return this.setState({ loading: true }, () =>
-      UsersService.getCurrentUser().then(user => {
-        this.setState({
-          user,
-          loading: false,
-        });
+  refreshCurrentUser = () => {
+    this.setState({ loading: true });
+
+    return UsersService.getCurrentUser().then(user =>
+      this.setState({
+        user,
+        loading: false,
       })
     );
   };
@@ -37,7 +37,7 @@ export class AuthProvider extends React.Component {
   login = (email, password) => {
     this.setState({ loading: true });
 
-    return LoginService.login(email, password).then(this._loadCurrentUser);
+    return LoginService.login(email, password).then(this.refreshCurrentUser);
   };
 
   logout = () => {
@@ -55,6 +55,7 @@ export class AuthProvider extends React.Component {
       <AuthContext.Provider
         value={{
           loading: this.state.loading,
+          refreshCurrentUser: this.refreshCurrentUser,
           user: this.state.user,
           login: this.login,
           logout: this.logout,

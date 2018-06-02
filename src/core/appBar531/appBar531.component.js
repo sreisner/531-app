@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -15,6 +16,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
 import LoginModal from '../loginModal/loginModal.component';
+import SignUpModal from '../signUpModal/signUpModal.component';
 import AppBarLink from './appBarLink.component';
 import UserAccountButton from './userAccountButton.component';
 
@@ -35,6 +37,7 @@ class AppBar531 extends React.Component {
     this.state = {
       drawerIsOpen: false,
       loginModalIsOpen: false,
+      signUpModalIsOpen: false,
     };
   }
 
@@ -42,8 +45,16 @@ class AppBar531 extends React.Component {
     this.setState({ loginModalIsOpen: true });
   };
 
+  onSignUpClick = () => {
+    this.setState({ signUpModalIsOpen: true });
+  };
+
   closeLoginModal = () => {
     this.setState({ loginModalIsOpen: false });
+  };
+
+  closeSignUpModal = () => {
+    this.setState({ signUpModalIsOpen: false });
   };
 
   toggleDrawer = () => {
@@ -52,7 +63,7 @@ class AppBar531 extends React.Component {
 
   render() {
     const { classes, title } = this.props;
-    const { drawerIsOpen, loginModalIsOpen } = this.state;
+    const { drawerIsOpen, loginModalIsOpen, signUpModalIsOpen } = this.state;
 
     return (
       <div className={classes.root}>
@@ -74,6 +85,11 @@ class AppBar531 extends React.Component {
                 >
                   {title}
                 </Typography>
+                {!user && (
+                  <Button color="inherit" onClick={this.onSignUpClick}>
+                    Sign Up
+                  </Button>
+                )}
                 <UserAccountButton onLoginClick={this.onLoginClick} />
                 <Drawer
                   open={drawerIsOpen}
@@ -108,6 +124,7 @@ class AppBar531 extends React.Component {
         </AuthConsumer>
 
         <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
+        <SignUpModal open={signUpModalIsOpen} onClose={this.closeSignUpModal} />
       </div>
     );
   }

@@ -1,13 +1,9 @@
 import React from 'react';
 import LoginService from '../services/api/login/login.service';
+import RegisterService from '../services/api/register/register.service';
 import UsersService from '../services/api/users/users.service';
 
-const AuthContext = React.createContext({
-  loading: true,
-  user: undefined,
-  login: () => {},
-  logout: () => {},
-});
+const AuthContext = React.createContext({});
 
 export class AuthProvider extends React.Component {
   constructor(props) {
@@ -48,6 +44,14 @@ export class AuthProvider extends React.Component {
     });
   };
 
+  register = (email, password) => {
+    this.setState({ loading: true });
+
+    return RegisterService.register(email, password)
+      .then(() => this.login(email, password))
+      .then(() => this.setState({ loading: false }));
+  };
+
   render() {
     const { children } = this.props;
 
@@ -59,6 +63,7 @@ export class AuthProvider extends React.Component {
           user: this.state.user,
           login: this.login,
           logout: this.logout,
+          register: this.register,
         }}
       >
         {children}

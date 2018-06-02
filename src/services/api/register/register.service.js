@@ -1,4 +1,4 @@
-import ApiService from '../a.service';
+import ApiService from '../api.service';
 
 export default {
   register: (email, password) =>

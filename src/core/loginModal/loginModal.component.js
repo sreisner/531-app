@@ -81,7 +81,7 @@ class LoginModal extends React.Component {
                 color="inherit"
                 gutterBottom={true}
               >
-                5/3/1
+                Log In
               </Typography>
               <form
                 className={classes.form}

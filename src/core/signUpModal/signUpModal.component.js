@@ -1,9 +1,9 @@
 import { Button, Modal, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { RemoveRedEye } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
+import PasswordInput from '../passwordInput/passwordInput.component';
 
 const styles = theme => ({
   paper: {
@@ -32,15 +32,6 @@ const styles = theme => ({
   input: {
     marginBottom: theme.spacing.unit * 2,
     width: '100%',
-  },
-  eye: {
-    position: 'absolute',
-    right: 0,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    cursor: 'pointer',
-    zIndex: 1,
-    color: theme.palette.primary.light,
   },
 });
 
@@ -110,7 +101,15 @@ class SignUpModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { error, loading, passwordIsMasked } = this.state;
+    const {
+      error,
+      loading,
+      passwordIsMasked,
+      email,
+      password,
+      firstName,
+      lastName,
+    } = this.state;
 
     return (
       <AuthConsumer>
@@ -131,7 +130,7 @@ class SignUpModal extends React.Component {
                 <TextField
                   className={classes.input}
                   label="First Name"
-                  value={this.state.firstName}
+                  value={firstName}
                   name="firstName"
                   type="text"
                   onChange={this.handleChange}
@@ -139,7 +138,7 @@ class SignUpModal extends React.Component {
                 <TextField
                   className={classes.input}
                   label="Last Name"
-                  value={this.state.lastName}
+                  value={lastName}
                   name="lastName"
                   type="text"
                   onChange={this.handleChange}
@@ -147,25 +146,17 @@ class SignUpModal extends React.Component {
                 <TextField
                   className={classes.input}
                   label="Email"
-                  value={this.state.email}
+                  value={email}
                   name="email"
                   type="email"
                   onChange={this.handleChange}
                 />
-                <div style={{ position: 'relative', display: 'inline-block' }}>
-                  <RemoveRedEye
-                    onClick={() => this.togglePasswordMask()}
-                    className={classes.eye}
-                  />
-                  <TextField
-                    className={classes.input}
-                    label="Password"
-                    value={this.state.password}
-                    name="password"
-                    type={passwordIsMasked ? 'password' : 'text'}
-                    onChange={this.handleChange}
-                  />
-                </div>
+                <PasswordInput
+                  password={password}
+                  handleChange={this.handleChange}
+                  masked={passwordIsMasked}
+                  togglePasswordMask={this.togglePasswordMask}
+                />
                 <Button
                   variant="raised"
                   color="primary"

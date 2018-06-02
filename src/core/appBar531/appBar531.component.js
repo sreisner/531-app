@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Divider,
   Drawer,
   IconButton,
   List,
@@ -92,6 +93,7 @@ class AppBar531 extends React.Component {
                           showIfNotLoggedIn={false}
                         />
                       )}
+                    <Divider />
                     <AppBarLink
                       icon={<ViewWeekIcon />}
                       text="Cycle Generator"

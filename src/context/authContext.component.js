@@ -36,9 +36,9 @@ export class AuthProvider extends React.Component {
     });
   };
 
-  register = (email, password) => {
-    return RegisterService.register(email, password).then(() =>
-      this.login(email, password)
+  register = (firstName, lastName, email, password) => {
+    return RegisterService.register(firstName, lastName, email, password).then(
+      () => this.login(email, password)
     );
   };
 

@@ -49,6 +49,8 @@ class SignUpModal extends React.Component {
     super(props);
 
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       passwordIsMasked: true,
@@ -73,16 +75,18 @@ class SignUpModal extends React.Component {
   handleSubmit = (event, register) => {
     event.preventDefault();
 
-    const { email, password } = this.state;
+    const { firstName, lastName, email, password } = this.state;
 
     this.setState({ loading: true });
 
-    register(email, password)
+    register(firstName, lastName, email, password)
       .then(() =>
         this.setState(
           {
             error: '',
             loading: false,
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             passwordIsMasked: true,
@@ -96,6 +100,12 @@ class SignUpModal extends React.Component {
           loading: false,
         })
       );
+  };
+
+  formIsValid = () => {
+    const { firstName, lastName, email, password } = this.state;
+
+    return firstName && lastName && email && password;
   };
 
   render() {
@@ -120,10 +130,26 @@ class SignUpModal extends React.Component {
               >
                 <TextField
                   className={classes.input}
+                  label="First Name"
+                  value={this.state.firstName}
+                  name="firstName"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  className={classes.input}
+                  label="Last Name"
+                  value={this.state.lastName}
+                  name="lastName"
+                  type="text"
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  className={classes.input}
                   label="Email"
                   value={this.state.email}
                   name="email"
-                  type="text"
+                  type="email"
                   onChange={this.handleChange}
                 />
                 <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -144,9 +170,7 @@ class SignUpModal extends React.Component {
                   variant="raised"
                   color="primary"
                   type="submit"
-                  disabled={
-                    loading || !this.state.password || !this.state.email
-                  }
+                  disabled={loading || !this.formIsValid()}
                   className={classes.input}
                 >
                   Sign Up

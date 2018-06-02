@@ -71,6 +71,12 @@ class LoginModal extends React.Component {
       );
   };
 
+  formIsValid = () => {
+    const { email, password } = this.state;
+
+    return email && password;
+  };
+
   render() {
     const { classes, open, onClose } = this.props;
     const { error, loading } = this.state;
@@ -111,9 +117,7 @@ class LoginModal extends React.Component {
                   variant="raised"
                   color="primary"
                   type="submit"
-                  disabled={
-                    loading || !this.state.email || !this.state.password
-                  }
+                  disabled={loading || !this.formIsValid()}
                   className={classes.input}
                 >
                   Log In

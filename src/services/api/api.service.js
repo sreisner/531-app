@@ -16,15 +16,17 @@ const buildRequestConfig = (config = {}) => ({
 });
 
 const handleRequest = request =>
-  request
-    .then(response => {
-      if (response.status === 204) {
-        return undefined;
-      } else {
-        return response.json();
-      }
-    })
-    .catch(() => ({}));
+  request.then(response => {
+    if (response.status === 204) {
+      return undefined;
+    } else if (response.ok) {
+      return response.json();
+    } else {
+      return response.text().then(text => {
+        throw text;
+      });
+    }
+  });
 
 const get = path =>
   handleRequest(

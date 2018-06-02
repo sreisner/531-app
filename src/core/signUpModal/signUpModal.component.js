@@ -1,5 +1,6 @@
 import { Button, Modal, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { RemoveRedEye } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
@@ -30,20 +31,37 @@ const styles = theme => ({
   },
   input: {
     marginBottom: theme.spacing.unit * 2,
+    width: '100%',
+  },
+  eye: {
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    cursor: 'pointer',
+    zIndex: 1,
+    color: theme.palette.primary.light,
   },
 });
 
-class LoginModal extends React.Component {
+class SignUpModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: 'shawn.reisner@gmail.com',
-      password: 'password',
+      email: '',
+      password: '',
+      passwordIsMasked: true,
       loading: false,
       error: '',
     };
   }
+
+  togglePasswordMask = () => {
+    this.setState(prevState => ({
+      passwordIsMasked: !prevState.passwordIsMasked,
+    }));
+  };
 
   handleChange = event => {
     const { name, value } = event.target;
@@ -52,16 +70,16 @@ class LoginModal extends React.Component {
     });
   };
 
-  handleSubmit = (event, login) => {
+  handleSubmit = (event, register) => {
     event.preventDefault();
 
     const { email, password } = this.state;
 
     this.setState({ loading: true });
 
-    login(email, password).catch(message =>
+    register(email, password).catch(message =>
       this.setState({
-        error: 'Username/password is incorrect.',
+        error: message,
         loading: false,
       })
     );
@@ -69,11 +87,11 @@ class LoginModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { error, loading } = this.state;
+    const { error, loading, passwordIsMasked } = this.state;
 
     return (
       <AuthConsumer>
-        {({ login }) => (
+        {({ register }) => (
           <Modal open={open} onClose={onClose}>
             <div className={classes.paper}>
               <Typography
@@ -81,11 +99,11 @@ class LoginModal extends React.Component {
                 color="inherit"
                 gutterBottom={true}
               >
-                Log In
+                Sign Up
               </Typography>
               <form
                 className={classes.form}
-                onSubmit={e => this.handleSubmit(e, login)}
+                onSubmit={e => this.handleSubmit(e, register)}
               >
                 <TextField
                   className={classes.input}
@@ -95,14 +113,20 @@ class LoginModal extends React.Component {
                   type="text"
                   onChange={this.handleChange}
                 />
-                <TextField
-                  className={classes.input}
-                  label="Password"
-                  value={this.state.password}
-                  name="password"
-                  type="password"
-                  onChange={this.handleChange}
-                />
+                <div style={{ position: 'relative', display: 'inline-block' }}>
+                  <RemoveRedEye
+                    onClick={() => this.togglePasswordMask()}
+                    className={classes.eye}
+                  />
+                  <TextField
+                    className={classes.input}
+                    label="Password"
+                    value={this.state.password}
+                    name="password"
+                    type={passwordIsMasked ? 'password' : 'text'}
+                    onChange={this.handleChange}
+                  />
+                </div>
                 <Button
                   variant="raised"
                   color="primary"
@@ -110,7 +134,7 @@ class LoginModal extends React.Component {
                   disabled={loading}
                   className={classes.input}
                 >
-                  Log In
+                  Sign Up
                 </Button>
                 {error && (
                   <Typography variant="caption" color="error">
@@ -126,8 +150,8 @@ class LoginModal extends React.Component {
   }
 }
 
-LoginModal.propTypes = {
+SignUpModal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginModal);
+export default withStyles(styles)(SignUpModal);

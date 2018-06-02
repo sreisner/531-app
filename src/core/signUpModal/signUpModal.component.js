@@ -77,12 +77,25 @@ class SignUpModal extends React.Component {
 
     this.setState({ loading: true });
 
-    register(email, password).catch(message =>
-      this.setState({
-        error: message,
-        loading: false,
-      })
-    );
+    register(email, password)
+      .then(() =>
+        this.setState(
+          {
+            error: '',
+            loading: false,
+            email: '',
+            password: '',
+            passwordIsMasked: true,
+          },
+          this.props.onClose()
+        )
+      )
+      .catch(message =>
+        this.setState({
+          error: message,
+          loading: false,
+        })
+      );
   };
 
   render() {
@@ -131,7 +144,9 @@ class SignUpModal extends React.Component {
                   variant="raised"
                   color="primary"
                   type="submit"
-                  disabled={loading}
+                  disabled={
+                    loading || !this.state.password || !this.state.email
+                  }
                   className={classes.input}
                 >
                   Sign Up

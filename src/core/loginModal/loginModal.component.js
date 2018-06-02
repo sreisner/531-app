@@ -59,12 +59,16 @@ class LoginModal extends React.Component {
 
     this.setState({ loading: true });
 
-    login(email, password).catch(message =>
-      this.setState({
-        error: 'Username/password is incorrect.',
-        loading: false,
-      })
-    );
+    login(email, password)
+      .then(() =>
+        this.setState({ error: '', loading: false }, this.props.onClose())
+      )
+      .catch(message =>
+        this.setState({
+          error: 'Username/password is incorrect.',
+          loading: false,
+        })
+      );
   };
 
   render() {
@@ -107,7 +111,9 @@ class LoginModal extends React.Component {
                   variant="raised"
                   color="primary"
                   type="submit"
-                  disabled={loading}
+                  disabled={
+                    loading || !this.state.email || !this.state.password
+                  }
                   className={classes.input}
                 >
                   Log In

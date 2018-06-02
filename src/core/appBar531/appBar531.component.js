@@ -102,14 +102,16 @@ class AppBar531 extends React.Component {
                   >
                     {user &&
                       user.currentCycleId && (
-                        <AppBarLink
-                          icon={<DashboardIcon />}
-                          text="Current Cycle"
-                          to={`/cycle/${user && user.currentCycleId}`}
-                          showIfNotLoggedIn={false}
-                        />
+                        <div>
+                          <AppBarLink
+                            icon={<DashboardIcon />}
+                            text="Current Cycle"
+                            to={`/cycle/${user && user.currentCycleId}`}
+                            showIfNotLoggedIn={false}
+                          />
+                          <Divider />
+                        </div>
                       )}
-                    <Divider />
                     <AppBarLink
                       icon={<ViewWeekIcon />}
                       text="Cycle Generator"

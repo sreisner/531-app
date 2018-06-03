@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { Component, default as React } from 'react';
 import { withRouter } from 'react-router-dom';
+import CyclesService from '../../../services/api/cycles/cycles.service';
 
 const styles = theme => ({
   lift: {
@@ -40,8 +41,22 @@ const styles = theme => ({
   },
 });
 
+const getArrayOfWeeklySessionArrays = sessions => {
+  return sessions.reduce((acc, session) => {
+    const week = session.week;
+
+    if (!acc[week]) {
+      acc[week] = [session];
+    } else {
+      acc[week].push(session);
+    }
+
+    return acc;
+  }, []);
+};
+
 let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
-  return sessions.map((week, i) => (
+  return getArrayOfWeeklySessionArrays(sessions).map((week, i) => (
     <Grid
       key={i}
       container
@@ -61,7 +76,9 @@ let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
             lg
           >
             <Card className={classes.card}>
-              <CardHeader title={`Week ${i + 1}, Session ${j + 1}`} />
+              <CardHeader
+                title={`Week ${session.week}, Session ${session.day}`}
+              />
               <Divider />
               <CardContent>
                 <ul className={classes.cardParentList}>
@@ -101,18 +118,19 @@ let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
                   </ul>
                 </ul>
               </CardContent>
-              {session.isComplete === false && (
-                <CardActions>
-                  <Button
-                    variant="raised"
-                    color="secondary"
-                    className={classes.beginSessionButton}
-                    onClick={e => onBeginSessionClick(session._id)}
-                  >
-                    Begin Session
-                  </Button>
-                </CardActions>
-              )}
+              {session.isComplete === false &&
+                session.inProgress === false && (
+                  <CardActions>
+                    <Button
+                      variant="raised"
+                      color="secondary"
+                      className={classes.beginSessionButton}
+                      onClick={e => onBeginSessionClick(session._id)}
+                    >
+                      Begin Session
+                    </Button>
+                  </CardActions>
+                )}
             </Card>
           </Grid>
         );
@@ -131,7 +149,11 @@ SessionGrid = withStyles(styles)(SessionGrid);
 class SessionGridContainer extends Component {
   handleBeginSessionClick = sessionId => {
     const { history, match } = this.props;
-    history.push(`${match.url}/session/${sessionId}`);
+    const { cycleId } = match.params;
+
+    CyclesService.beginSession(cycleId, sessionId).then(() =>
+      history.push(`${match.url}/session/${sessionId}`)
+    );
   };
 
   render() {

@@ -60,8 +60,20 @@ const put = (path, data) =>
     )
   );
 
+const patch = (path, data) =>
+  handleRequest(
+    fetch(
+      buildApiUri(path),
+      buildRequestConfig({
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      })
+    )
+  );
+
 export default {
   get,
   post,
   put,
+  patch,
 };

@@ -10,4 +10,8 @@ export default {
     ApiService.put('/users/me/current-cycle', cycleId),
   getSession: (cycleId, sessionId) =>
     ApiService.get(`/cycles/${cycleId}/sessions/${sessionId}`),
+  beginSession: (cycleId, sessionId) =>
+    ApiService.patch(`/cycles/${cycleId}/sessions/${sessionId}`, {
+      inProgress: true,
+    }),
 };

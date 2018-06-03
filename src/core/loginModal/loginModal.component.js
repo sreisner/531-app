@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
+import { PasswordInput } from '../passwordInput/passwordInput.component';
 
 const styles = theme => ({
   paper: {
@@ -28,7 +29,8 @@ const styles = theme => ({
     width: '100%',
     maxWidth: '300px',
   },
-  input: {
+  loginButton: {
+    marginTop: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2,
   },
 });
@@ -79,7 +81,7 @@ class LoginModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { error, loading } = this.state;
+    const { error, loading, email, password } = this.state;
 
     return (
       <AuthConsumer>
@@ -98,27 +100,26 @@ class LoginModal extends React.Component {
                 onSubmit={e => this.handleSubmit(e, login)}
               >
                 <TextField
-                  className={classes.input}
                   label="Email"
-                  value={this.state.email}
+                  value={email}
                   name="email"
-                  type="text"
+                  type="email"
                   onChange={this.handleChange}
+                  margin="dense"
                 />
-                <TextField
-                  className={classes.input}
+                <PasswordInput
                   label="Password"
-                  value={this.state.password}
+                  value={password}
                   name="password"
-                  type="password"
                   onChange={this.handleChange}
+                  margin="dense"
                 />
                 <Button
                   variant="raised"
                   color="primary"
                   type="submit"
                   disabled={loading || !this.formIsValid()}
-                  className={classes.input}
+                  className={classes.loginButton}
                 >
                   Log In
                 </Button>

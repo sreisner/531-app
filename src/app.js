@@ -38,8 +38,8 @@ class App extends React.Component {
 
     return (
       <AuthConsumer>
-        {({ loading, user }) =>
-          loading ? (
+        {({ loadingCurrentUser, user }) =>
+          loadingCurrentUser ? (
             <Loading variant="title" />
           ) : (
             <div className={classes.root}>

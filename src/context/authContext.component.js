@@ -11,6 +11,7 @@ export class AuthProvider extends React.Component {
 
     this.state = {
       user: undefined,
+      loadingCurrentUser: false,
     };
   }
 
@@ -19,9 +20,12 @@ export class AuthProvider extends React.Component {
   }
 
   refreshCurrentUser = () => {
+    this.setState({ loadingCurrentUser: true });
+
     return UsersService.getCurrentUser().then(user =>
       this.setState({
         user,
+        loadingCurrentUser: false,
       })
     );
   };
@@ -53,6 +57,7 @@ export class AuthProvider extends React.Component {
           login: this.login,
           logout: this.logout,
           register: this.register,
+          loadingCurrentUser: this.state.loadingCurrentUser,
         }}
       >
         {children}

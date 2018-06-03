@@ -11,7 +11,7 @@ export class AuthProvider extends React.Component {
 
     this.state = {
       user: undefined,
-      loadingCurrentUser: false,
+      loadingCurrentUser: true,
     };
   }
 

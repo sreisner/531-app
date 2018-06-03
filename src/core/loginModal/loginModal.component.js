@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
-import PasswordInput from '../passwordInput/passwordInput.component';
 
 const styles = theme => ({
   paper: {
@@ -41,7 +40,6 @@ class LoginModal extends React.Component {
     this.state = {
       email: 'shawn.reisner@gmail.com',
       password: 'password',
-      passwordIsMasked: true,
       loading: false,
       error: '',
     };
@@ -73,12 +71,6 @@ class LoginModal extends React.Component {
       );
   };
 
-  togglePasswordMask = () => {
-    this.setState(prevState => ({
-      passwordIsMasked: !prevState.passwordIsMasked,
-    }));
-  };
-
   formIsValid = () => {
     const { email, password } = this.state;
 
@@ -87,7 +79,7 @@ class LoginModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { error, loading, email, password, passwordIsMasked } = this.state;
+    const { error, loading } = this.state;
 
     return (
       <AuthConsumer>
@@ -108,17 +100,18 @@ class LoginModal extends React.Component {
                 <TextField
                   className={classes.input}
                   label="Email"
-                  value={email}
+                  value={this.state.email}
                   name="email"
                   type="text"
                   onChange={this.handleChange}
                 />
-                <PasswordInput
+                <TextField
                   className={classes.input}
-                  password={password}
-                  handleChange={this.handleChange}
-                  masked={passwordIsMasked}
-                  togglePasswordMask={this.togglePasswordMask}
+                  label="Password"
+                  value={this.state.password}
+                  name="password"
+                  type="password"
+                  onChange={this.handleChange}
                 />
                 <Button
                   variant="raised"

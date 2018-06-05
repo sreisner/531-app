@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import React from 'react';
 import TitleCard from './titleCard.component';
 
@@ -44,7 +50,13 @@ let TemplateCard = props => {
         </Select>
       </FormControl>
 
-      <ul>{description.map((d, i) => <li key={i}>{d}</li>)}</ul>
+      <ul>
+        {description.map((d, i) => (
+          <li key={i}>
+            <Typography variant="body1">{d}</Typography>
+          </li>
+        ))}
+      </ul>
     </TitleCard>
   );
 };

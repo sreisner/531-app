@@ -4,13 +4,13 @@ import { default as React } from 'react';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../core/loading/loading.component';
 import CyclesService from '../../services/api/cycles/cycles.service';
-import SessionGridContainer from './core/sessionGrid.component';
+import SessionMetaGridContainer from './core/sessionMetaGrid.component';
 
 const styles = theme => ({});
 
 let Cycle = props => (
   <div>
-    <SessionGridContainer sessions={props.cycle.sessions} />
+    <SessionMetaGridContainer sessionMeta={props.cycle.sessionMeta} />
   </div>
 );
 

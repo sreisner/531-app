@@ -41,7 +41,7 @@ const styles = theme => ({
   },
 });
 
-const getArrayOfWeeklySessionArrays = sessions => {
+const getArrayOfWeeklySessionMetaArrays = sessions => {
   return sessions.reduce((acc, session) => {
     const week = session.week;
 
@@ -55,8 +55,8 @@ const getArrayOfWeeklySessionArrays = sessions => {
   }, []);
 };
 
-let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
-  return getArrayOfWeeklySessionArrays(sessions).map((week, i) => (
+let SessionMetaGrid = ({ classes, sessionMeta, onBeginSessionClick }) => {
+  return getArrayOfWeeklySessionMetaArrays(sessionMeta).map((week, i) => (
     <Grid
       key={i}
       container
@@ -139,14 +139,14 @@ let SessionGrid = ({ classes, sessions, onBeginSessionClick }) => {
   ));
 };
 
-SessionGrid.propTypes = {
+SessionMetaGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   sessions: PropTypes.array.isRequired,
 };
 
-SessionGrid = withStyles(styles)(SessionGrid);
+SessionMetaGrid = withStyles(styles)(SessionMetaGrid);
 
-class SessionGridContainer extends Component {
+class SessionMetaGridContainer extends Component {
   handleBeginSessionClick = sessionId => {
     const { history, match } = this.props;
     const { cycleId } = match.params;
@@ -158,12 +158,12 @@ class SessionGridContainer extends Component {
 
   render() {
     return (
-      <SessionGrid
-        sessions={this.props.sessions}
+      <SessionMetaGrid
+        sessionMeta={this.props.sessionMeta}
         onBeginSessionClick={this.handleBeginSessionClick}
       />
     );
   }
 }
 
-export default withRouter(SessionGridContainer);
+export default withRouter(SessionMetaGridContainer);

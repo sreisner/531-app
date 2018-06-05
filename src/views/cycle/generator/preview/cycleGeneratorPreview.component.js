@@ -9,7 +9,7 @@ import { AuthConsumer } from '../../../../context/authContext.component';
 import Loading from '../../../../core/loading/loading.component';
 import CyclesService from '../../../../services/api/cycles/cycles.service';
 import UsersService from '../../../../services/api/users/users.service';
-import SessionGridContainer from '../../core/sessionGrid.component';
+import SessionMetaGridContainer from '../../core/sessionMetaGrid.component';
 
 const styles = theme => ({
   fab: {
@@ -24,7 +24,7 @@ let CycleGeneratorPreview = props => {
 
   return (
     <div>
-      <SessionGridContainer sessions={cycle.sessions} />
+      <SessionMetaGridContainer sessionMeta={cycle.sessions} />
       {isLoggedIn && (
         <Tooltip title="Start Cycle" placement="left">
           <Button

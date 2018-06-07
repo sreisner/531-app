@@ -24,7 +24,7 @@ let TitleCard = props => {
           {title}
         </Typography>
         <div>
-          <Grid container direction="column" className={classes.inputContainer}>
+          <Grid container direction="column">
             {children}
           </Grid>
         </div>

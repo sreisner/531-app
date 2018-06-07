@@ -141,7 +141,7 @@ let SessionMetaGrid = ({ classes, sessionMeta, onBeginSessionClick }) => {
 
 SessionMetaGrid.propTypes = {
   classes: PropTypes.object.isRequired,
-  sessions: PropTypes.array.isRequired,
+  sessionMeta: PropTypes.array.isRequired,
 };
 
 SessionMetaGrid = withStyles(styles)(SessionMetaGrid);

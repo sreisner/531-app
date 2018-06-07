@@ -5,16 +5,18 @@ import {
   Drawer,
   IconButton,
   List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import MenuIcon from '@material-ui/icons/Menu';
-import ViewWeekIcon from '@material-ui/icons/ViewWeek';
+import { Dashboard, Menu, TagFaces, ViewWeek } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
+import FeedbackModal from '../feedbackModal/feedbackModal.component';
 import LoginModal from '../loginModal/loginModal.component';
 import SignUpModal from '../signUpModal/signUpModal.component';
 import AppBarLink from './appBarLink.component';
@@ -38,6 +40,7 @@ class AppBar531 extends React.Component {
       drawerIsOpen: false,
       loginModalIsOpen: false,
       signUpModalIsOpen: false,
+      feedbackModalIsOpen: true,
     };
   }
 
@@ -61,9 +64,22 @@ class AppBar531 extends React.Component {
     this.setState(prevState => ({ drawerIsOpen: !prevState.drawerIsOpen }));
   };
 
+  displayFeedbackModal = () => {
+    this.setState({ feedbackModalIsOpen: true });
+  };
+
+  closeFeedbackModal = () => {
+    this.setState({ feedbackModalIsOpen: false });
+  };
+
   render() {
     const { classes, title } = this.props;
-    const { drawerIsOpen, loginModalIsOpen, signUpModalIsOpen } = this.state;
+    const {
+      drawerIsOpen,
+      loginModalIsOpen,
+      signUpModalIsOpen,
+      feedbackModalIsOpen,
+    } = this.state;
 
     return (
       <div className={classes.root}>
@@ -76,7 +92,7 @@ class AppBar531 extends React.Component {
                   color="inherit"
                   onClick={this.toggleDrawer}
                 >
-                  <MenuIcon />
+                  <Menu />
                 </IconButton>
                 <Typography
                   variant="title"
@@ -104,7 +120,7 @@ class AppBar531 extends React.Component {
                       user.currentCycleId && (
                         <div>
                           <AppBarLink
-                            icon={<DashboardIcon />}
+                            icon={<Dashboard />}
                             text="Current Cycle"
                             to={`/cycle/${user && user.currentCycleId}`}
                             showIfNotLoggedIn={false}
@@ -113,11 +129,18 @@ class AppBar531 extends React.Component {
                         </div>
                       )}
                     <AppBarLink
-                      icon={<ViewWeekIcon />}
+                      icon={<ViewWeek />}
                       text="Cycle Generator"
                       to="/cycle/generator/form"
                       showIfNotLoggedIn={true}
                     />
+                    <Divider />
+                    <ListItem button onClick={this.displayFeedbackModal}>
+                      <ListItemIcon>
+                        <TagFaces />
+                      </ListItemIcon>
+                      <ListItemText primary="Feedback" />
+                    </ListItem>
                   </List>
                 </Drawer>
               </Toolbar>
@@ -127,6 +150,10 @@ class AppBar531 extends React.Component {
 
         <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
         <SignUpModal open={signUpModalIsOpen} onClose={this.closeSignUpModal} />
+        <FeedbackModal
+          open={feedbackModalIsOpen}
+          onClose={this.closeFeedbackModal}
+        />
       </div>
     );
   }

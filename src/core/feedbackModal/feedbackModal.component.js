@@ -1,6 +1,12 @@
-import { Button, Grid, IconButton, Modal, Typography } from '@material-ui/core';
+import { Button, Grid, Modal, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { SentimentVeryDissatisfied } from '@material-ui/icons';
+import {
+  SentimentDissatisfied,
+  SentimentNeutral,
+  SentimentSatisfied,
+  SentimentVeryDissatisfied,
+  SentimentVerySatisfied,
+} from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FeedbackService from '../../services/api/feedback/feedback.service';
@@ -15,7 +21,6 @@ const styles = theme => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: theme.spacing.unit * 50,
     maxWidth: '100%',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
@@ -27,16 +32,16 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'stretch',
     width: '100%',
-    maxWidth: '300px',
   },
   submitButton: {
     marginTop: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2,
   },
-  satisfactionButtonContainer: {
-    padding: theme.spacing.unit,
-  },
   satisfactionButton: {
+    cursor: 'pointer',
+    [theme.breakpoints.only('xs')]: {
+      fontSize: 36,
+    },
     fontSize: 72,
   },
 });
@@ -102,60 +107,40 @@ class FeedbackModal extends React.Component {
           <form className={classes.form} onSubmit={e => this.handleSubmit(e)}>
             <Grid container direction="column">
               <Grid container direction="row" justify="center" spacing={16}>
-                <Grid item>
-                  <IconButton
-                    className={classes.satisfactionButtonContainer}
-                    color={satisfaction === 0 ? 'primary' : 'default'}
+                <Grid item xs={2}>
+                  <SentimentVeryDissatisfied
+                    color={satisfaction === 0 ? 'secondary' : 'primary'}
                     onClick={() => this.setSatisfaction(0)}
-                  >
-                    <SentimentVeryDissatisfied
-                      className={classes.satisfactionButton}
-                    />
-                  </IconButton>
+                    className={classes.satisfactionButton}
+                  />
                 </Grid>
-                <Grid item>
-                  <IconButton
-                    className={classes.satisfactionButtonContainer}
-                    color={satisfaction === 0 ? 'primary' : 'default'}
-                    onClick={() => this.setSatisfaction(0)}
-                  >
-                    <SentimentVeryDissatisfied
-                      className={classes.satisfactionButton}
-                    />
-                  </IconButton>
+                <Grid item xs={2}>
+                  <SentimentDissatisfied
+                    color={satisfaction === 1 ? 'secondary' : 'primary'}
+                    onClick={() => this.setSatisfaction(1)}
+                    className={classes.satisfactionButton}
+                  />
                 </Grid>
-                <Grid item>
-                  <IconButton
-                    className={classes.satisfactionButtonContainer}
-                    color={satisfaction === 0 ? 'primary' : 'default'}
-                    onClick={() => this.setSatisfaction(0)}
-                  >
-                    <SentimentVeryDissatisfied
-                      className={classes.satisfactionButton}
-                    />
-                  </IconButton>
+                <Grid item xs={2}>
+                  <SentimentNeutral
+                    color={satisfaction === 2 ? 'secondary' : 'primary'}
+                    onClick={() => this.setSatisfaction(2)}
+                    className={classes.satisfactionButton}
+                  />
                 </Grid>
-                <Grid item>
-                  <IconButton
-                    className={classes.satisfactionButtonContainer}
-                    color={satisfaction === 0 ? 'primary' : 'default'}
-                    onClick={() => this.setSatisfaction(0)}
-                  >
-                    <SentimentVeryDissatisfied
-                      className={classes.satisfactionButton}
-                    />
-                  </IconButton>
+                <Grid item xs={2}>
+                  <SentimentSatisfied
+                    color={satisfaction === 3 ? 'secondary' : 'primary'}
+                    onClick={() => this.setSatisfaction(3)}
+                    className={classes.satisfactionButton}
+                  />
                 </Grid>
-                <Grid item>
-                  <IconButton
-                    className={classes.satisfactionButtonContainer}
-                    color={satisfaction === 0 ? 'primary' : 'default'}
-                    onClick={() => this.setSatisfaction(0)}
-                  >
-                    <SentimentVeryDissatisfied
-                      className={classes.satisfactionButton}
-                    />
-                  </IconButton>
+                <Grid item xs={2}>
+                  <SentimentVerySatisfied
+                    color={satisfaction === 4 ? 'secondary' : 'primary'}
+                    onClick={() => this.setSatisfaction(4)}
+                    className={classes.satisfactionButton}
+                  />
                 </Grid>
               </Grid>
             </Grid>

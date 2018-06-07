@@ -1,4 +1,14 @@
-import { Button, Grid, Modal, Typography } from '@material-ui/core';
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import {
   SentimentDissatisfied,
@@ -9,6 +19,7 @@ import {
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { AuthConsumer } from '../../context/authContext.component';
 import FeedbackService from '../../services/api/feedback/feedback.service';
 
 const styles = theme => ({
@@ -44,6 +55,9 @@ const styles = theme => ({
     },
     fontSize: 72,
   },
+  row: {
+    marginBottom: theme.spacing.unit,
+  },
 });
 
 class FeedbackModal extends React.Component {
@@ -52,7 +66,7 @@ class FeedbackModal extends React.Component {
 
     this.state = {
       satisfaction: -1,
-      feedbackType: '',
+      feedbackType: 'Feature Request',
       comments: '',
       error: '',
     };
@@ -66,14 +80,14 @@ class FeedbackModal extends React.Component {
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event, user) => {
     event.preventDefault();
 
     const { satisfaction, feedbackType, comments } = this.state;
 
     this.setState({ loading: true });
 
-    FeedbackService.sendFeedback(satisfaction, feedbackType, comments)
+    FeedbackService.sendFeedback(user._id, satisfaction, feedbackType, comments)
       .then(() =>
         this.setState({ error: '', loading: false }, this.props.onClose())
       )
@@ -96,7 +110,7 @@ class FeedbackModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { loading, satisfaction } = this.state;
+    const { loading, satisfaction, feedbackType, comments } = this.state;
 
     return (
       <Modal open={open} onClose={onClose}>
@@ -104,56 +118,112 @@ class FeedbackModal extends React.Component {
           <Typography variant="display2" color="inherit" gutterBottom={true}>
             Feedback
           </Typography>
-          <form className={classes.form} onSubmit={e => this.handleSubmit(e)}>
-            <Grid container direction="column">
-              <Grid container direction="row" justify="center" spacing={16}>
-                <Grid item xs={2}>
-                  <SentimentVeryDissatisfied
-                    color={satisfaction === 0 ? 'secondary' : 'primary'}
-                    onClick={() => this.setSatisfaction(0)}
-                    className={classes.satisfactionButton}
-                  />
+          <AuthConsumer>
+            {({ user }) => (
+              <form
+                className={classes.form}
+                onSubmit={e => this.handleSubmit(e, user)}
+              >
+                <Grid container direction="column">
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    spacing={16}
+                    className={classes.row}
+                  >
+                    <Grid item xs={2}>
+                      <SentimentVeryDissatisfied
+                        color={satisfaction === 0 ? 'secondary' : 'primary'}
+                        onClick={() => this.setSatisfaction(0)}
+                        className={classes.satisfactionButton}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <SentimentDissatisfied
+                        color={satisfaction === 1 ? 'secondary' : 'primary'}
+                        onClick={() => this.setSatisfaction(1)}
+                        className={classes.satisfactionButton}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <SentimentNeutral
+                        color={satisfaction === 2 ? 'secondary' : 'primary'}
+                        onClick={() => this.setSatisfaction(2)}
+                        className={classes.satisfactionButton}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <SentimentSatisfied
+                        color={satisfaction === 3 ? 'secondary' : 'primary'}
+                        onClick={() => this.setSatisfaction(3)}
+                        className={classes.satisfactionButton}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <SentimentVerySatisfied
+                        color={satisfaction === 4 ? 'secondary' : 'primary'}
+                        onClick={() => this.setSatisfaction(4)}
+                        className={classes.satisfactionButton}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    spacing={16}
+                    className={classes.row}
+                  >
+                    <Grid item xs={10}>
+                      <FormControl style={{ width: '100%' }}>
+                        <InputLabel>Feedback Type</InputLabel>
+                        <Select
+                          value={feedbackType}
+                          onChange={this.handleChange}
+                          name="feedbackType"
+                        >
+                          <MenuItem value="Feature Request">
+                            Feature Request
+                          </MenuItem>
+                          <MenuItem value="Bug">Bug</MenuItem>
+                          <MenuItem value="Other">Other</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    spacing={16}
+                    className={classes.row}
+                  >
+                    <Grid item xs={10}>
+                      <TextField
+                        style={{ width: '100%' }}
+                        label="Comments"
+                        multiline
+                        rowsMax="4"
+                        value={comments}
+                        name="comments"
+                        onChange={this.handleChange}
+                      />
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item xs={2}>
-                  <SentimentDissatisfied
-                    color={satisfaction === 1 ? 'secondary' : 'primary'}
-                    onClick={() => this.setSatisfaction(1)}
-                    className={classes.satisfactionButton}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <SentimentNeutral
-                    color={satisfaction === 2 ? 'secondary' : 'primary'}
-                    onClick={() => this.setSatisfaction(2)}
-                    className={classes.satisfactionButton}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <SentimentSatisfied
-                    color={satisfaction === 3 ? 'secondary' : 'primary'}
-                    onClick={() => this.setSatisfaction(3)}
-                    className={classes.satisfactionButton}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <SentimentVerySatisfied
-                    color={satisfaction === 4 ? 'secondary' : 'primary'}
-                    onClick={() => this.setSatisfaction(4)}
-                    className={classes.satisfactionButton}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Button
-              variant="raised"
-              color="primary"
-              type="submit"
-              disabled={loading || !this.formIsValid()}
-              className={classes.submitButton}
-            >
-              Send Feedback
-            </Button>
-          </form>
+                <Button
+                  variant="raised"
+                  color="primary"
+                  type="submit"
+                  disabled={loading || !this.formIsValid()}
+                  className={classes.submitButton}
+                >
+                  Send Feedback
+                </Button>
+              </form>
+            )}
+          </AuthConsumer>
         </div>
       </Modal>
     );

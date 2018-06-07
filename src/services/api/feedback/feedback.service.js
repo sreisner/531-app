@@ -1,4 +1,11 @@
+import ApiService from '../api.service';
+
 export default {
-  sendFeedback: (satisfaction, feedbackType, comments) =>
-    console.log(arguments),
+  sendFeedback: (userId, satisfaction, feedbackType, comments) =>
+    ApiService.post('/feedback', {
+      userId,
+      satisfaction,
+      feedbackType,
+      comments,
+    }),
 };

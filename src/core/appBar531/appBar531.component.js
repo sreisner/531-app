@@ -132,7 +132,7 @@ class AppBar531 extends React.Component {
                       icon={<ViewWeek />}
                       text="Cycle Generator"
                       to="/cycle/generator/form"
-                      showIfNotLoggedIn={true}
+                      showIfNotLoggedIn={false}
                     />
                     <Divider />
                     <ListItem button onClick={this.displayFeedbackModal}>

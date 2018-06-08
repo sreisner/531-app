@@ -40,7 +40,7 @@ class AppBar531 extends React.Component {
       drawerIsOpen: false,
       loginModalIsOpen: false,
       signUpModalIsOpen: false,
-      feedbackModalIsOpen: true,
+      feedbackModalIsOpen: false,
     };
   }
 

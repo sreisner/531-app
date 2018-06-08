@@ -132,15 +132,17 @@ class AppBar531 extends React.Component {
                       icon={<ViewWeek />}
                       text="Cycle Generator"
                       to="/cycle/generator/form"
-                      showIfNotLoggedIn={false}
+                      showIfNotLoggedIn={true}
                     />
                     <Divider />
-                    <ListItem button onClick={this.displayFeedbackModal}>
-                      <ListItemIcon>
-                        <TagFaces />
-                      </ListItemIcon>
-                      <ListItemText primary="Feedback" />
-                    </ListItem>
+                    {user && (
+                      <ListItem button onClick={this.displayFeedbackModal}>
+                        <ListItemIcon>
+                          <TagFaces />
+                        </ListItemIcon>
+                        <ListItemText primary="Feedback" />
+                      </ListItem>
+                    )}
                   </List>
                 </Drawer>
               </Toolbar>

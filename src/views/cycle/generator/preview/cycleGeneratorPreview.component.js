@@ -24,7 +24,7 @@ let CycleGeneratorPreview = props => {
 
   return (
     <div>
-      <SessionMetaGridContainer sessionMeta={cycle.sessions} />
+      <SessionMetaGridContainer sessionMeta={cycle.sessionMeta} />
       {isLoggedIn && (
         <Tooltip title="Start Cycle" placement="left">
           <Button

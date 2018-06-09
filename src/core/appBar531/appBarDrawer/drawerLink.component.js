@@ -1,7 +1,7 @@
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import React from 'react';
 import Link from 'react-router-dom/Link';
-import { AuthConsumer } from '../../context/authContext.component';
+import { AuthConsumer } from '../../../context/authContext.component';
 
 export default props => {
   const { showIfNotLoggedIn, to, icon, text } = props;

@@ -19,8 +19,8 @@ import {
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { AuthConsumer } from '../../context/authContext.component';
-import FeedbackService from '../../services/api/feedback/feedback.service';
+import { AuthConsumer } from '../../../../context/authContext.component';
+import FeedbackService from '../../../../services/api/feedback/feedback.service';
 
 const styles = theme => ({
   paper: {
@@ -89,12 +89,20 @@ class FeedbackModal extends React.Component {
 
     FeedbackService.sendFeedback(user._id, satisfaction, feedbackType, comments)
       .then(() =>
-        this.setState({ error: '', loading: false }, this.props.onClose())
+        this.setState(
+          {
+            error: '',
+            loading: false,
+            satisfaction: -1,
+            feedbackType: 'Feedback Request',
+            comments: '',
+          },
+          this.props.onClose()
+        )
       )
       .catch(message =>
         this.setState({
-          error:
-            'Sorry!  An unexpected error occurred.  Please try again later.',
+          error: message,
           loading: false,
         })
       );
@@ -110,7 +118,7 @@ class FeedbackModal extends React.Component {
 
   render() {
     const { classes, open, onClose } = this.props;
-    const { loading, satisfaction, feedbackType, comments } = this.state;
+    const { loading, satisfaction, feedbackType, comments, error } = this.state;
 
     return (
       <Modal open={open} onClose={onClose}>
@@ -187,6 +195,9 @@ class FeedbackModal extends React.Component {
                             Feature Request
                           </MenuItem>
                           <MenuItem value="Bug">Bug</MenuItem>
+                          <MenuItem value="Inaccurate Template">
+                            Inaccurate Template
+                          </MenuItem>
                           <MenuItem value="Other">Other</MenuItem>
                         </Select>
                       </FormControl>
@@ -221,6 +232,11 @@ class FeedbackModal extends React.Component {
                 >
                   Send Feedback
                 </Button>
+                {error && (
+                  <Typography variant="caption" color="error">
+                    {error}
+                  </Typography>
+                )}
               </form>
             )}
           </AuthConsumer>

@@ -1,9 +1,8 @@
-import { Button, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { AuthConsumer } from '../../context/authContext.component';
 import LoggedInUserMenu from './loggedInUserMenu.component';
 
 const styles = theme => ({});
@@ -29,29 +28,17 @@ class UserAccountButton extends React.Component {
   };
 
   render() {
-    const { onLoginClick } = this.props;
-
     return (
-      <AuthConsumer>
-        {({ user }) =>
-          user ? (
-            <div>
-              <IconButton color="inherit" onClick={this.openLoggedInUserMenu}>
-                <AccountCircleIcon />
-              </IconButton>
-              <LoggedInUserMenu
-                anchorElement={this.state.loggedInUserMenuAnchorElement}
-                open={this.state.loggedInUserMenuIsOpen}
-                onClose={this.closeLoggedInUserMenu}
-              />
-            </div>
-          ) : (
-            <Button color="inherit" onClick={onLoginClick}>
-              Log In
-            </Button>
-          )
-        }
-      </AuthConsumer>
+      <div>
+        <IconButton color="inherit" onClick={this.openLoggedInUserMenu}>
+          <AccountCircleIcon />
+        </IconButton>
+        <LoggedInUserMenu
+          anchorElement={this.state.loggedInUserMenuAnchorElement}
+          open={this.state.loggedInUserMenuIsOpen}
+          onClose={this.closeLoggedInUserMenu}
+        />
+      </div>
     );
   }
 }

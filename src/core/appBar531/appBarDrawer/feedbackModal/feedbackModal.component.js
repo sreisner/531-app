@@ -113,7 +113,7 @@ class FeedbackModal extends React.Component {
   };
 
   formIsValid = () => {
-    return this.state.satisfaction >= 0;
+    return this.state.satisfaction >= 0 && this.state.comments.length > 0;
   };
 
   render() {

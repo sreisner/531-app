@@ -94,7 +94,7 @@ class FeedbackModal extends React.Component {
             error: '',
             loading: false,
             satisfaction: -1,
-            feedbackType: 'Feedback Request',
+            feedbackType: 'Feature Request',
             comments: '',
           },
           () => {

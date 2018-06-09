@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { AuthConsumer } from './context/authContext.component.js';
 import AppBar531 from './core/appBar531/appBar531.component';
+import GlobalSnackbar from './core/globalSnackbar/globalSnackbar.component.js';
 import Loading from './core/loading/loading.component';
 import CycleRoutes from './views/cycle/cycle.routes';
 import withRoot from './withRoot';
@@ -52,6 +53,7 @@ class App extends React.Component {
                 />
                 <Route path="/cycle" component={CycleRoutes} />
               </Switch>
+              <GlobalSnackbar />
             </div>
           )
         }

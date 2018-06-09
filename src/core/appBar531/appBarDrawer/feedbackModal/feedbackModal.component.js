@@ -97,7 +97,10 @@ class FeedbackModal extends React.Component {
             feedbackType: 'Feedback Request',
             comments: '',
           },
-          this.props.onClose()
+          () => {
+            this.props.onClose();
+            this.props.openSnackbar('Thanks for submitting feedback!');
+          }
         )
       )
       .catch(message =>

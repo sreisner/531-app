@@ -2,6 +2,7 @@ import { Divider, Drawer, List } from '@material-ui/core';
 import { Dashboard, ViewWeek } from '@material-ui/icons';
 import React from 'react';
 import { AuthConsumer } from '../../../context/authContext.component';
+import { SnackbarConsumer } from '../../../context/snackbarContext.component';
 import DrawerLink from './drawerLink.component';
 import FeedbackListItem from './feedbackListItem.component';
 import FeedbackModal from './feedbackModal/feedbackModal.component';
@@ -56,10 +57,15 @@ class AppBarDrawer extends React.Component {
                 displayFeedbackModal={this.displayFeedbackModal}
               />
             )}
-            <FeedbackModal
-              open={feedbackModalIsOpen}
-              onClose={this.closeFeedbackModal}
-            />
+            <SnackbarConsumer>
+              {({ openSnackbar }) => (
+                <FeedbackModal
+                  open={feedbackModalIsOpen}
+                  onClose={this.closeFeedbackModal}
+                  openSnackbar={openSnackbar}
+                />
+              )}
+            </SnackbarConsumer>
           </Drawer>
         )}
       </AuthConsumer>

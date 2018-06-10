@@ -99,7 +99,7 @@ class FeedbackModal extends React.Component {
           },
           () => {
             this.props.onClose();
-            this.props.openSnackbar('Thanks for submitting feedback!');
+            this.props.openSnackbar('Thanks for the feedback!');
           }
         )
       )

@@ -10,7 +10,7 @@ import { Menu } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
-import LoginModal from '../loginModal/loginModal.component';
+import { LoginModalConsumer } from '../loginModal/loginModalContext.component';
 import SignUpModal from '../signUpModal/signUpModal.component';
 import AppBarDrawer from './appBarDrawer/appBarDrawer.component';
 import UserAccountButton from './userAccountButton.component';
@@ -31,22 +31,13 @@ class AppBar531 extends React.Component {
 
     this.state = {
       drawerIsOpen: false,
-      loginModalIsOpen: false,
       signUpModalIsOpen: false,
       feedbackModalIsOpen: false,
     };
   }
 
-  onLoginClick = () => {
-    this.setState({ loginModalIsOpen: true });
-  };
-
   onSignUpClick = () => {
     this.setState({ signUpModalIsOpen: true });
-  };
-
-  closeLoginModal = () => {
-    this.setState({ loginModalIsOpen: false });
   };
 
   closeSignUpModal = () => {
@@ -59,7 +50,7 @@ class AppBar531 extends React.Component {
 
   render() {
     const { classes, title } = this.props;
-    const { drawerIsOpen, loginModalIsOpen, signUpModalIsOpen } = this.state;
+    const { drawerIsOpen, signUpModalIsOpen } = this.state;
 
     return (
       <div className={classes.root}>
@@ -86,9 +77,14 @@ class AppBar531 extends React.Component {
                     <Button color="inherit" onClick={this.onSignUpClick}>
                       Sign Up
                     </Button>
-                    <Button color="inherit" onClick={this.onLoginClick}>
-                      Login
-                    </Button>
+
+                    <LoginModalConsumer>
+                      {({ openLoginModal }) => (
+                        <Button color="inherit" onClick={openLoginModal}>
+                          Login
+                        </Button>
+                      )}
+                    </LoginModalConsumer>
                   </span>
                 )}
                 {user && <UserAccountButton />}
@@ -101,7 +97,6 @@ class AppBar531 extends React.Component {
           drawerIsOpen={drawerIsOpen}
           toggleDrawer={this.toggleDrawer}
         />
-        <LoginModal open={loginModalIsOpen} onClose={this.closeLoginModal} />
         <SignUpModal open={signUpModalIsOpen} onClose={this.closeSignUpModal} />
       </div>
     );

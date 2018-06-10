@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
 import { PasswordInput } from '../passwordInput/passwordInput.component';
+import { LoginModalConsumer } from './loginModalContext.component';
 
 const styles = theme => ({
   paper: {
@@ -54,7 +55,7 @@ class LoginModal extends React.Component {
     });
   };
 
-  handleSubmit = (event, login) => {
+  handleSubmit = (event, login, closeLoginModal) => {
     event.preventDefault();
 
     const { email, password } = this.state;
@@ -62,9 +63,7 @@ class LoginModal extends React.Component {
     this.setState({ loading: true });
 
     login(email, password)
-      .then(() =>
-        this.setState({ error: '', loading: false }, this.props.onClose())
-      )
+      .then(closeLoginModal)
       .catch(message =>
         this.setState({
           error: 'Username/password is incorrect.',
@@ -80,59 +79,63 @@ class LoginModal extends React.Component {
   };
 
   render() {
-    const { classes, open, onClose } = this.props;
+    const { classes } = this.props;
     const { error, loading, email, password } = this.state;
 
     return (
-      <AuthConsumer>
-        {({ login }) => (
-          <Modal open={open} onClose={onClose}>
-            <div className={classes.paper}>
-              <Typography
-                variant="display2"
-                color="inherit"
-                gutterBottom={true}
-              >
-                Log In
-              </Typography>
-              <form
-                className={classes.form}
-                onSubmit={e => this.handleSubmit(e, login)}
-              >
-                <TextField
-                  label="Email"
-                  value={email}
-                  name="email"
-                  type="email"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <PasswordInput
-                  label="Password"
-                  value={password}
-                  name="password"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <Button
-                  variant="raised"
-                  color="primary"
-                  type="submit"
-                  disabled={loading || !this.formIsValid()}
-                  className={classes.loginButton}
-                >
-                  Log In
-                </Button>
-                {error && (
-                  <Typography variant="caption" color="error">
-                    {error}
+      <LoginModalConsumer>
+        {({ loginModalIsOpen, closeLoginModal }) => (
+          <AuthConsumer>
+            {({ login }) => (
+              <Modal open={loginModalIsOpen} onClose={closeLoginModal}>
+                <div className={classes.paper}>
+                  <Typography
+                    variant="display2"
+                    color="inherit"
+                    gutterBottom={true}
+                  >
+                    Log In
                   </Typography>
-                )}
-              </form>
-            </div>
-          </Modal>
+                  <form
+                    className={classes.form}
+                    onSubmit={e => this.handleSubmit(e, login, closeLoginModal)}
+                  >
+                    <TextField
+                      label="Email"
+                      value={email}
+                      name="email"
+                      type="email"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <PasswordInput
+                      label="Password"
+                      value={password}
+                      name="password"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <Button
+                      variant="raised"
+                      color="primary"
+                      type="submit"
+                      disabled={loading || !this.formIsValid()}
+                      className={classes.loginButton}
+                    >
+                      Log In
+                    </Button>
+                    {error && (
+                      <Typography variant="caption" color="error">
+                        {error}
+                      </Typography>
+                    )}
+                  </form>
+                </div>
+              </Modal>
+            )}
+          </AuthConsumer>
         )}
-      </AuthConsumer>
+      </LoginModalConsumer>
     );
   }
 }

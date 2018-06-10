@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import 'typeface-bowlby-one-sc';
+import 'typeface-ubuntu';
 import App from './app';
 import { AuthProvider } from './context/authContext.component';
 import { SnackbarProvider } from './context/snackbarContext.component';

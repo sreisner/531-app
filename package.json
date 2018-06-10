@@ -10,7 +10,9 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "typeface-bowlby-one-sc": "0.0.54",
+    "typeface-ubuntu": "0.0.54"
   },
   "devDependencies": {
     "eslint-config-prettier": "^2.9.0",

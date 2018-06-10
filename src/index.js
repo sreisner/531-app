@@ -5,6 +5,7 @@ import App from './app';
 import { AuthProvider } from './context/authContext.component';
 import { SnackbarProvider } from './context/snackbarContext.component';
 import { LoginModalProvider } from './core/loginModal/loginModalContext.component';
+import { SignUpModalProvider } from './core/signUpModal/signUpModalContext.component';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -13,7 +14,9 @@ ReactDOM.render(
     <AuthProvider>
       <SnackbarProvider>
         <LoginModalProvider>
-          <App />
+          <SignUpModalProvider>
+            <App />
+          </SignUpModalProvider>
         </LoginModalProvider>
       </SnackbarProvider>
     </AuthProvider>

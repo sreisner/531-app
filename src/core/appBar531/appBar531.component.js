@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
 import { LoginModalConsumer } from '../loginModal/loginModalContext.component';
-import SignUpModal from '../signUpModal/signUpModal.component';
+import { SignUpModalConsumer } from '../signUpModal/signUpModalContext.component';
 import AppBarDrawer from './appBarDrawer/appBarDrawer.component';
 import UserAccountButton from './userAccountButton.component';
 
@@ -31,18 +31,9 @@ class AppBar531 extends React.Component {
 
     this.state = {
       drawerIsOpen: false,
-      signUpModalIsOpen: false,
       feedbackModalIsOpen: false,
     };
   }
-
-  onSignUpClick = () => {
-    this.setState({ signUpModalIsOpen: true });
-  };
-
-  closeSignUpModal = () => {
-    this.setState({ signUpModalIsOpen: false });
-  };
 
   toggleDrawer = () => {
     this.setState(prevState => ({ drawerIsOpen: !prevState.drawerIsOpen }));
@@ -50,7 +41,7 @@ class AppBar531 extends React.Component {
 
   render() {
     const { classes, title } = this.props;
-    const { drawerIsOpen, signUpModalIsOpen } = this.state;
+    const { drawerIsOpen } = this.state;
 
     return (
       <div className={classes.root}>
@@ -74,9 +65,13 @@ class AppBar531 extends React.Component {
                 </Typography>
                 {!user && (
                   <span>
-                    <Button color="inherit" onClick={this.onSignUpClick}>
-                      Sign Up
-                    </Button>
+                    <SignUpModalConsumer>
+                      {({ openSignUpModal }) => (
+                        <Button color="inherit" onClick={openSignUpModal}>
+                          Sign Up
+                        </Button>
+                      )}
+                    </SignUpModalConsumer>
 
                     <LoginModalConsumer>
                       {({ openLoginModal }) => (
@@ -97,7 +92,6 @@ class AppBar531 extends React.Component {
           drawerIsOpen={drawerIsOpen}
           toggleDrawer={this.toggleDrawer}
         />
-        <SignUpModal open={signUpModalIsOpen} onClose={this.closeSignUpModal} />
       </div>
     );
   }

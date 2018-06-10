@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { AuthConsumer } from '../../context/authContext.component';
 import { PasswordInput } from '../passwordInput/passwordInput.component';
+import { SignUpModalConsumer } from './signUpModalContext.component';
 
 const styles = theme => ({
   paper: {
@@ -67,7 +68,7 @@ class SignUpModal extends React.Component {
     });
   };
 
-  handleSubmit = (event, register) => {
+  handleSubmit = (event, register, closeSignUpModal) => {
     event.preventDefault();
 
     const { firstName, lastName, email, password } = this.state;
@@ -75,20 +76,7 @@ class SignUpModal extends React.Component {
     this.setState({ loading: true });
 
     register(firstName, lastName, email, password)
-      .then(() =>
-        this.setState(
-          {
-            error: '',
-            loading: false,
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            passwordIsMasked: true,
-          },
-          this.props.onClose()
-        )
-      )
+      .then(closeSignUpModal)
       .catch(message =>
         this.setState({
           error: message,
@@ -104,75 +92,81 @@ class SignUpModal extends React.Component {
   };
 
   render() {
-    const { classes, open, onClose } = this.props;
+    const { classes } = this.props;
     const { error, loading, firstName, lastName, email, password } = this.state;
 
     return (
-      <AuthConsumer>
-        {({ register }) => (
-          <Modal open={open} onClose={onClose}>
-            <div className={classes.paper}>
-              <Typography
-                variant="display2"
-                color="inherit"
-                gutterBottom={true}
-              >
-                Sign Up
-              </Typography>
-              <form
-                className={classes.form}
-                onSubmit={e => this.handleSubmit(e, register)}
-              >
-                <TextField
-                  label="First Name"
-                  value={firstName}
-                  name="firstName"
-                  type="text"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <TextField
-                  label="Last Name"
-                  value={lastName}
-                  name="lastName"
-                  type="text"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <TextField
-                  label="Email"
-                  value={email}
-                  name="email"
-                  type="email"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <PasswordInput
-                  label="Password"
-                  value={password}
-                  name="password"
-                  onChange={this.handleChange}
-                  margin="dense"
-                />
-                <Button
-                  variant="raised"
-                  color="primary"
-                  type="submit"
-                  disabled={loading || !this.formIsValid()}
-                  className={classes.signUpButton}
-                >
-                  Sign Up
-                </Button>
-                {error && (
-                  <Typography variant="caption" color="error">
-                    {error}
+      <SignUpModalConsumer>
+        {({ signUpModalIsOpen, closeSignUpModal }) => (
+          <AuthConsumer>
+            {({ register }) => (
+              <Modal open={signUpModalIsOpen} onClose={closeSignUpModal}>
+                <div className={classes.paper}>
+                  <Typography
+                    variant="display2"
+                    color="inherit"
+                    gutterBottom={true}
+                  >
+                    Sign Up
                   </Typography>
-                )}
-              </form>
-            </div>
-          </Modal>
+                  <form
+                    className={classes.form}
+                    onSubmit={e =>
+                      this.handleSubmit(e, register, closeSignUpModal)
+                    }
+                  >
+                    <TextField
+                      label="First Name"
+                      value={firstName}
+                      name="firstName"
+                      type="text"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <TextField
+                      label="Last Name"
+                      value={lastName}
+                      name="lastName"
+                      type="text"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <TextField
+                      label="Email"
+                      value={email}
+                      name="email"
+                      type="email"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <PasswordInput
+                      label="Password"
+                      value={password}
+                      name="password"
+                      onChange={this.handleChange}
+                      margin="dense"
+                    />
+                    <Button
+                      variant="raised"
+                      color="primary"
+                      type="submit"
+                      disabled={loading || !this.formIsValid()}
+                      className={classes.signUpButton}
+                    >
+                      Sign Up
+                    </Button>
+                    {error && (
+                      <Typography variant="caption" color="error">
+                        {error}
+                      </Typography>
+                    )}
+                  </form>
+                </div>
+              </Modal>
+            )}
+          </AuthConsumer>
         )}
-      </AuthConsumer>
+      </SignUpModalConsumer>
     );
   }
 }

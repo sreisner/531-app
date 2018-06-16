@@ -1,4 +1,5 @@
 import React from 'react';
+import SignUpModal from './signUpModal.component';
 
 const SignUpModalContext = React.createContext({});
 
@@ -34,6 +35,7 @@ export class SignUpModalProvider extends React.Component {
           signUpModalIsOpen: this.state.signUpModalIsOpen,
         }}
       >
+        <SignUpModal />
         {children}
       </SignUpModalContext.Provider>
     );

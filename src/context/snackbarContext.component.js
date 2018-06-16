@@ -1,4 +1,5 @@
 import React from 'react';
+import GlobalSnackbarComponent from '../core/globalSnackbar/globalSnackbar.component';
 
 const SnackbarContext = React.createContext({});
 
@@ -38,6 +39,8 @@ export class SnackbarProvider extends React.Component {
           message: this.state.message,
         }}
       >
+        <GlobalSnackbarComponent />
+
         {children}
       </SnackbarContext.Provider>
     );

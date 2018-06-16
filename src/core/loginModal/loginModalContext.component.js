@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginModal from './loginModal.component';
 
 const LoginModalContext = React.createContext({});
 
@@ -34,6 +35,8 @@ export class LoginModalProvider extends React.Component {
           loginModalIsOpen: this.state.loginModalIsOpen,
         }}
       >
+        <LoginModal />
+
         {children}
       </LoginModalContext.Provider>
     );

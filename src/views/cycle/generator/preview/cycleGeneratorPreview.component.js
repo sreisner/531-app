@@ -1,4 +1,6 @@
+import { Button, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { Check } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { default as React } from 'react';
@@ -18,13 +20,12 @@ const styles = theme => ({
 });
 
 let CycleGeneratorPreview = props => {
-  const { cycle } = props;
-  // const { classes, cycle, isLoggedIn, onStartCycleClick } = props;
+  const { classes, cycle, isLoggedIn, onStartCycleClick } = props;
 
   return (
     <div>
       <SessionMetaGridContainer sessionMeta={cycle.sessionMeta} />
-      {/* {isLoggedIn && (
+      {isLoggedIn && (
         <Tooltip title="Start Cycle" placement="left">
           <Button
             variant="fab"
@@ -32,10 +33,10 @@ let CycleGeneratorPreview = props => {
             className={classes.fab}
             onClick={onStartCycleClick}
           >
-            <CheckIcon />
+            <Check />
           </Button>
         </Tooltip>
-      )} */}
+      )}
     </div>
   );
 };

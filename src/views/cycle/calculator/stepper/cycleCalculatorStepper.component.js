@@ -1,7 +1,16 @@
-import { Grid, Stepper } from '@material-ui/core';
+import { Grid, Stepper, withStyles } from '@material-ui/core';
 import React, { Component } from 'react';
 import CalculatorStep from './calculatorStep.component';
 import TrainingMaxesForm from './trainingMaxesForm.component';
+
+const styles = theme => ({
+  grid: theme.mixins.gutters({
+    paddingTop: theme.spacing.unit * 2,
+    [theme.breakpoints.up('sm')]: {
+      height: '100vh',
+    },
+  }),
+});
 
 class CycleCalculatorStepper extends Component {
   constructor(props) {
@@ -35,10 +44,11 @@ class CycleCalculatorStepper extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     const { activeStep, trainingMaxes } = this.state;
 
     return (
-      <Grid container>
+      <Grid container className={classes.grid}>
         <Grid item xs={12} md={3}>
           <Stepper activeStep={activeStep} orientation="vertical">
             <CalculatorStep
@@ -52,15 +62,16 @@ class CycleCalculatorStepper extends Component {
               />
             </CalculatorStep>
             <CalculatorStep
-              label="Training Maxes"
-              description="Training maxes are usually 85% - 90% of your one-rep max."
+              label="Template"
+              description="Choose a template."
+              handleNext={this.handleNext}
               handleBack={this.handleBack}
-            >
-              <TrainingMaxesForm
-                trainingMaxes={trainingMaxes}
-                onChange={this.onTrainingMaxChange}
-              />
-            </CalculatorStep>
+            />
+            <CalculatorStep
+              label="Options"
+              description="Choose options for this template."
+              handleBack={this.handleBack}
+            />
           </Stepper>
         </Grid>
       </Grid>
@@ -68,4 +79,4 @@ class CycleCalculatorStepper extends Component {
   }
 }
 
-export default CycleCalculatorStepper;
+export default withStyles(styles)(CycleCalculatorStepper);

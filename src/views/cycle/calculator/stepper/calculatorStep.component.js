@@ -40,12 +40,16 @@ class CalculatorStep extends Component {
           {children}
 
           <div className={classes.actionsContainer}>
-            <Button disabled={!handleBack} onClick={handleBack}>
-              Back
-            </Button>
-            <Button variant="raised" color="primary" onClick={handleNext}>
-              {handleNext ? 'Next' : 'Calculate'}
-            </Button>
+            {handleBack && (
+              <Button disabled={!handleBack} onClick={handleBack}>
+                Back
+              </Button>
+            )}
+            {handleNext && (
+              <Button variant="raised" color="primary" onClick={handleNext}>
+                Next
+              </Button>
+            )}
           </div>
         </StepContent>
       </Step>

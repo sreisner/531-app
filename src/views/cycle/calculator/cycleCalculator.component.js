@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CycleCalculatorStepper from './stepper/cycleCalculatorStepper.component';
+import FormCardContainer from './formCard/formCard.component';
 
 class CycleCalculator extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class CycleCalculator extends Component {
   }
 
   render() {
-    return <CycleCalculatorStepper />;
+    return <FormCardContainer />;
   }
 }
 

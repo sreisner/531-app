@@ -14,6 +14,9 @@ const styles = theme => ({
     width: '100%',
     height: '100vh',
   },
+  content: {
+    padding: '16px'
+  }
 });
 
 let DefaultPathForwarder = props => {
@@ -44,14 +47,16 @@ class App extends React.Component {
           ) : (
             <div className={classes.root}>
               <AppBar531 title="5/3/1" />
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={() => <DefaultPathForwarder user={user} />}
-                />
-                <Route path="/cycle" component={CycleRoutes} />
-              </Switch>
+              <div className={classes.content}>
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => <DefaultPathForwarder user={user} />}
+                  />
+                  <Route path="/cycle" component={CycleRoutes} />
+                </Switch>
+              </div>
             </div>
           )
         }

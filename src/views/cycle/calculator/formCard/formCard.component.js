@@ -7,6 +7,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import React, { Component } from 'react';
+import TemplatesService from '../../../../services/api/templates/templates.service';
 import TemplateForm from './templateForm.component';
 import TrainingMaxesForm from './trainingMaxesForm.component';
 
@@ -31,15 +32,16 @@ let FormCard = props => (
             bench={props.bench}
             squat={props.squat}
             deadlift={props.deadlift}
-            onChange={props.onChange}
+            onChange={props.onTrainingMaxChange}
           />
         </Grid>
         <Grid item>
           <TemplateForm
+            templates={props.templates}
             selectedTemplate={props.selectedTemplate}
             selectedVariant={props.selectedVariant}
-            onTemplateChange={props.onChange}
-            onVariantChange={props.onChange}
+            onTemplateChange={props.onTemplateChange}
+            onVariantChange={props.onVariantChange}
           />
         </Grid>
       </Grid>
@@ -65,27 +67,118 @@ class FormCardContainer extends Component {
       deadlift: 405,
       selectedTemplate: {},
       selectedVariant: {},
+      templates: [],
+      optionsMeta: [],
+      selectedOptionValues: {},
     };
   }
 
-  onChange = (name, value) => {
+  loadTemplates = () => {
+    return TemplatesService.getTemplates().then(templates =>
+      this.setState({
+        templates,
+      })
+    );
+  };
+
+  onTrainingMaxChange = (name, value) => {
     this.setState({ [name]: value });
+  };
+
+  onTemplateChange = templateId => {
+    const template = this.getTemplate(templateId);
+
+    this.setState({
+      selectedTemplate: template,
+      selectedVariant: {},
+      optionsMeta: template.options,
+      selectedOptionValues: this.getDefaultOptionValues(template.options),
+    });
+  };
+
+  onVariantChange = variantId => {
+    const variant = this.getVariant(variantId);
+
+    this.setState({
+      selectedVariant: this.getVariant(variantId),
+      optionsMeta: [...this.state.selectedTemplate.options, ...variant.options],
+      selectedOptionValues: {
+        ...this.getSelectedTemplateSelectedOptionValues(),
+        ...this.getDefaultOptionValues(variant.options),
+      },
+    });
+  };
+
+  getSelectedTemplateSelectedOptionValues = () => {
+    return this.state.selectedTemplate.options.reduce((acc, curr) => {
+      acc[curr.key] = this.state.selectedOptionValues[curr.key];
+      return acc;
+    }, {});
+  };
+
+  getTemplate = templateId => {
+    return this.state.templates.find(t => t._id === templateId);
+  };
+
+  getVariant = variantId => {
+    return this.state.selectedTemplate.variants.find(v => v.id === variantId);
+  };
+
+  getDefaultOptionValues = optionsMeta => {
+    return optionsMeta.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.key]: curr.defaultValue,
+      }),
+      {}
+    );
+  };
+
+  onSelectedOptionValueChange = (key, value) => {
+    this.setState({
+      selectedOptionValues: {
+        ...this.state.selectedOptionValues,
+        [key]: value,
+      },
+    });
   };
 
   onSubmit = () => {
     console.log('submitting form card');
   };
 
+  componentDidMount() {
+    this.loadTemplates();
+  }
+
   render() {
+    const {
+      squat,
+      bench,
+      press,
+      deadlift,
+      templates,
+      selectedTemplate,
+      selectedVariant,
+      optionsMeta,
+      selectedOptionValues,
+    } = this.state;
+
     return (
       <FormCard
-        squat={this.state.squat}
-        bench={this.state.bench}
-        press={this.state.press}
-        deadlift={this.state.deadlift}
-        selectedTemplate={this.state.selectedTemplate}
-        selectedVariant={this.state.selectedVariant}
-        onChange={this.onChange}
+        squat={squat}
+        bench={bench}
+        press={press}
+        deadlift={deadlift}
+        templates={templates}
+        selectedTemplate={selectedTemplate}
+        selectedVariant={selectedVariant}
+        optionsMeta={optionsMeta}
+        selectedOptionValues={selectedOptionValues}
+        onTrainingMaxChange={this.onTrainingMaxChange}
+        onTemplateChange={this.onTemplateChange}
+        onVariantChange={this.onVariantChange}
+        onSelectedOptionValueChange={this.onSelectedOptionValueChange}
         onSubmit={this.onSubmit}
       />
     );

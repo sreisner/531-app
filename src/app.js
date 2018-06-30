@@ -1,7 +1,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { AuthConsumer } from './context/authContext.component.js';
+import { AuthConsumer } from './context/authContext.component';
 import AppBar531 from './core/appBar531/appBar531.component';
 import Loading from './core/loading/loading.component';
 import CycleRoutes from './views/cycle/cycle.routes';
@@ -15,8 +15,8 @@ const styles = theme => ({
     height: '100vh',
   },
   content: {
-    padding: '16px'
-  }
+    padding: '16px',
+  },
 });
 
 let DefaultPathForwarder = props => {
@@ -27,7 +27,7 @@ let DefaultPathForwarder = props => {
   if (user && user.currentCycleId) {
     forwardTo(`/cycle/${user.currentCycleId}`);
   } else {
-    forwardTo('/cycle/generator/form');
+    forwardTo('/cycle/calculator');
   }
 
   return null;

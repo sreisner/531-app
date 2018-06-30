@@ -6,8 +6,12 @@ import {
   Grid,
   withStyles,
 } from '@material-ui/core';
+import base64 from 'base-64';
+import queryString from 'query-string';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import TemplatesService from '../../../../services/api/templates/templates.service';
+import OptionsForm from './optionsForm.component';
 import TemplateForm from './templateForm.component';
 import TrainingMaxesForm from './trainingMaxesForm.component';
 
@@ -44,10 +48,18 @@ let FormCard = props => (
             onVariantChange={props.onVariantChange}
           />
         </Grid>
+        <Grid item>
+          <OptionsForm
+            optionsMeta={props.optionsMeta}
+            onChange={props.onSelectedOptionValueChange}
+            selectedOptionValues={props.selectedOptionValues}
+          />
+        </Grid>
+        {/* Adds space between Options and Calculate button*/}
+        <Grid item />
       </Grid>
-      {/* <OptionsForm /> */}
     </CardContent>
-    <CardActions>
+    <CardActions style={{ display: 'flex', justifyContent: 'center' }}>
       <Button onClick={props.onSubmit} variant="contained" color="primary">
         Calculate
       </Button>
@@ -143,8 +155,25 @@ class FormCardContainer extends Component {
     });
   };
 
-  onSubmit = () => {
-    console.log('submitting form card');
+  generateQueryParamsString = () => {
+    const { trainingMaxes, selectedTemplate, selectedVariant } = this.state;
+
+    const queryParams = {
+      ...trainingMaxes,
+      templateId: selectedTemplate._id,
+      variantId: selectedVariant.id,
+      options: base64.encode(JSON.stringify(this.state.selectedOptionValues)),
+    };
+
+    return queryString.stringify(queryParams);
+  };
+
+  onSubmit = event => {
+    event.preventDefault();
+
+    const queryParamsStr = this.generateQueryParamsString();
+
+    this.props.history.push(`${this.props.match.url}?${queryParamsStr}`);
   };
 
   componentDidMount() {
@@ -185,4 +214,4 @@ class FormCardContainer extends Component {
   }
 }
 
-export default FormCardContainer;
+export default withRouter(FormCardContainer);

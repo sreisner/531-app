@@ -46,8 +46,8 @@ class AppBarDrawer extends React.Component {
                 )}
               <DrawerLink
                 icon={<ViewWeek />}
-                text="Cycle Generator"
-                to="/cycle/generator/form"
+                text="Calculator"
+                to="/cycle/calculator"
                 showIfNotLoggedIn={true}
               />
             </List>

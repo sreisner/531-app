@@ -195,10 +195,10 @@ class FormCardContainer extends Component {
     } = this.state;
 
     return (
-      squat &&
-      bench &&
-      deadlift &&
-      press &&
+      squat >= 0 &&
+      bench >= 0 &&
+      deadlift >= 0 &&
+      press >= 0 &&
       selectedTemplate._id &&
       selectedVariant.id
     );

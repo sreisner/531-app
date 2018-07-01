@@ -63,7 +63,14 @@ class LoginModal extends React.Component {
     this.setState({ loading: true });
 
     login(email, password)
-      .then(closeLoginModal)
+      .then(() => {
+        this.setState(
+          {
+            loading: false,
+          },
+          closeLoginModal
+        );
+      })
       .catch(message =>
         this.setState({
           error: 'Username/password is incorrect.',

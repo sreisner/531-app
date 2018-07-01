@@ -1,9 +1,8 @@
-import queryString from 'query-string';
 import ApiService from '../api.service';
 
 export default {
   generateCycle: queryParams =>
-    ApiService.get(`/cycles/generate?${queryString.stringify(queryParams)}`),
+    ApiService.get(`/cycles/generate${queryParams}`),
   createCycle: cycle => ApiService.post('/cycles', cycle),
   getCycle: cycleId => ApiService.get(`/cycles/${cycleId}`),
   updateCurrentCycle: cycleId =>

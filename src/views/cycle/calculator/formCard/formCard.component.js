@@ -156,10 +156,20 @@ class FormCardContainer extends Component {
   };
 
   generateQueryParamsString = () => {
-    const { trainingMaxes, selectedTemplate, selectedVariant } = this.state;
+    const {
+      squat,
+      bench,
+      press,
+      deadlift,
+      selectedTemplate,
+      selectedVariant,
+    } = this.state;
 
     const queryParams = {
-      ...trainingMaxes,
+      squat,
+      bench,
+      press,
+      deadlift,
       templateId: selectedTemplate._id,
       variantId: selectedVariant.id,
       options: base64.encode(JSON.stringify(this.state.selectedOptionValues)),

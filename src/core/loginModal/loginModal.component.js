@@ -41,8 +41,8 @@ class LoginModal extends React.Component {
     super(props);
 
     this.state = {
-      email: 'shawn.reisner@gmail.com',
-      password: 'password',
+      email: '',
+      password: '',
       loading: false,
       error: '',
     };
@@ -67,6 +67,9 @@ class LoginModal extends React.Component {
         this.setState(
           {
             loading: false,
+            email: '',
+            password: '',
+            error: '',
           },
           closeLoginModal
         );

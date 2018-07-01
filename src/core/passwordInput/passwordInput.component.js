@@ -4,12 +4,18 @@ import { RemoveRedEye } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const styles = theme => ({
-  eye: {
-    cursor: 'pointer',
-    color: theme.palette.primary.light,
-  },
-});
+const styles = theme => {
+  console.log(theme);
+  return {
+    eye: {
+      cursor: 'pointer',
+      color: theme.palette.primary.light,
+    },
+    input: {
+      fontFamily: theme.typography.passwordInputFont,
+    },
+  };
+};
 
 class PasswordInput extends React.Component {
   constructor(props) {
@@ -42,6 +48,7 @@ class PasswordInput extends React.Component {
               />
             </InputAdornment>
           ),
+          className: classes.input,
         }}
         {...rest}
       />

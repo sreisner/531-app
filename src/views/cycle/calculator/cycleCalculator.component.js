@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Grid } from '../../../../node_modules/@material-ui/core';
 import Loading from '../../../core/loading/loading.component';
 import CyclesService from '../../../services/api/cycles/cycles.service';
-import SessionMetaGridContainer from '../core/sessionMetaGrid.component';
+import CycleGridContainer from './cycleGrid/cycleGrid.component';
 import FormCardContainer from './formCard/formCard.component';
 
 class CycleCalculator extends Component {
@@ -58,9 +58,7 @@ class CycleCalculator extends Component {
           <Grid item xs={12} md={8} lg={9} xl={10}>
             {loading && <Loading />}
             {cycle && (
-              <SessionMetaGridContainer
-                sessionMeta={this.state.cycle.sessionMeta}
-              />
+              <CycleGridContainer sessionMeta={this.state.cycle.sessionMeta} />
             )}
             {error && <h1>An error occurred</h1>}
           </Grid>

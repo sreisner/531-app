@@ -95,28 +95,45 @@ class FormCardContainer extends Component {
     this.setState({ [name]: value });
   };
 
-  onTemplateChange = templateId => {
-    const template = this.getTemplate(templateId);
+  onTemplateChange = (templateId, callback) => {
+    if (templateId !== this.state.selectedTemplate._id) {
+      const template = this.getTemplate(templateId);
 
-    this.setState({
-      selectedTemplate: template,
-      selectedVariant: {},
-      optionsMeta: template.options,
-      selectedOptionValues: this.getDefaultOptionValues(template.options),
-    });
+      this.setState(
+        {
+          selectedTemplate: template,
+          selectedVariant: {},
+          optionsMeta: template.options,
+          selectedOptionValues: this.getDefaultOptionValues(template.options),
+        },
+        () => (callback ? callback() : null) // I am so sorry, I will atone for my sins
+      );
+    } else if (callback) {
+      callback();
+    }
   };
 
-  onVariantChange = variantId => {
-    const variant = this.getVariant(variantId);
+  onVariantChange = (variantId, callback) => {
+    if (variantId !== this.state.selectedVariant.id) {
+      const variant = this.getVariant(variantId);
 
-    this.setState({
-      selectedVariant: this.getVariant(variantId),
-      optionsMeta: [...this.state.selectedTemplate.options, ...variant.options],
-      selectedOptionValues: {
-        ...this.getSelectedTemplateSelectedOptionValues(),
-        ...this.getDefaultOptionValues(variant.options),
-      },
-    });
+      this.setState(
+        {
+          selectedVariant: this.getVariant(variantId),
+          optionsMeta: [
+            ...this.state.selectedTemplate.options,
+            ...variant.options,
+          ],
+          selectedOptionValues: {
+            ...this.getSelectedTemplateSelectedOptionValues(),
+            ...this.getDefaultOptionValues(variant.options),
+          },
+        },
+        () => (callback ? callback() : null) // I am so sorry, I will atone for my sins
+      );
+    } else if (callback) {
+      callback();
+    }
   };
 
   getSelectedTemplateSelectedOptionValues = () => {
@@ -204,8 +221,62 @@ class FormCardContainer extends Component {
     );
   };
 
+  fillFormFromQueryParams = queryParams => {
+    if (queryParams) {
+      const {
+        squat,
+        bench,
+        deadlift,
+        press,
+        templateId,
+        variantId,
+        options,
+      } = queryString.parse(queryParams);
+
+      console.log(squat);
+
+      // Look away, nothing to see here
+      this.setState(
+        {
+          squat,
+          bench,
+          deadlift,
+          press,
+        },
+        () => {
+          this.onTemplateChange(templateId, () =>
+            this.onVariantChange(variantId, () =>
+              this.setState({
+                selectedOptionValues: JSON.parse(base64.decode(options)),
+              })
+            )
+          );
+        }
+      );
+    } else {
+      this.setState({
+        press: 135,
+        bench: 225,
+        squat: 315,
+        deadlift: 405,
+        selectedTemplate: {},
+        selectedVariant: {},
+        optionsMeta: [],
+        selectedOptionValues: {},
+      });
+    }
+  };
+
   componentDidMount() {
-    this.loadTemplates();
+    this.loadTemplates().then(() =>
+      this.fillFormFromQueryParams(this.props.location.search)
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      this.fillFormFromQueryParams(nextProps.location.search);
+    }
   }
 
   render() {

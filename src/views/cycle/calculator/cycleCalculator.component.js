@@ -17,21 +17,29 @@ class CycleCalculator extends Component {
   }
 
   calculateCycle = queryParamStr => {
-    this.setState({ loading: true });
-    CyclesService.generateCycle(queryParamStr)
-      .then(cycle =>
-        this.setState({
-          cycle,
-          error: undefined,
-        })
-      )
-      .catch(error =>
-        this.setState({
-          cycle: undefined,
-          error,
-        })
-      )
-      .finally(() => this.setState({ loading: false }));
+    if (queryParamStr) {
+      this.setState({ loading: true });
+      CyclesService.generateCycle(queryParamStr)
+        .then(cycle =>
+          this.setState({
+            cycle,
+            error: undefined,
+          })
+        )
+        .catch(error =>
+          this.setState({
+            cycle: undefined,
+            error,
+          })
+        )
+        .finally(() => this.setState({ loading: false }));
+    } else {
+      this.setState({
+        cycle: undefined,
+        error: undefined,
+        loading: false,
+      });
+    }
   };
 
   componentDidMount() {

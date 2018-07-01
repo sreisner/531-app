@@ -76,7 +76,20 @@ class SignUpModal extends React.Component {
     this.setState({ loading: true });
 
     register(firstName, lastName, email, password)
-      .then(closeSignUpModal)
+      .then(() =>
+        this.setState(
+          {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            passwordIsMasked: true,
+            loading: false,
+            error: '',
+          },
+          closeSignUpModal
+        )
+      )
       .catch(message =>
         this.setState({
           error: message,

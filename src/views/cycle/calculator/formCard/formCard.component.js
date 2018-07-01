@@ -16,14 +16,7 @@ import TemplateForm from './templateForm.component';
 import TrainingMaxesForm from './trainingMaxesForm.component';
 
 const styles = theme => ({
-  card: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
-    [theme.breakpoints.up('md')]: {
-      width: '25%',
-    },
-  },
+  card: {},
 });
 
 let FormCard = props => (

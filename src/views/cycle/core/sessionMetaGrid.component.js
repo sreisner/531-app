@@ -21,6 +21,7 @@ const styles = theme => ({
   },
   card: {
     width: '100%',
+    height: '100%',
   },
   bold: {
     fontWeight: 'bold',
@@ -28,14 +29,7 @@ const styles = theme => ({
   cardParentList: {
     paddingLeft: 0,
   },
-  grid: theme.mixins.gutters({
-    paddingTop: theme.spacing.unit * 2,
-    // TODO:  The following two rules override Material UIs CSS, which
-    // means I'm probably not doing something right.  Try to figure out
-    // what that might be
-    width: '100%',
-    margin: 0,
-  }),
+  grid: { width: '100%' },
   beginSessionButton: {
     width: '100%',
   },

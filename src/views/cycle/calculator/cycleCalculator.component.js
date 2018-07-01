@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Grid } from '../../../../node_modules/@material-ui/core';
 import Loading from '../../../core/loading/loading.component';
 import CyclesService from '../../../services/api/cycles/cycles.service';
 import SessionMetaGridContainer from '../core/sessionMetaGrid.component';
@@ -49,16 +50,22 @@ class CycleCalculator extends Component {
     const { cycle, loading, error } = this.state;
 
     return (
-      <React.Fragment>
-        <FormCardContainer />
-        {loading && <Loading />}
-        {cycle && (
-          <SessionMetaGridContainer
-            sessionMeta={this.state.cycle.sessionMeta}
-          />
-        )}
-        {error && <h1>An error occurred</h1>}
-      </React.Fragment>
+      <div style={{ padding: 20 }}>
+        <Grid container spacing={40}>
+          <Grid item xs={12} md={4} lg={3} xl={2}>
+            <FormCardContainer />
+          </Grid>
+          <Grid item xs={12} md={8} lg={9} xl={10}>
+            {loading && <Loading />}
+            {cycle && (
+              <SessionMetaGridContainer
+                sessionMeta={this.state.cycle.sessionMeta}
+              />
+            )}
+            {error && <h1>An error occurred</h1>}
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

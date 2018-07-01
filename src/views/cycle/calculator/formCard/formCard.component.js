@@ -53,7 +53,12 @@ let FormCard = props => (
       </Grid>
     </CardContent>
     <CardActions style={{ display: 'flex', justifyContent: 'center' }}>
-      <Button onClick={props.onSubmit} variant="contained" color="primary">
+      <Button
+        onClick={props.onSubmit}
+        variant="contained"
+        color="primary"
+        disabled={!props.formIsValid()}
+      >
         Calculate
       </Button>
     </CardActions>
@@ -179,6 +184,26 @@ class FormCardContainer extends Component {
     this.props.history.push(`${this.props.match.url}?${queryParamsStr}`);
   };
 
+  formIsValid = () => {
+    const {
+      squat,
+      bench,
+      deadlift,
+      press,
+      selectedTemplate,
+      selectedVariant,
+    } = this.state;
+
+    return (
+      squat &&
+      bench &&
+      deadlift &&
+      press &&
+      selectedTemplate._id &&
+      selectedVariant.id
+    );
+  };
+
   componentDidMount() {
     this.loadTemplates();
   }
@@ -212,6 +237,7 @@ class FormCardContainer extends Component {
         onVariantChange={this.onVariantChange}
         onSelectedOptionValueChange={this.onSelectedOptionValueChange}
         onSubmit={this.onSubmit}
+        formIsValid={this.formIsValid}
       />
     );
   }

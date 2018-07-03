@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const styles = theme => {
-  console.log(theme);
   return {
     eye: {
       cursor: 'pointer',

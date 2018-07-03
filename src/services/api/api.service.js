@@ -1,6 +1,5 @@
 const buildApiUri = path => {
-  const { protocol, hostname } = window.location;
-  return `${protocol}//${hostname}:3001${path}`;
+  return `${process.env.REACT_APP_API_URI || 'http://localhost:3001'}${path}`;
 };
 
 const commonRequestConfig = {
